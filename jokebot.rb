@@ -21,6 +21,10 @@ bot.message(with_text: '!lol') do |event|
   puts "Someone laughed".red
 end
 
+bot.message(with_text: '!howtoplaystarcraft?') do |event|
+  event.respond "git gud scrub"
+  puts "A scrub got rekt".yellow
+end
 
 # Dev Tools
 bot.message(content: 'Ping!') do |event|
