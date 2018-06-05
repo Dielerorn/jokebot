@@ -26,6 +26,11 @@ bot.message(with_text: '!howtoplaystarcraft?') do |event|
   puts "A scrub got rekt".yellow
 end
 
+bot.message(with_text: '!howtogetredditkarma') do |event|
+  event.respond "repost"
+  puts "A redditor got learnt".purple
+end
+
 #Announcer
 module JoinAnnouncer
   extend Discordrb::EventContainer
