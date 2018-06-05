@@ -26,6 +26,16 @@ bot.message(with_text: '!howtoplaystarcraft?') do |event|
   puts "A scrub got rekt".yellow
 end
 
+#Announcer
+module JoinAnnouncer
+  extend Discordrb::EventContainer
+
+  member_join do |event|
+    event.server.general_channel.send_message "**OI #{event.user.name} WELCOME TO THE SERVER M8**"
+  end
+end
+#/Announcer
+
 # Dev Tools
 bot.message(content: 'Ping!') do |event|
   # The `respond` method returns a `Message` object, which is stored in a variable `m`. The `edit` method is then called
@@ -34,4 +44,5 @@ bot.message(content: 'Ping!') do |event|
   m.edit "Pong! Time taken: #{Time.now - event.timestamp} seconds."
 end
 
+bot.include! JoinAnnouncer
 bot.run
