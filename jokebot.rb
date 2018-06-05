@@ -56,7 +56,7 @@ bot.message(with_text: '!howtogetredditkarma') do |event|
 end
 
 # Dev Tools
-bot.message(content: 'Ping!') do |event|
+bot.message(content: '!ping') do |event|
   # The `respond` method returns a `Message` object, which is stored in a variable `m`. The `edit` method is then called
   # to edit the message with the time difference between when the event was received and after the message was sent.
   m = event.respond('Pong!')
