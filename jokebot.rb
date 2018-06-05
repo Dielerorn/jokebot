@@ -4,7 +4,7 @@ require 'colorize'
 
 bot = Discordrb::Bot.new token: 'NDQ2ODIwNDY0NzcwMTU0NTA3.Dd-mCg.HE-fK3K3n2Azm2dweAXEbbTIYQE', client_id: 446820464770154507
 
-game=("Telling bad jokes 24/7)
+game=("Telling bad jokes 24/7")
 
 commands = ["!commands", "!joke", "!thanks", "!lol", "!howtoplaystarcraft", "!howtogetredditkarma", "!goodbot", "!badbot", "!source"]
 
