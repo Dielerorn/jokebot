@@ -63,7 +63,7 @@ bot.message(content: '!ping') do |event|
 end
 
 bot.ready do
-  bot.game = "Telling bad jokes 24/7"
+  bot.game = "Bad Jokes 24/7"
 end
 
 bot.run
