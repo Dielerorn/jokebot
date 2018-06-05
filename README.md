@@ -1,13 +1,6 @@
-# jokebot
+# JokeBot
 
-   ___       _       ______       _   
-  |_  |     | |      | ___ \     | |  
-    | | ___ | | _____| |_/ / ___ | |_ 
-    | |/ _ \| |/ / _ | ___ \/ _ \| __|
-/\__/ | (_) |   |  __| |_/ | (_) | |_ 
-\____/ \___/|_|\_\___\____/ \___/ \__|
-                                      
-                                      
+https://i.imgur.com/WuY4gva.png
 
 <h1>A Discord bot that tells bad jokes. Written in Ruby</h1>
 
