@@ -69,6 +69,11 @@ bot.message(with_text: '!nice') do |event|
   puts "Nice".blue
 end
 
+bot.message(with_text: '!blackpeople') do |event|
+  event.respond "We all know what you were expecting, and frankly, im surprised at you..."
+  puts "Yes!".green
+end
+
 # Dev Tools
 bot.message(content: '!ping') do |event|
   # The `respond` method returns a `Message` object, which is stored in a variable `m`. The `edit` method is then called
