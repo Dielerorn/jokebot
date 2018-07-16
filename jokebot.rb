@@ -70,7 +70,7 @@ bot.message(with_text: '!yep') do |event|
 end
 
 bot.message(with_text: '!nice') do |event|
-  event.attach_file(File.open('media/nice.gif'))
+  event.attach_file(File.open('media/nice.mp4'))
   puts "Nice".blue
 end
 
