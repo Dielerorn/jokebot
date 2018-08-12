@@ -22,6 +22,7 @@ Type `!commands` for a list of the commands
 `!badbot`
 `!wut`
 `!nice`
+`!tricksy`
 `!tastefullyracist`
 `!tr` *(Short version of `!tastefullyracist`)*
 `!whatdidyousay`
