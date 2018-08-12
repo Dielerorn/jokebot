@@ -109,6 +109,11 @@ bot.message(with_text: '!nice') do |event|
   puts "Nice".blue
 end
 
+bot.message(with_text: '!tricksy') do |event|
+  event.attach_file(File.open('media/gollum.gif'))
+  puts "TRICKSY".light_blue
+end
+
 bot.message(with_text: '!wut') do |event|
   event.attach_file(File.open('media/wut.gif'))
   puts "wut".light_green
