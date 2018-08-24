@@ -9,3 +9,15 @@
 * <code>ruby jokebot.rb</code> to run
 
 * <code>!commands</code> for a list of commands
+
+<h3>ToDo</h3>
+
+* Create a web front-end for others to add jokes outside of pull-requests
+
+* Add voice functionality for playing music and things (Secured with libSodium)
+
+* Compress GIFs and optimize CPU Load when sending them
+
+* ???
+
+* Profit
