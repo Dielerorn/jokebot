@@ -13,6 +13,7 @@ Type `!commands` or `!help` for a list of the commands
 `!happybirthday <Name>`
 
 **Voice Commands**
+  *Must be in a voice channel to use!*
 `!wow`
 
 **Responses**
