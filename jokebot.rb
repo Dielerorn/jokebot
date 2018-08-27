@@ -147,6 +147,9 @@ bot.command :wow do |event|
   puts "WOW".yellow
   bot.voice_connect(event.user.voice_channel)
   event.voice.play_file('media/audio/wow.mp3')
+  #Replace these with your own Server ID's
+  bot.voice_destroy(406973058042298378) #Colorado Casuals Server
+  bot.voice_destroy(446823698754699275) #Test Server
 end
 
 # Dev Tools
