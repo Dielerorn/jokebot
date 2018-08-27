@@ -12,6 +12,9 @@ Type `!commands` or `!help` for a list of the commands
 `!joke`
 `!happybirthday <Name>`
 
+**Voice Commands**
+`!wow`
+
 **Responses**
 `!thanks`
 `!yep`
@@ -137,6 +140,13 @@ end
 bot.command :happybirthday do |event, name|
   event.respond "♪ Happy birthday to you! Happy birthday to you! Happy birthday dear #{name}! Happy birthday to you! ♪"
   puts "Birthday!".green
+end
+
+#Audio Commands
+bot.command :wow do |event|
+  puts "WOW".yellow
+  bot.voice_connect(event.user.voice_channel)
+  event.voice.play_file('media/audio/wow.mp3')
 end
 
 # Dev Tools
