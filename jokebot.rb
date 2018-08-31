@@ -15,6 +15,8 @@ Type `!commands` or `!help` for a list of the commands
 **Voice Commands**
   *Must be in a voice channel to use!*
 `!wow`
+`!hellothere`
+`!nice`
 
 **Responses**
 `!thanks`
@@ -25,7 +27,6 @@ Type `!commands` or `!help` for a list of the commands
 `!goodbot`
 `!badbot`
 `!wut`
-`!nice`
 `!tricksy`
 `!tastefullyracist`
 `!tr` *(Short version of `!tastefullyracist`)*
@@ -40,6 +41,10 @@ Type `!commands` or `!help` for a list of the commands
 `!ping`
 `!source`
 "
+
+coloradoCasuals = 406973058042298378
+
+testServer = 446823698754699275
 
 tastefullyracist = (1..5).map { |n| "media/tastefully-racist/#{n}.gif" }
 
@@ -113,11 +118,6 @@ bot.command :yep do |event|
   puts "Yep".light_blue
 end
 
-bot.command :nice do |event|
-  event.attach_file(File.open('media/nice.mp4'))
-  puts "Nice".blue
-end
-
 bot.command :tricksy do |event|
   event.attach_file(File.open('media/gollum.gif'))
   puts "TRICKSY".light_blue
@@ -149,8 +149,27 @@ bot.command :wow do |event|
   bot.voice_connect(event.user.voice_channel)
   event.voice.play_file('media/audio/wow.mp3')
   #Replace these with your own Server ID's
-  bot.voice_destroy(406973058042298378) #Colorado Casuals Server
-  bot.voice_destroy(446823698754699275) #Test Server
+  bot.voice_destroy(coloradoCasuals)
+  bot.voice_destroy(testServer)
+end
+
+
+bot.command :hellothere do |event|
+  puts "Hello There!".blue
+  bot.voice_connect(event.user.voice_channel)
+  event.voice.play_file('media/audio/hellothere.mp3')
+  #Replace these with your own Server ID's
+  bot.voice_destroy(coloradoCasuals)
+  bot.voice_destroy(testServer)
+end
+
+bot.command :nice do |event|
+  puts "Nice!".green
+  bot.voice_connect(event.user.voice_channel)
+  event.voice.play_file('media/audio/nice.mp3')
+  #Replace these with your own Server ID's
+  bot.voice_destroy(coloradoCasuals)
+  bot.voice_destroy(testServer)
 end
 
 # Dev Tools
