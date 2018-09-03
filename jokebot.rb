@@ -17,6 +17,9 @@ Type `!commands` or `!help` for a list of the commands
 `!wow`
 `!hellothere`
 `!nice`
+`!ouch`
+`!doit`
+`!oof`
 
 **Responses**
 `!thanks`
@@ -144,6 +147,7 @@ bot.command :happybirthday do |event, name|
 end
 
 #Audio Commands
+
 bot.command :wow do |event|
   puts "WOW".yellow
   bot.voice_connect(event.user.voice_channel)
@@ -167,6 +171,34 @@ bot.command :nice do |event|
   puts "Nice!".green
   bot.voice_connect(event.user.voice_channel)
   event.voice.play_file('media/audio/nice.mp3')
+  #Replace these with your own Server ID's
+  bot.voice_destroy(coloradoCasuals)
+  bot.voice_destroy(testServer)
+end
+
+
+bot.command :ouch do |event|
+  puts "Ouch!".yellow
+  bot.voice_connect(event.user.voice_channel)
+  event.voice.play_file('media/audio/ouch.mp3')
+  #Replace these with your own Server ID's
+  bot.voice_destroy(coloradoCasuals)
+  bot.voice_destroy(testServer)
+end
+
+bot.command :doit do |event|
+  puts "Dewwit".blue
+  bot.voice_connect(event.user.voice_channel)
+  event.voice.play_file('media/audio/doit.mp3')
+  #Replace these with your own Server ID's
+  bot.voice_destroy(coloradoCasuals)
+  bot.voice_destroy(testServer)
+end
+
+bot.command :oof do |event|
+  puts "oof".green
+  bot.voice_connect(event.user.voice_channel)
+  event.voice.play_file('media/audio/oof.mp3')
   #Replace these with your own Server ID's
   bot.voice_destroy(coloradoCasuals)
   bot.voice_destroy(testServer)
