@@ -18,6 +18,8 @@
 
 * Compress GIFs and optimize CPU Load when sending them
 
+* Seperate file for CLIENT ID & Tokens
+
 * ???
 
 * Profit
