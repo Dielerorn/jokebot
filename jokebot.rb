@@ -22,6 +22,9 @@ Type `!commands` or `!help` for a list of the commands
 `!missionfailed`
 `!howrude`
 `!oof`
+`!omaewa`
+`!goteem`
+`!disappointment`
 
 **Responses**
 `!thanks`
@@ -225,6 +228,33 @@ bot.command :howrude do |event|
   puts "How Rude".blue
   bot.voice_connect(event.user.voice_channel)
   event.voice.play_file('media/audio/howrude.mp3')
+  #Replace these with your own Server ID's
+  bot.voice_destroy(coloradoCasuals)
+  bot.voice_destroy(testServer)
+end
+
+bot.command :omaewa do |event|
+  puts "NANI?!?!".red
+  bot.voice_connect(event.user.voice_channel)
+  event.voice.play_file('media/audio/omaewa.mp3')
+  #Replace these with your own Server ID's
+  bot.voice_destroy(coloradoCasuals)
+  bot.voice_destroy(testServer)
+end
+
+bot.command :goteem do |event|
+  puts "GOTEEM".blue
+  bot.voice_connect(event.user.voice_channel)
+  event.voice.play_file('media/audio/goteem.mp3')
+  #Replace these with your own Server ID's
+  bot.voice_destroy(coloradoCasuals)
+  bot.voice_destroy(testServer)
+end
+
+bot.command :disappointment do |event|
+  puts "My day is ruined".green
+  bot.voice_connect(event.user.voice_channel)
+  event.voice.play_file('media/audio/disappointment.mp3')
   #Replace these with your own Server ID's
   bot.voice_destroy(coloradoCasuals)
   bot.voice_destroy(testServer)
