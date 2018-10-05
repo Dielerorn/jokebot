@@ -2,7 +2,7 @@
 require 'discordrb'
 require 'colorize'
 
-bot = Discordrb::Commands::CommandBot.new token: '<TOKEN_HERE>', client_id: CLIENT_ID_HERE, prefix: '!'
+bot = Discordrb::Commands::CommandBot.new token: 'TOKEN_HERE', client_id: CLIENT_ID_HERE, prefix: '!'
 
 #Variables
 commands = "
@@ -25,6 +25,9 @@ Type `!commands` or `!help` for a list of the commands
 `!omaewa`
 `!goteem`
 `!disappointment`
+`!answer`
+`!triple`
+`!stupid`
 
 **Responses**
 `!thanks`
@@ -255,6 +258,33 @@ bot.command :disappointment do |event|
   puts "My day is ruined".green
   bot.voice_connect(event.user.voice_channel)
   event.voice.play_file('media/audio/disappointment.mp3')
+  #Replace these with your own Server ID's
+  bot.voice_destroy(coloradoCasuals)
+  bot.voice_destroy(testServer)
+end
+
+bot.command :answer do |event|
+  puts "Answer the question!".blue
+  bot.voice_connect(event.user.voice_channel)
+  event.voice.play_file('media/audio/answer.mp3')
+  #Replace these with your own Server ID's
+  bot.voice_destroy(coloradoCasuals)
+  bot.voice_destroy(testServer)
+end
+
+bot.command :triple do |event|
+  puts "Oh baby a triple!".red
+  bot.voice_connect(event.user.voice_channel)
+  event.voice.play_file('media/audio/triple.mp3')
+  #Replace these with your own Server ID's
+  bot.voice_destroy(coloradoCasuals)
+  bot.voice_destroy(testServer)
+end
+
+bot.command :stupid do |event|
+  puts "Stupid!".yellow
+  bot.voice_connect(event.user.voice_channel)
+  event.voice.play_file('media/audio/stupid.mp3')
   #Replace these with your own Server ID's
   bot.voice_destroy(coloradoCasuals)
   bot.voice_destroy(testServer)
