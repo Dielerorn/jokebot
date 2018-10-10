@@ -1,6 +1,7 @@
 # A Discord Jokebot that tells really bad jokes
 require 'discordrb'
 require 'colorize'
+require 'espeak'
 
 bot = Discordrb::Commands::CommandBot.new token: 'TOKEN_HERE', client_id: CLIENT_ID_HERE, prefix: '!'
 
@@ -14,6 +15,7 @@ Type `!commands` or `!help` for a list of the commands
 
 **Voice Commands**
   *Must be in a voice channel to use!*
+`!say <Text>`
 `!wow`
 `!hellothere`
 `!nice`
@@ -28,6 +30,7 @@ Type `!commands` or `!help` for a list of the commands
 `!answer`
 `!triple`
 `!stupid`
+`!damage`
 
 **Responses**
 `!thanks`
@@ -162,6 +165,18 @@ end
 
 #Audio Commands
 
+bot.command :say do |event, *text|
+  puts "I said \"#{text}\" ".green
+  speech = ESpeak::Speech.new("#{text}", voice: "en-uk", :speed   => 225)
+  speech.save("media/audio/speech.mp3")
+  bot.voice_connect(event.user.voice_channel)
+  event.voice.play_file('media/audio/speech.mp3')
+  File.delete("media/audio/speech.mp3")
+  #Replace these with your own Server ID's
+  bot.voice_destroy(coloradoCasuals)
+  bot.voice_destroy(testServer)
+end
+
 bot.command :wow do |event|
   puts "WOW".yellow
   bot.voice_connect(event.user.voice_channel)
@@ -285,6 +300,15 @@ bot.command :stupid do |event|
   puts "Stupid!".yellow
   bot.voice_connect(event.user.voice_channel)
   event.voice.play_file('media/audio/stupid.mp3')
+  #Replace these with your own Server ID's
+  bot.voice_destroy(coloradoCasuals)
+  bot.voice_destroy(testServer)
+end
+
+bot.command :damage do |event|
+  puts "NOW THATS A LOTTA DAMAGE!".blue
+  bot.voice_connect(event.user.voice_channel)
+  event.voice.play_file('media/audio/damage.mp3')
   #Replace these with your own Server ID's
   bot.voice_destroy(coloradoCasuals)
   bot.voice_destroy(testServer)
