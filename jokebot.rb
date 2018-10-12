@@ -3,6 +3,7 @@ require 'discordrb'
 require 'colorize'
 require 'espeak'
 
+#Bot and Token Config
 bot = Discordrb::Commands::CommandBot.new token: 'TOKEN_HERE', client_id: CLIENT_ID_HERE, prefix: '!'
 
 #Variables
@@ -14,7 +15,7 @@ Type `!commands` or `!help` for a list of the commands
 `!happybirthday <Name>`
 
 **Voice Commands**
-  *Must be in a voice channel to use!*
+*Must be in a voice channel to use!*
 `!say <Text>`
 `!wow`
 `!hellothere`
@@ -166,8 +167,9 @@ end
 #Audio Commands
 
 bot.command :say do |event, *text|
+  text = text.join(" ")
   puts "I said \"#{text}\" ".green
-  speech = ESpeak::Speech.new("#{text}", voice: "en-uk", :speed   => 225)
+  speech = ESpeak::Speech.new("#{text}", voice: "en-uk", :speed   => 120)
   speech.save("media/audio/speech.mp3")
   bot.voice_connect(event.user.voice_channel)
   event.voice.play_file('media/audio/speech.mp3')
