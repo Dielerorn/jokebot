@@ -13,6 +13,7 @@ Type `!commands` or `!help` for a list of the commands
 **Commands**
 `!joke`
 `!happybirthday <Name>`
+`!turtle`
 
 **Voice Commands**
 *Must be in a voice channel to use!*
@@ -32,6 +33,8 @@ Type `!commands` or `!help` for a list of the commands
 `!triple`
 `!stupid`
 `!damage`
+`!onlygame`
+`!trap`
 
 **Responses**
 `!thanks`
@@ -56,6 +59,7 @@ Type `!commands` or `!help` for a list of the commands
 **Dev Tools**
 `!ping`
 `!source`
+`!region`
 "
 
 coloradoCasuals = 406973058042298378
@@ -97,11 +101,6 @@ end
 bot.command :badbot do |event|
   event.respond ":sob:"
   puts "Bad bot".red
-end
-
-bot.command :source do |event|
-  event.respond "https://github.com/Dielerorn/jokebot"
-  puts "Someone is looking at my source".blue
 end
 
 bot.command :whatdidyousay do |event|
@@ -162,6 +161,11 @@ end
 bot.command :happybirthday do |event, name|
   event.respond "♪ Happy birthday to you! Happy birthday to you! Happy birthday dear #{name}! Happy birthday to you! ♪"
   puts "Birthday!".green
+end
+
+bot.command :turtle do |event|
+  event.respond "A :turtle: turtle :turtle: made :turtle: it :turtle: to :turtle: the :turtle: water!"
+  puts "A turtle made it to the water".green
 end
 
 #Audio Commands
@@ -316,6 +320,24 @@ bot.command :damage do |event|
   bot.voice_destroy(testServer)
 end
 
+bot.command :onlygame do |event|
+  puts "Why you heff to be mad?".blue
+  bot.voice_connect(event.user.voice_channel)
+  event.voice.play_file('media/audio/onlygame.mp3')
+  #Replace these with your own Server ID's
+  bot.voice_destroy(coloradoCasuals)
+  bot.voice_destroy(testServer)
+end
+
+bot.command :trap do |event|
+  puts "Its a trap!".green
+  bot.voice_connect(event.user.voice_channel)
+  event.voice.play_file('media/audio/trap.mp3')
+  #Replace these with your own Server ID's
+  bot.voice_destroy(coloradoCasuals)
+  bot.voice_destroy(testServer)
+end
+
 # Dev Tools
 bot.message(content: '!ping') do |event|
   # The `respond` method returns a `Message` object, which is stored in a variable `m`. The `edit` method is then called
@@ -323,6 +345,18 @@ bot.message(content: '!ping') do |event|
   m = event.respond('Pong!')
   m.edit "Pong! Time taken: #{Time.now - event.timestamp} seconds."
 end
+
+bot.command :source do |event|
+  event.respond "https://github.com/Dielerorn/jokebot"
+  puts "Someone is looking at my source".blue
+end
+
+bot.command(:region, chain_usable: false, description: "Gets the region the server is stationed in.", permission_level: 1) do |event|
+  puts "Getting Region".yellow
+  event.server.region
+end
+
+# ======================================================
 
 bot.ready do
   bot.game = "Bad Jokes 24/7"
