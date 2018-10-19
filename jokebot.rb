@@ -12,6 +12,7 @@ Type `!commands` or `!help` for a list of the commands
 
 **Commands**
 `!joke`
+`!roll`
 `!happybirthday <Name>`
 `!turtle`
 
@@ -21,6 +22,7 @@ Type `!commands` or `!help` for a list of the commands
 `!wow`
 `!hellothere`
 `!nice`
+`!nooo`
 `!ouch`
 `!doit`
 `!missionfailed`
@@ -35,6 +37,12 @@ Type `!commands` or `!help` for a list of the commands
 `!damage`
 `!onlygame`
 `!trap`
+`!healing`
+`!spicymeatball`
+`!greatsuccess`
+`!playedyourself`
+`!headshot`
+`!spaghet`
 
 **Responses**
 `!thanks`
@@ -81,6 +89,17 @@ end
 bot.command :joke do |event|
   event.respond File.readlines("jokes.db").sample.strip
   puts "Joke sent".green
+end
+
+bot.command :roll do |event|
+  rollNumber = rand(1..100)
+  rollUser = event.user.username
+  if rollNumber == 100
+    event.respond "#{rollUser} rolled a :100:"
+  else
+  event.respond "#{rollUser} rolled a #{rollNumber}!"
+  end
+  puts "Someone rolled a #{rollNumber}!".light_green
 end
 
 bot.command :thanks do |event|
@@ -333,6 +352,69 @@ bot.command :trap do |event|
   puts "Its a trap!".green
   bot.voice_connect(event.user.voice_channel)
   event.voice.play_file('media/audio/trap.mp3')
+  #Replace these with your own Server ID's
+  bot.voice_destroy(coloradoCasuals)
+  bot.voice_destroy(testServer)
+end
+
+bot.command :healing do |event|
+  puts "I NEED HEALING".green
+  bot.voice_connect(event.user.voice_channel)
+  event.voice.play_file('media/audio/healing.mp3')
+  #Replace these with your own Server ID's
+  bot.voice_destroy(coloradoCasuals)
+  bot.voice_destroy(testServer)
+end
+
+bot.command :spicymeatball do |event|
+  puts "Thats a spicy meatball!".green
+  bot.voice_connect(event.user.voice_channel)
+  event.voice.play_file('media/audio/spicymeatball.mp3')
+  #Replace these with your own Server ID's
+  bot.voice_destroy(coloradoCasuals)
+  bot.voice_destroy(testServer)
+end
+
+bot.command :greatsuccess do |event|
+  puts "Iz great success".green
+  bot.voice_connect(event.user.voice_channel)
+  event.voice.play_file('media/audio/greatsuccess.mp3')
+  #Replace these with your own Server ID's
+  bot.voice_destroy(coloradoCasuals)
+  bot.voice_destroy(testServer)
+end
+
+bot.command :playedyourself do |event|
+  puts "You played yourself".blue
+  bot.voice_connect(event.user.voice_channel)
+  event.voice.play_file('media/audio/playedyourself.mp3')
+  #Replace these with your own Server ID's
+  bot.voice_destroy(coloradoCasuals)
+  bot.voice_destroy(testServer)
+end
+
+bot.command :headshot do |event|
+  puts "BOOM HEADSHOT".red
+  bot.voice_connect(event.user.voice_channel)
+  event.voice.play_file('media/audio/headshot.mp3')
+  #Replace these with your own Server ID's
+  bot.voice_destroy(coloradoCasuals)
+  bot.voice_destroy(testServer)
+end
+
+bot.command :nooo do |event|
+  puts "NOOOOOOO".red
+  bot.voice_connect(event.user.voice_channel)
+  event.voice.play_file('media/audio/nooo.mp3')
+  #Replace these with your own Server ID's
+  bot.voice_destroy(coloradoCasuals)
+  bot.voice_destroy(testServer)
+end
+
+bot.command :spaghet do |event|
+  puts "SOMEBODY TOUCHA MY SPAGHET".red
+  bot.voice_connect(event.user.voice_channel)
+  event.voice.play_file('media/audio/spaghet.mp3')
   #Replace these with your own Server ID's
   bot.voice_destroy(coloradoCasuals)
   bot.voice_destroy(testServer)
