@@ -54,8 +54,7 @@ Type `!commands` or `!help` for a list of the commands
 `!badbot`
 `!wut`
 `!tricksy`
-`!tastefullyracist`
-`!tr` *(Short version of `!tastefullyracist`)*
+`!tastefullyracist` or `!tr`
 `!whatdidyousay`
 
 **Misc**
@@ -99,7 +98,7 @@ bot.command :roll do |event|
   else
   event.respond "#{rollUser} rolled a #{rollNumber}!"
   end
-  puts "Someone rolled a #{rollNumber}!".light_green
+  puts "#{rollUser} rolled a #{rollNumber}!".light_green
 end
 
 bot.command :thanks do |event|
