@@ -6,6 +6,8 @@
 
 * Insert your Token and Client ID at the top of Jokebot.rb
 
+* <code>bundle install</code> to install dependencies
+
 * <code>ruby jokebot.rb</code> to run
 
 * <code>!commands</code> for a list of commands
