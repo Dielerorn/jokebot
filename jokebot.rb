@@ -1,4 +1,4 @@
-# A Discord Jokebot that tells really bad jokes
+# A Discord bot that tells really bad jokes
 require 'discordrb'
 require 'colorize'
 require 'espeak'
@@ -6,9 +6,10 @@ require 'espeak'
 #Bot and Token Config
 bot = Discordrb::Commands::CommandBot.new token: 'TOKEN_HERE', client_id: CLIENT_ID_HERE, prefix: '!'
 
-#Variables
+#Variables =======================================================================================
 commands = "
 Type `!commands` or `!help` for a list of the commands
+Type `!new` to see the newest commands
 
 **Commands**
 `!joke`
@@ -43,6 +44,7 @@ Type `!commands` or `!help` for a list of the commands
 `!playedyourself`
 `!headshot`
 `!spaghet`
+`!pranked`
 
 **Responses**
 `!thanks`
@@ -57,6 +59,10 @@ Type `!commands` or `!help` for a list of the commands
 `!tastefullyracist` or `!tr`
 `!whatdidyousay`
 
+**Mini Games**
+`!guessthenumber`
+`!guessthenumberhard` (No hints)
+
 **Misc**
 `!howtoplaystarcraft`
 `!howtogetredditkarma`
@@ -66,7 +72,20 @@ Type `!commands` or `!help` for a list of the commands
 **Dev Tools**
 `!ping`
 `!source`
+`!websource`
 `!region`
+"
+
+new = "
+**Mini Games**
+`!guessthenumber`
+`!guessthenumberhard` (No hints)
+
+**Voice Commands**
+`!pranked`
+
+**Dev Tools**
+`!websource`
 "
 
 coloradoCasuals = 406973058042298378
@@ -79,9 +98,14 @@ tastefullyRacistCommands = [:tastefullyracist, :tr]
 
 helpCommands = [:commands, :help]
 
-#Commands
+#Commands =======================================================================================
 bot.command helpCommands do |event|
   event.respond commands
+  puts "Someone needed help".light_red
+end
+
+bot.command :new do |event|
+  event.respond new
   puts "Someone needed help".light_red
 end
 
@@ -186,7 +210,7 @@ bot.command :turtle do |event|
   puts "A turtle made it to the water".green
 end
 
-#Audio Commands
+#Audio Commands =======================================================================================
 
 bot.command :say do |event, *text|
   text = text.join(" ")
@@ -419,7 +443,46 @@ bot.command :spaghet do |event|
   bot.voice_destroy(testServer)
 end
 
-# Dev Tools
+bot.command :pranked do |event|
+  puts "YOU JUST GOT PRANKED".green
+  bot.voice_connect(event.user.voice_channel)
+  event.voice.play_file('media/audio/pranked.mp3')
+  #Replace these with your own Server ID's
+  bot.voice_destroy(coloradoCasuals)
+  bot.voice_destroy(testServer)
+end
+
+# Mini Games =======================================================================================
+bot.message(start_with: '!guessthenumber') do |event|
+  magic = rand(1..10)
+  event.user.await(:guess) do |guess_event|
+    guess = guess_event.message.content.to_i
+    if guess == magic
+      guess_event.respond ':white_check_mark: Well guessed!'
+    else
+      guess_event.respond(guess > magic ? ':x: Too high' : ':x: Too low')
+      false
+    end
+  end
+  event.respond 'Guess a number between 1 and 10: '
+end
+
+bot.message(start_with: '!guessthenumberhard') do |event|
+  magic = rand(1..10)
+  event.user.await(:guess) do |guess_event|
+    guess = guess_event.message.content.to_i
+    if guess == magic
+      guess_event.respond ':white_check_mark: Well guessed!'
+    else
+      guess_event.respond ':x: Wrong! Guess again: '
+      false
+    end
+  end
+  event.respond 'Guess a number between 1 and 10: '
+end
+
+
+# Dev Tools =======================================================================================
 bot.message(content: '!ping') do |event|
   # The `respond` method returns a `Message` object, which is stored in a variable `m`. The `edit` method is then called
   # to edit the message with the time difference between when the event was received and after the message was sent.
@@ -430,6 +493,11 @@ end
 bot.command :source do |event|
   event.respond "https://github.com/Dielerorn/jokebot"
   puts "Someone is looking at my source".blue
+end
+
+bot.command :websource do |event|
+  event.respond "https://github.com/Dielerorn/jokebot-web"
+  puts "Someone is looking at my web source".blue
 end
 
 bot.command(:region, chain_usable: false, description: "Gets the region the server is stationed in.", permission_level: 1) do |event|
