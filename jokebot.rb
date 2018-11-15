@@ -4,7 +4,21 @@ require 'colorize'
 require 'espeak'
 
 #Bot and Token Config
-bot = Discordrb::Commands::CommandBot.new token: 'TOKEN_HERE', client_id: CLIENT_ID_HERE, prefix: '!'
+
+#Make commands case insensitive
+prefix_proc = proc do |message|
+  # Extract the first word and the rest of the message,
+  # and ignore the message if it doesn't start with "!":
+  match = /^\!(\w+)(.*)/.match(message.content)
+  if match
+    first = match[1]
+    rest = match[2]
+    # Return the modified string with the first word lowercase:
+    "#{first.downcase}#{rest}"
+  end
+end
+
+bot = Discordrb::Commands::CommandBot.new token: 'TOKEN_HERE', client_id: CLIENT_ID_HERE, prefix: prefix_proc
 
 #Variables =======================================================================================
 commands = "
@@ -15,6 +29,7 @@ Type `!new` to see the newest commands
 `!joke`
 `!roll`
 `!happybirthday <Name>`
+`!hackertext <Text>`
 `!turtle`
 
 **Voice Commands**
@@ -45,6 +60,7 @@ Type `!new` to see the newest commands
 `!headshot`
 `!spaghet`
 `!pranked`
+`!warrior`
 
 **Responses**
 `!thanks`
@@ -77,12 +93,14 @@ Type `!new` to see the newest commands
 "
 
 new = "
-**Mini Games**
-`!guessthenumber`
-`!guessthenumberhard` (No hints)
+YOU CAN USE UPPERCASE COMMANDS NOW! ARE YOU HAPPY?!
+
+**Commands**
+`!hackertext <Text>`
 
 **Voice Commands**
-`!pranked`
+Randomized clips for `!pranked`
+`!warrior`
 
 **Dev Tools**
 `!websource`
@@ -95,6 +113,11 @@ testServer = 446823698754699275
 tastefullyracist = (1..5).map { |n| "media/tastefully-racist/#{n}.gif" }
 
 tastefullyRacistCommands = [:tastefullyracist, :tr]
+
+pranked = (1..9).map { |n| "media/audio/pranked/#{n}.mp3" }
+
+replacements = {
+  'A' => '4', 'a' => '4', 'E' => '3', 'e' => '3', 'G' => '6', 'g' => '6', 'L' => '1', 'l' => '1', 'O' => '0', 'o' => '0', 'S' => '5', 's' => '5', 'T' => '7', 't' => '7', 'I' => '!', 'i' => '!'}
 
 helpCommands = [:commands, :help]
 
@@ -197,7 +220,7 @@ end
 
 bot.command :blackpeople do |event|
   event.respond "We all know what you were expecting, and frankly, im surprised at you..."
-  puts "Yes!".green
+  puts "We all know what you were expecting".red
 end
 
 bot.command :happybirthday do |event, name|
@@ -208,6 +231,13 @@ end
 bot.command :turtle do |event|
   event.respond "A :turtle: turtle :turtle: made :turtle: it :turtle: to :turtle: the :turtle: water!"
   puts "A turtle made it to the water".green
+end
+
+bot.command :hackertext do |event, *text|
+  text = text.join(" ")
+  leettext = text.gsub(Regexp.union(replacements.keys), replacements)
+  event.respond leettext
+  puts "Im in.".green
 end
 
 #Audio Commands =======================================================================================
@@ -446,7 +476,16 @@ end
 bot.command :pranked do |event|
   puts "YOU JUST GOT PRANKED".green
   bot.voice_connect(event.user.voice_channel)
-  event.voice.play_file('media/audio/pranked.mp3')
+  event.voice.play_file(pranked.sample)
+  #Replace these with your own Server ID's
+  bot.voice_destroy(coloradoCasuals)
+  bot.voice_destroy(testServer)
+end
+
+bot.command :warrior do |event|
+  puts "DO YOU SEE WHAT YOU GET WHEN YOU MESS WITH THE WARRIOR".red
+  bot.voice_connect(event.user.voice_channel)
+  event.voice.play_file('media/audio/warrior.mp3')
   #Replace these with your own Server ID's
   bot.voice_destroy(coloradoCasuals)
   bot.voice_destroy(testServer)
