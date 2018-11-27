@@ -2,6 +2,7 @@
 require 'discordrb'
 require 'colorize'
 require 'espeak'
+require 'dotenv/load'
 
 #Bot and Token Config
 
@@ -18,9 +19,9 @@ prefix_proc = proc do |message|
   end
 end
 
-bot = Discordrb::Commands::CommandBot.new token: 'TOKEN_HERE', client_id: CLIENT_ID_HERE, prefix: prefix_proc
+bot = Discordrb::Commands::CommandBot.new token: ENV['TOKEN'], client_id: 446820464770154507, prefix: prefix_proc
 
-#Variables =======================================================================================
+#Variables ===========================================================================================
 commands = "
 Type `!commands` or `!help` for a list of the commands
 Type `!new` to see the newest commands
