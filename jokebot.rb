@@ -99,17 +99,9 @@ Type `!new` to see the newest commands
 "
 
 new = "
-YOU CAN USE UPPERCASE COMMANDS NOW! ARE YOU HAPPY?!
-
-**Commands**
-`!hackertext <Text>`
-
-**Voice Commands**
-Randomized clips for `!pranked`
-`!warrior`
-
-**Dev Tools**
-`!websource`
+**Music Player**
+`!play <YouTube Link>`
+`!stop`
 "
 
 coloradoCasuals = 406973058042298378
