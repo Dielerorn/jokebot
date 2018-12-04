@@ -3,6 +3,7 @@ require 'discordrb'
 require 'colorize'
 require 'espeak'
 require 'dotenv/load'
+require 'youtube-dl.rb'
 
 #Bot and Token Config
 
@@ -487,6 +488,23 @@ bot.command :warrior do |event|
   puts "DO YOU SEE WHAT YOU GET WHEN YOU MESS WITH THE WARRIOR".red
   bot.voice_connect(event.user.voice_channel)
   event.voice.play_file('media/audio/warrior.mp3')
+  #Replace these with your own Server ID's
+  bot.voice_destroy(coloradoCasuals)
+  bot.voice_destroy(testServer)
+end
+
+# Music Player =====================================================================================
+bot.command :play do |event, link|
+  puts "Downloading... #{link}".green
+  downloadingMessage = event.send_message("Downloading...")
+  YoutubeDL.get "#{link}", extract_audio: true, audio_format: 'mp3',  output: 'media/music/song.mp3'
+  downloadingMessage.delete
+  playingMessage = event.send_message("Playing...")
+  puts "Playing... #{link}".green
+  bot.voice_connect(event.user.voice_channel)
+  event.voice.play_file('media/music/song.mp3')
+  File.delete("media/music/song.mp3")
+  playingMessage.delete
   #Replace these with your own Server ID's
   bot.voice_destroy(coloradoCasuals)
   bot.voice_destroy(testServer)
