@@ -34,6 +34,10 @@ Type `!new` to see the newest commands
 `!hackertext <Text>`
 `!turtle`
 
+**Music Player**
+`!play <YouTube Link>`
+`!stop`
+
 **Voice Commands**
 *Must be in a voice channel to use!*
 `!say <Text>`
@@ -505,6 +509,13 @@ bot.command :play do |event, link|
   event.voice.play_file('media/music/song.mp3')
   File.delete("media/music/song.mp3")
   playingMessage.delete
+  #Replace these with your own Server ID's
+  bot.voice_destroy(coloradoCasuals)
+  bot.voice_destroy(testServer)
+end
+
+bot.command :stop do |event|
+  puts "Audio Stopped".red
   #Replace these with your own Server ID's
   bot.voice_destroy(coloradoCasuals)
   bot.voice_destroy(testServer)
