@@ -41,6 +41,8 @@ Type `!new` to see the newest commands
 **Voice Commands**
 *Must be in a voice channel to use!*
 `!say <Text>`
+`!countUp <Number>`
+`!countDown <Number>`
 `!wow`
 `!hellothere`
 `!nice`
@@ -102,18 +104,25 @@ new = "
 **Music Player**
 `!play <YouTube Link>`
 `!stop`
+
+**Voice Commands**
+`!countUp <Number>`
+`!countDown <Number>`
 "
 
 coloradoCasuals = 406973058042298378
 
 testServer = 446823698754699275
 
+#Change the 2nd number in parentheses for how many files there are
 tastefullyracist = (1..5).map { |n| "media/tastefully-racist/#{n}.gif" }
 
 tastefullyRacistCommands = [:tastefullyracist, :tr]
 
+#Change the 2nd number in parentheses for how many files there are
 pranked = (1..9).map { |n| "media/audio/pranked/#{n}.mp3" }
 
+#Letter replacements for hacker text
 replacements = {
   'A' => '4', 'a' => '4', 'E' => '3', 'e' => '3', 'G' => '6', 'g' => '6', 'L' => '1', 'l' => '1', 'O' => '0', 'o' => '0', 'S' => '5', 's' => '5', 'T' => '7', 't' => '7', 'I' => '!', 'i' => '!'}
 
@@ -248,6 +257,34 @@ bot.command :say do |event, *text|
   bot.voice_connect(event.user.voice_channel)
   event.voice.play_file('media/audio/speech.mp3')
   File.delete("media/audio/speech.mp3")
+  #Replace these with your own Server ID's
+  bot.voice_destroy(coloradoCasuals)
+  bot.voice_destroy(testServer)
+end
+
+bot.command :countdown do |event, number|
+  puts "I counted down from #{number}".green
+  countDownNumber = number.to_i
+  countDownArray = [*1..countDownNumber].reverse
+  countDownSpeech = ESpeak::Speech.new("#{countDownArray}", voice: "en-uk", :speed   => 120)
+  countDownSpeech.save("media/audio/countdown.mp3")
+  bot.voice_connect(event.user.voice_channel)
+  event.voice.play_file('media/audio/countdown.mp3')
+  File.delete("media/audio/countdown.mp3")
+  #Replace these with your own Server ID's
+  bot.voice_destroy(coloradoCasuals)
+  bot.voice_destroy(testServer)
+end
+
+bot.command :countup do |event, number|
+  puts "I counted to #{number}".green
+  countUpNumber = number.to_i
+  countUpArray = [*1..countUpNumber]
+  countUpSpeech = ESpeak::Speech.new("#{countUpArray}", voice: "en-uk", :speed   => 120)
+  countUpSpeech.save("media/audio/countup.mp3")
+  bot.voice_connect(event.user.voice_channel)
+  event.voice.play_file('media/audio/countup.mp3')
+  File.delete("media/audio/countup.mp3")
   #Replace these with your own Server ID's
   bot.voice_destroy(coloradoCasuals)
   bot.voice_destroy(testServer)
