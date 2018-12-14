@@ -29,6 +29,7 @@ Type `!new` to see the newest commands
 
 **Commands**
 `!joke`
+`!istalbertbanned`
 `!roll`
 `!happybirthday <Name>`
 `!hackertext <Text>`
@@ -101,6 +102,9 @@ Type `!new` to see the newest commands
 "
 
 new = "
+**Commands**
+`!istalbertbanned`
+
 **Music Player**
 `!play <YouTube Link>`
 `!stop`
@@ -136,12 +140,23 @@ end
 
 bot.command :new do |event|
   event.respond new
-  puts "Someone needed help".light_red
+  puts "Showed the new commands".light_red
 end
 
 bot.command :joke do |event|
   event.respond File.readlines("jokes.db").sample.strip
   puts "Joke sent".green
+end
+
+bot.command :istalbertbanned do |event|
+  puts "I checked if Talbert was banned".green
+  talbert = event.server.member(361438280757018624)
+  general = bot.channel(406973058042298380)
+  if talbert.can_read_messages?(general)
+    event.respond "Talbert is not banned from General...yet"
+  else
+    event.respond "Talbert is banned from General. F in the chat for our brave meme master"
+  end
 end
 
 bot.command :roll do |event|
