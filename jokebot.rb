@@ -37,6 +37,8 @@ Type `!new` to see the newest commands
 
 **Music Player**
 `!play <YouTube Link>`
+`!pause`
+`!continue`
 `!stop`
 
 **Voice Commands**
@@ -106,17 +108,14 @@ new = "
 `!istalbertbanned`
 
 **Music Player**
-`!play <YouTube Link>`
-`!stop`
+Music player is now more verbose
+`!pause`
+`!continue`
 
 **Voice Commands**
 `!countUp <Number>`
 `!countDown <Number>`
 "
-
-coloradoCasuals = 406973058042298378
-
-testServer = 446823698754699275
 
 #Change the 2nd number in parentheses for how many files there are
 tastefullyracist = (1..5).map { |n| "media/tastefully-racist/#{n}.gif" }
@@ -272,9 +271,7 @@ bot.command :say do |event, *text|
   bot.voice_connect(event.user.voice_channel)
   event.voice.play_file('media/audio/speech.mp3')
   File.delete("media/audio/speech.mp3")
-  #Replace these with your own Server ID's
-  bot.voice_destroy(coloradoCasuals)
-  bot.voice_destroy(testServer)
+  bot.voice_destroy(event.user.server)
 end
 
 bot.command :countdown do |event, number|
@@ -286,9 +283,7 @@ bot.command :countdown do |event, number|
   bot.voice_connect(event.user.voice_channel)
   event.voice.play_file('media/audio/countdown.mp3')
   File.delete("media/audio/countdown.mp3")
-  #Replace these with your own Server ID's
-  bot.voice_destroy(coloradoCasuals)
-  bot.voice_destroy(testServer)
+  bot.voice_destroy(event.user.server)
 end
 
 bot.command :countup do |event, number|
@@ -300,18 +295,14 @@ bot.command :countup do |event, number|
   bot.voice_connect(event.user.voice_channel)
   event.voice.play_file('media/audio/countup.mp3')
   File.delete("media/audio/countup.mp3")
-  #Replace these with your own Server ID's
-  bot.voice_destroy(coloradoCasuals)
-  bot.voice_destroy(testServer)
+  bot.voice_destroy(event.user.server)
 end
 
 bot.command :wow do |event|
   puts "WOW".yellow
   bot.voice_connect(event.user.voice_channel)
   event.voice.play_file('media/audio/wow.mp3')
-  #Replace these with your own Server ID's
-  bot.voice_destroy(coloradoCasuals)
-  bot.voice_destroy(testServer)
+  bot.voice_destroy(event.user.server)
 end
 
 
@@ -319,18 +310,14 @@ bot.command :hellothere do |event|
   puts "Hello There!".blue
   bot.voice_connect(event.user.voice_channel)
   event.voice.play_file('media/audio/hellothere.mp3')
-  #Replace these with your own Server ID's
-  bot.voice_destroy(coloradoCasuals)
-  bot.voice_destroy(testServer)
+  bot.voice_destroy(event.user.server)
 end
 
 bot.command :nice do |event|
   puts "Nice!".green
   bot.voice_connect(event.user.voice_channel)
   event.voice.play_file('media/audio/nice.mp3')
-  #Replace these with your own Server ID's
-  bot.voice_destroy(coloradoCasuals)
-  bot.voice_destroy(testServer)
+  bot.voice_destroy(event.user.server)
 end
 
 
@@ -339,197 +326,154 @@ bot.command :ouch do |event|
   bot.voice_connect(event.user.voice_channel)
   event.voice.play_file('media/audio/ouch.mp3')
   #Replace these with your own Server ID's
-  bot.voice_destroy(coloradoCasuals)
-  bot.voice_destroy(testServer)
+  event.voice.destroy
 end
 
 bot.command :doit do |event|
   puts "Dewwit".blue
   bot.voice_connect(event.user.voice_channel)
   event.voice.play_file('media/audio/doit.mp3')
-  #Replace these with your own Server ID's
-  bot.voice_destroy(coloradoCasuals)
-  bot.voice_destroy(testServer)
+  bot.voice_destroy(event.user.server)
 end
 
 bot.command :oof do |event|
   puts "oof".green
   bot.voice_connect(event.user.voice_channel)
   event.voice.play_file('media/audio/oof.mp3')
-  #Replace these with your own Server ID's
-  bot.voice_destroy(coloradoCasuals)
-  bot.voice_destroy(testServer)
+  bot.voice_destroy(event.user.server)
 end
 
 bot.command :missionfailed do |event|
   puts "We'll Get Em Next Time".green
   bot.voice_connect(event.user.voice_channel)
   event.voice.play_file('media/audio/missionfailed.mp3')
-  #Replace these with your own Server ID's
-  bot.voice_destroy(coloradoCasuals)
-  bot.voice_destroy(testServer)
+  bot.voice_destroy(event.user.server)
 end
 
 bot.command :howrude do |event|
   puts "How Rude".blue
   bot.voice_connect(event.user.voice_channel)
   event.voice.play_file('media/audio/howrude.mp3')
-  #Replace these with your own Server ID's
-  bot.voice_destroy(coloradoCasuals)
-  bot.voice_destroy(testServer)
+  bot.voice_destroy(event.user.server)
 end
 
 bot.command :omaewa do |event|
   puts "NANI?!?!".red
   bot.voice_connect(event.user.voice_channel)
   event.voice.play_file('media/audio/omaewa.mp3')
-  #Replace these with your own Server ID's
-  bot.voice_destroy(coloradoCasuals)
-  bot.voice_destroy(testServer)
+  bot.voice_destroy(event.user.server)
 end
 
 bot.command :goteem do |event|
   puts "GOTEEM".blue
   bot.voice_connect(event.user.voice_channel)
   event.voice.play_file('media/audio/goteem.mp3')
-  #Replace these with your own Server ID's
-  bot.voice_destroy(coloradoCasuals)
-  bot.voice_destroy(testServer)
+  bot.voice_destroy(event.user.server)
 end
 
 bot.command :disappointment do |event|
   puts "My day is ruined".green
   bot.voice_connect(event.user.voice_channel)
   event.voice.play_file('media/audio/disappointment.mp3')
-  #Replace these with your own Server ID's
-  bot.voice_destroy(coloradoCasuals)
-  bot.voice_destroy(testServer)
+  bot.voice_destroy(event.user.server)
 end
 
 bot.command :answer do |event|
   puts "Answer the question!".blue
   bot.voice_connect(event.user.voice_channel)
   event.voice.play_file('media/audio/answer.mp3')
-  #Replace these with your own Server ID's
-  bot.voice_destroy(coloradoCasuals)
-  bot.voice_destroy(testServer)
+  bot.voice_destroy(event.user.server)
 end
 
 bot.command :triple do |event|
   puts "Oh baby a triple!".red
   bot.voice_connect(event.user.voice_channel)
   event.voice.play_file('media/audio/triple.mp3')
-  #Replace these with your own Server ID's
-  bot.voice_destroy(coloradoCasuals)
-  bot.voice_destroy(testServer)
+  bot.voice_destroy(event.user.server)
 end
 
 bot.command :stupid do |event|
   puts "Stupid!".yellow
   bot.voice_connect(event.user.voice_channel)
   event.voice.play_file('media/audio/stupid.mp3')
-  #Replace these with your own Server ID's
-  bot.voice_destroy(coloradoCasuals)
-  bot.voice_destroy(testServer)
+  bot.voice_destroy(event.user.server)
 end
 
 bot.command :damage do |event|
   puts "NOW THATS A LOTTA DAMAGE!".blue
   bot.voice_connect(event.user.voice_channel)
   event.voice.play_file('media/audio/damage.mp3')
-  #Replace these with your own Server ID's
-  bot.voice_destroy(coloradoCasuals)
-  bot.voice_destroy(testServer)
+  bot.voice_destroy(event.user.server)
 end
 
 bot.command :onlygame do |event|
   puts "Why you heff to be mad?".blue
   bot.voice_connect(event.user.voice_channel)
   event.voice.play_file('media/audio/onlygame.mp3')
-  #Replace these with your own Server ID's
-  bot.voice_destroy(coloradoCasuals)
-  bot.voice_destroy(testServer)
+  bot.voice_destroy(event.user.server)
 end
 
 bot.command :trap do |event|
   puts "Its a trap!".green
   bot.voice_connect(event.user.voice_channel)
   event.voice.play_file('media/audio/trap.mp3')
-  #Replace these with your own Server ID's
-  bot.voice_destroy(coloradoCasuals)
-  bot.voice_destroy(testServer)
+  bot.voice_destroy(event.user.server)
 end
 
 bot.command :healing do |event|
   puts "I NEED HEALING".green
   bot.voice_connect(event.user.voice_channel)
   event.voice.play_file('media/audio/healing.mp3')
-  #Replace these with your own Server ID's
-  bot.voice_destroy(coloradoCasuals)
-  bot.voice_destroy(testServer)
+  bot.voice_destroy(event.user.server)
 end
 
 bot.command :spicymeatball do |event|
   puts "Thats a spicy meatball!".green
   bot.voice_connect(event.user.voice_channel)
   event.voice.play_file('media/audio/spicymeatball.mp3')
-  #Replace these with your own Server ID's
-  bot.voice_destroy(coloradoCasuals)
-  bot.voice_destroy(testServer)
+  bot.voice_destroy(event.user.server)
 end
 
 bot.command :greatsuccess do |event|
   puts "Iz great success".green
   bot.voice_connect(event.user.voice_channel)
   event.voice.play_file('media/audio/greatsuccess.mp3')
-  #Replace these with your own Server ID's
-  bot.voice_destroy(coloradoCasuals)
-  bot.voice_destroy(testServer)
+  bot.voice_destroy(event.user.server)
 end
 
 bot.command :playedyourself do |event|
   puts "You played yourself".blue
   bot.voice_connect(event.user.voice_channel)
   event.voice.play_file('media/audio/playedyourself.mp3')
-  #Replace these with your own Server ID's
-  bot.voice_destroy(coloradoCasuals)
-  bot.voice_destroy(testServer)
+  bot.voice_destroy(event.user.server)
 end
 
 bot.command :headshot do |event|
   puts "BOOM HEADSHOT".red
   bot.voice_connect(event.user.voice_channel)
   event.voice.play_file('media/audio/headshot.mp3')
-  #Replace these with your own Server ID's
-  bot.voice_destroy(coloradoCasuals)
-  bot.voice_destroy(testServer)
+  bot.voice_destroy(event.user.server)
 end
 
 bot.command :nooo do |event|
   puts "NOOOOOOO".red
   bot.voice_connect(event.user.voice_channel)
   event.voice.play_file('media/audio/nooo.mp3')
-  #Replace these with your own Server ID's
-  bot.voice_destroy(coloradoCasuals)
-  bot.voice_destroy(testServer)
+  bot.voice_destroy(event.user.server)
 end
 
 bot.command :spaghet do |event|
   puts "SOMEBODY TOUCHA MY SPAGHET".red
   bot.voice_connect(event.user.voice_channel)
   event.voice.play_file('media/audio/spaghet.mp3')
-  #Replace these with your own Server ID's
-  bot.voice_destroy(coloradoCasuals)
-  bot.voice_destroy(testServer)
+  bot.voice_destroy(event.user.server)
 end
 
 bot.command :pranked do |event|
   puts "YOU JUST GOT PRANKED".green
   bot.voice_connect(event.user.voice_channel)
   event.voice.play_file(pranked.sample)
-  #Replace these with your own Server ID's
-  bot.voice_destroy(coloradoCasuals)
-  bot.voice_destroy(testServer)
+  bot.voice_destroy(event.user.server)
 end
 
 bot.command :warrior do |event|
@@ -537,32 +481,46 @@ bot.command :warrior do |event|
   bot.voice_connect(event.user.voice_channel)
   event.voice.play_file('media/audio/warrior.mp3')
   #Replace these with your own Server ID's
-  bot.voice_destroy(coloradoCasuals)
-  bot.voice_destroy(testServer)
+  bot.voice_destroy(event.user.server)
 end
 
 # Music Player =====================================================================================
 bot.command :play do |event, link|
+  channel = event.user.voice_channel
   puts "Downloading... #{link}".green
   downloadingMessage = event.send_message("Downloading...")
   YoutubeDL.get "#{link}", extract_audio: true, audio_format: 'mp3',  output: 'media/music/song.mp3'
   downloadingMessage.delete
-  playingMessage = event.send_message("Playing...")
+  playingMessage = event.send_message("Playing in #{channel.name}...")
   puts "Playing... #{link}".green
+  bot.game = "Music in #{channel.name}"
   bot.voice_connect(event.user.voice_channel)
   event.voice.play_file('media/music/song.mp3')
   File.delete("media/music/song.mp3")
   playingMessage.delete
-  #Replace these with your own Server ID's
-  bot.voice_destroy(coloradoCasuals)
-  bot.voice_destroy(testServer)
+  bot.game = "Bad Jokes 24/7"
+  bot.voice_destroy(event.user.server)
+end
+
+bot.command :pause do |event|
+  puts "Audio paused".blue
+  event.voice.pause
+  bot.game = "Music paused in #{channel.name}"
+  nil
+end
+
+bot.command :continue do |event|
+  puts "Audio continued".blue
+  event.voice.continue
+  bot.game = "Music in #{channel.name}"
+  nil
 end
 
 bot.command :stop do |event|
   puts "Audio Stopped".red
-  #Replace these with your own Server ID's
-  bot.voice_destroy(coloradoCasuals)
-  bot.voice_destroy(testServer)
+  bot.voice_destroy(event.user.server)
+  bot.game = "Bad Jokes 24/7"
+  nil
 end
 
 # Mini Games =======================================================================================
