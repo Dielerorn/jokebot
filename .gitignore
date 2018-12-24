@@ -2,3 +2,4 @@
 tokens.txt
 .env
 data/.env
+logs/*.log
