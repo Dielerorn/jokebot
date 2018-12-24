@@ -1,3 +1,4 @@
 # Ignore Token File
 tokens.txt
 .env
+data/.env

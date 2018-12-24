@@ -1,8 +1,8 @@
 # A Discord bot that tells really bad jokes
 require 'discordrb'
+require 'dotenv'
 require 'colorize'
 require 'espeak'
-require 'dotenv/load'
 require 'youtube-dl.rb'
 
 #Bot and Token Config
@@ -19,6 +19,9 @@ prefix_proc = proc do |message|
     "#{first.downcase}#{rest}"
   end
 end
+
+#Load .env enviroment variables
+Dotenv.load('../data/.env')
 
 bot = Discordrb::Commands::CommandBot.new token: ENV['TOKEN'], client_id: 446820464770154507, prefix: prefix_proc
 
@@ -72,6 +75,7 @@ Type `!new` to see the newest commands
 `!spaghet`
 `!pranked`
 `!warrior`
+`!abouttime`
 
 **Responses**
 `!thanks`
@@ -104,8 +108,7 @@ Type `!new` to see the newest commands
 "
 
 new = "
-**Commands**
-`!istalbertbanned`
+NEW FILE STRUCTURE AT `!source`
 
 **Music Player**
 Music player is now more verbose
@@ -113,17 +116,16 @@ Music player is now more verbose
 `!continue`
 
 **Voice Commands**
-`!countUp <Number>`
-`!countDown <Number>`
+`!abouttime`
 "
 
 #Change the 2nd number in parentheses for how many files there are
-tastefullyracist = (1..5).map { |n| "media/tastefully-racist/#{n}.gif" }
+tastefullyracist = (1..5).map { |n| "../data/media/tastefully-racist/#{n}.gif" }
 
 tastefullyRacistCommands = [:tastefullyracist, :tr]
 
 #Change the 2nd number in parentheses for how many files there are
-pranked = (1..9).map { |n| "media/audio/pranked/#{n}.mp3" }
+pranked = (1..9).map { |n| "../data/media/audio/pranked/#{n}.mp3" }
 
 #Letter replacements for hacker text
 replacements = {
@@ -143,7 +145,7 @@ bot.command :new do |event|
 end
 
 bot.command :joke do |event|
-  event.respond File.readlines("jokes.db").sample.strip
+  event.respond File.readlines("../data/jokes.db").sample.strip
   puts "Joke sent".green
 end
 
@@ -220,17 +222,17 @@ bot.command :yes do |event|
 end
 
 bot.command :yep do |event|
-  event.attach_file(File.open('media/yep.gif'))
+  event.attach_file(File.open('../data/media/yep.gif'))
   puts "Yep".light_blue
 end
 
 bot.command :tricksy do |event|
-  event.attach_file(File.open('media/gollum.gif'))
+  event.attach_file(File.open('../data/media/gollum.gif'))
   puts "TRICKSY".light_blue
 end
 
 bot.command :wut do |event|
-  event.attach_file(File.open('media/wut.gif'))
+  event.attach_file(File.open('../data/media/wut.gif'))
   puts "wut".light_green
 end
 
@@ -267,10 +269,10 @@ bot.command :say do |event, *text|
   text = text.join(" ")
   puts "I said \"#{text}\" ".green
   speech = ESpeak::Speech.new("#{text}", voice: "en-uk", :speed   => 120)
-  speech.save("media/audio/speech.mp3")
+  speech.save("../data/media/audio/speech.mp3")
   bot.voice_connect(event.user.voice_channel)
-  event.voice.play_file('media/audio/speech.mp3')
-  File.delete("media/audio/speech.mp3")
+  event.voice.play_file('../data/media/audio/speech.mp3')
+  File.delete("../data/media/audio/speech.mp3")
   bot.voice_destroy(event.user.server)
 end
 
@@ -279,10 +281,10 @@ bot.command :countdown do |event, number|
   countDownNumber = number.to_i
   countDownArray = [*1..countDownNumber].reverse
   countDownSpeech = ESpeak::Speech.new("#{countDownArray}", voice: "en-uk", :speed   => 120)
-  countDownSpeech.save("media/audio/countdown.mp3")
+  countDownSpeech.save("../data/media/audio/countdown.mp3")
   bot.voice_connect(event.user.voice_channel)
-  event.voice.play_file('media/audio/countdown.mp3')
-  File.delete("media/audio/countdown.mp3")
+  event.voice.play_file('../data/media/audio/countdown.mp3')
+  File.delete("../data/media/audio/countdown.mp3")
   bot.voice_destroy(event.user.server)
 end
 
@@ -291,17 +293,17 @@ bot.command :countup do |event, number|
   countUpNumber = number.to_i
   countUpArray = [*1..countUpNumber]
   countUpSpeech = ESpeak::Speech.new("#{countUpArray}", voice: "en-uk", :speed   => 120)
-  countUpSpeech.save("media/audio/countup.mp3")
+  countUpSpeech.save("../data/media/audio/countup.mp3")
   bot.voice_connect(event.user.voice_channel)
-  event.voice.play_file('media/audio/countup.mp3')
-  File.delete("media/audio/countup.mp3")
+  event.voice.play_file('../data/media/audio/countup.mp3')
+  File.delete("../data/media/audio/countup.mp3")
   bot.voice_destroy(event.user.server)
 end
 
 bot.command :wow do |event|
   puts "WOW".yellow
   bot.voice_connect(event.user.voice_channel)
-  event.voice.play_file('media/audio/wow.mp3')
+  event.voice.play_file('../data/media/audio/wow.mp3')
   bot.voice_destroy(event.user.server)
 end
 
@@ -309,14 +311,14 @@ end
 bot.command :hellothere do |event|
   puts "Hello There!".blue
   bot.voice_connect(event.user.voice_channel)
-  event.voice.play_file('media/audio/hellothere.mp3')
+  event.voice.play_file('../data/media/audio/hellothere.mp3')
   bot.voice_destroy(event.user.server)
 end
 
 bot.command :nice do |event|
   puts "Nice!".green
   bot.voice_connect(event.user.voice_channel)
-  event.voice.play_file('media/audio/nice.mp3')
+  event.voice.play_file('../data/media/audio/nice.mp3')
   bot.voice_destroy(event.user.server)
 end
 
@@ -324,7 +326,7 @@ end
 bot.command :ouch do |event|
   puts "Ouch!".yellow
   bot.voice_connect(event.user.voice_channel)
-  event.voice.play_file('media/audio/ouch.mp3')
+  event.voice.play_file('../data/media/audio/ouch.mp3')
   #Replace these with your own Server ID's
   event.voice.destroy
 end
@@ -332,140 +334,140 @@ end
 bot.command :doit do |event|
   puts "Dewwit".blue
   bot.voice_connect(event.user.voice_channel)
-  event.voice.play_file('media/audio/doit.mp3')
+  event.voice.play_file('../data/media/audio/doit.mp3')
   bot.voice_destroy(event.user.server)
 end
 
 bot.command :oof do |event|
   puts "oof".green
   bot.voice_connect(event.user.voice_channel)
-  event.voice.play_file('media/audio/oof.mp3')
+  event.voice.play_file('../data/media/audio/oof.mp3')
   bot.voice_destroy(event.user.server)
 end
 
 bot.command :missionfailed do |event|
   puts "We'll Get Em Next Time".green
   bot.voice_connect(event.user.voice_channel)
-  event.voice.play_file('media/audio/missionfailed.mp3')
+  event.voice.play_file('../data/media/audio/missionfailed.mp3')
   bot.voice_destroy(event.user.server)
 end
 
 bot.command :howrude do |event|
   puts "How Rude".blue
   bot.voice_connect(event.user.voice_channel)
-  event.voice.play_file('media/audio/howrude.mp3')
+  event.voice.play_file('../data/media/audio/howrude.mp3')
   bot.voice_destroy(event.user.server)
 end
 
 bot.command :omaewa do |event|
   puts "NANI?!?!".red
   bot.voice_connect(event.user.voice_channel)
-  event.voice.play_file('media/audio/omaewa.mp3')
+  event.voice.play_file('../data/media/audio/omaewa.mp3')
   bot.voice_destroy(event.user.server)
 end
 
 bot.command :goteem do |event|
   puts "GOTEEM".blue
   bot.voice_connect(event.user.voice_channel)
-  event.voice.play_file('media/audio/goteem.mp3')
+  event.voice.play_file('../data/media/audio/goteem.mp3')
   bot.voice_destroy(event.user.server)
 end
 
 bot.command :disappointment do |event|
   puts "My day is ruined".green
   bot.voice_connect(event.user.voice_channel)
-  event.voice.play_file('media/audio/disappointment.mp3')
+  event.voice.play_file('../data/media/audio/disappointment.mp3')
   bot.voice_destroy(event.user.server)
 end
 
 bot.command :answer do |event|
   puts "Answer the question!".blue
   bot.voice_connect(event.user.voice_channel)
-  event.voice.play_file('media/audio/answer.mp3')
+  event.voice.play_file('../data/media/audio/answer.mp3')
   bot.voice_destroy(event.user.server)
 end
 
 bot.command :triple do |event|
   puts "Oh baby a triple!".red
   bot.voice_connect(event.user.voice_channel)
-  event.voice.play_file('media/audio/triple.mp3')
+  event.voice.play_file('../data/media/audio/triple.mp3')
   bot.voice_destroy(event.user.server)
 end
 
 bot.command :stupid do |event|
   puts "Stupid!".yellow
   bot.voice_connect(event.user.voice_channel)
-  event.voice.play_file('media/audio/stupid.mp3')
+  event.voice.play_file('../data/media/audio/stupid.mp3')
   bot.voice_destroy(event.user.server)
 end
 
 bot.command :damage do |event|
   puts "NOW THATS A LOTTA DAMAGE!".blue
   bot.voice_connect(event.user.voice_channel)
-  event.voice.play_file('media/audio/damage.mp3')
+  event.voice.play_file('../data/media/audio/damage.mp3')
   bot.voice_destroy(event.user.server)
 end
 
 bot.command :onlygame do |event|
   puts "Why you heff to be mad?".blue
   bot.voice_connect(event.user.voice_channel)
-  event.voice.play_file('media/audio/onlygame.mp3')
+  event.voice.play_file('../data/media/audio/onlygame.mp3')
   bot.voice_destroy(event.user.server)
 end
 
 bot.command :trap do |event|
   puts "Its a trap!".green
   bot.voice_connect(event.user.voice_channel)
-  event.voice.play_file('media/audio/trap.mp3')
+  event.voice.play_file('../data/media/audio/trap.mp3')
   bot.voice_destroy(event.user.server)
 end
 
 bot.command :healing do |event|
   puts "I NEED HEALING".green
   bot.voice_connect(event.user.voice_channel)
-  event.voice.play_file('media/audio/healing.mp3')
+  event.voice.play_file('../data/media/audio/healing.mp3')
   bot.voice_destroy(event.user.server)
 end
 
 bot.command :spicymeatball do |event|
   puts "Thats a spicy meatball!".green
   bot.voice_connect(event.user.voice_channel)
-  event.voice.play_file('media/audio/spicymeatball.mp3')
+  event.voice.play_file('../data/media/audio/spicymeatball.mp3')
   bot.voice_destroy(event.user.server)
 end
 
 bot.command :greatsuccess do |event|
   puts "Iz great success".green
   bot.voice_connect(event.user.voice_channel)
-  event.voice.play_file('media/audio/greatsuccess.mp3')
+  event.voice.play_file('../data/media/audio/greatsuccess.mp3')
   bot.voice_destroy(event.user.server)
 end
 
 bot.command :playedyourself do |event|
   puts "You played yourself".blue
   bot.voice_connect(event.user.voice_channel)
-  event.voice.play_file('media/audio/playedyourself.mp3')
+  event.voice.play_file('../data/media/audio/playedyourself.mp3')
   bot.voice_destroy(event.user.server)
 end
 
 bot.command :headshot do |event|
   puts "BOOM HEADSHOT".red
   bot.voice_connect(event.user.voice_channel)
-  event.voice.play_file('media/audio/headshot.mp3')
+  event.voice.play_file('../data/media/audio/headshot.mp3')
   bot.voice_destroy(event.user.server)
 end
 
 bot.command :nooo do |event|
   puts "NOOOOOOO".red
   bot.voice_connect(event.user.voice_channel)
-  event.voice.play_file('media/audio/nooo.mp3')
+  event.voice.play_file('../data/media/audio/nooo.mp3')
   bot.voice_destroy(event.user.server)
 end
 
 bot.command :spaghet do |event|
   puts "SOMEBODY TOUCHA MY SPAGHET".red
   bot.voice_connect(event.user.voice_channel)
-  event.voice.play_file('media/audio/spaghet.mp3')
+  event.voice.play_file('../data/media/audio/spaghet.mp3')
   bot.voice_destroy(event.user.server)
 end
 
@@ -479,7 +481,15 @@ end
 bot.command :warrior do |event|
   puts "DO YOU SEE WHAT YOU GET WHEN YOU MESS WITH THE WARRIOR".red
   bot.voice_connect(event.user.voice_channel)
-  event.voice.play_file('media/audio/warrior.mp3')
+  event.voice.play_file('../data/media/audio/warrior.mp3')
+  #Replace these with your own Server ID's
+  bot.voice_destroy(event.user.server)
+end
+
+bot.command :abouttime do |event|
+  puts "Its about time.".blue
+  bot.voice_connect(event.user.voice_channel)
+  event.voice.play_file('../data/media/audio/abouttime.mp3')
   #Replace these with your own Server ID's
   bot.voice_destroy(event.user.server)
 end
@@ -495,8 +505,8 @@ bot.command :play do |event, link|
   puts "Playing... #{link}".green
   bot.game = "Music in #{channel.name}"
   bot.voice_connect(event.user.voice_channel)
-  event.voice.play_file('media/music/song.mp3')
-  File.delete("media/music/song.mp3")
+  event.voice.play_file('../data/media/music/song.mp3')
+  File.delete("../data/media/music/song.mp3")
   playingMessage.delete
   bot.game = "Bad Jokes 24/7"
   bot.voice_destroy(event.user.server)
