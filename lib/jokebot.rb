@@ -125,6 +125,9 @@ Music player is now more verbose
 
 **Voice Commands**
 `!abouttime`
+
+**Dev Tools**
+Fixed accuracy of `!region`
 "
 
 #Change the 2nd number in parentheses for how many files there are
