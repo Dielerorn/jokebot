@@ -4,11 +4,11 @@
 <h3>Usage</h3>
 *  <code>git clone https://github.com/Dielerorn/jokebot.git</code> to copy the repo
 
-* Insert your Token and Client ID at the top of Jokebot.rb
+* Insert your Token at the top of data/.env
+
+* Insert your client ID at the top of lib/jokebot.rb
 
 * <code>bundle install</code> to install dependencies
-
-* <code>ruby jokebot.rb</code> to run
 
 * <code>!commands</code> for a list of commands
 
@@ -16,11 +16,11 @@
 
 * Create a web front-end for others to add jokes outside of pull-requests
 
-* Add voice functionality for playing music and things (Secured with libSodium)
-
 * Compress GIFs and optimize CPU Load when sending them
 
-* Seperate file for CLIENT ID & Tokens
+* Create a meme maker powered through PM's to the bot
+
+* Resolve YouTube URL's and gather data about music player submissions
 
 * ???
 
