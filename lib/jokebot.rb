@@ -499,7 +499,7 @@ bot.command :play do |event, link|
   channel = event.user.voice_channel
   puts "Downloading... #{link}".green
   downloadingMessage = event.send_message("Downloading...")
-  YoutubeDL.get "#{link}", extract_audio: true, audio_format: 'mp3',  output: 'media/music/song.mp3'
+  YoutubeDL.get "#{link}", extract_audio: true, audio_format: 'mp3',  output: '../data/media/music/song.mp3'
   downloadingMessage.delete
   playingMessage = event.send_message("Playing in #{channel.name}...")
   puts "Playing... #{link}".green
