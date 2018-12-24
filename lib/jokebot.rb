@@ -4,6 +4,7 @@ require 'dotenv'
 require 'colorize'
 require 'espeak'
 require 'youtube-dl.rb'
+require 'logging'
 
 #Bot and Token Config
 
@@ -19,6 +20,13 @@ prefix_proc = proc do |message|
     "#{first.downcase}#{rest}"
   end
 end
+
+#Configure logging
+log = Logging.logger(STDOUT)
+log.add_appenders(
+    Logging.appenders.file('../logs/development.log')
+)
+log.level = :debug
 
 #Load .env enviroment variables
 Dotenv.load('../data/.env')
@@ -135,22 +143,22 @@ helpCommands = [:commands, :help]
 
 #Commands =======================================================================================
 bot.command helpCommands do |event|
+  log.info "Someone needed help".light_red
   event.respond commands
-  puts "Someone needed help".light_red
 end
 
 bot.command :new do |event|
+  log.info "Showed the new commands".light_red
   event.respond new
-  puts "Showed the new commands".light_red
 end
 
 bot.command :joke do |event|
+  log.info "Joke sent".green
   event.respond File.readlines("../data/jokes.db").sample.strip
-  puts "Joke sent".green
 end
 
 bot.command :istalbertbanned do |event|
-  puts "I checked if Talbert was banned".green
+  log.info "I checked if Talbert was banned".green
   talbert = event.server.member(361438280757018624)
   general = bot.channel(406973058042298380)
   if talbert.can_send_messages?(general)
@@ -161,6 +169,7 @@ bot.command :istalbertbanned do |event|
 end
 
 bot.command :roll do |event|
+  log.info "#{rollUser} rolled a #{rollNumber}!".light_green
   rollNumber = rand(1..100)
   rollUser = event.user.username
   if rollNumber == 100
@@ -168,106 +177,105 @@ bot.command :roll do |event|
   else
   event.respond "#{rollUser} rolled a #{rollNumber}!"
   end
-  puts "#{rollUser} rolled a #{rollNumber}!".light_green
 end
 
 bot.command :thanks do |event|
+  log.info "Someone said thanks".blue
   event.respond "You're welcome!"
-  puts "Someone said thanks".blue
 end
 
 bot.command :lol do |event|
+  log.info "Someone laughed".red
   event.respond "( ° ͜ ʖ °)"
-  puts "Someone laughed".red
 end
 
 bot.command :goodbot do |event|
+  log.info "Good bot".green
   event.respond ":smile:"
-  puts "Good bot".green
 end
 
 bot.command :badbot do |event|
+  log.info "Bad bot".red
   event.respond ":sob:"
-  puts "Bad bot".red
 end
 
 bot.command :whatdidyousay do |event|
+  log.info "Navy Seal".yellow
   event.respond "What the fuck did you just fucking say about me, you little bitch? I'll have you know I graduated top of my class in the Navy Seals, and I've been involved in numerous secret raids on Al-Quaeda, and I have over 300 confirmed kills. I am trained in gorilla warfare and I'm the top sniper in the entire US armed forces. You are nothing to me but just another target. I will wipe you the fuck out with precision the likes of which has never been seen before on this Earth, mark my fucking words. You think you can get away with saying that shit to me over the Internet? Think again, fucker. As we speak I am contacting my secret network of spies across the USA and your IP is being traced right now so you better prepare for the storm, maggot. The storm that wipes out the pathetic little thing you call your life. You're fucking dead, kid. I can be anywhere, anytime, and I can kill you in over seven hundred ways, and that's just with my bare hands. Not only am I extensively trained in unarmed combat, but I have access to the entire arsenal of the United States Marine Corps and I will use it to its full extent to wipe your miserable ass off the face of the continent, you little shit. If only you could have known what unholy retribution your little \"clever\" comment was about to bring down upon you, maybe you would have held your fucking tongue. But you couldn't, you didn't, and now you're paying the price, you goddamn idiot. I will shit fury all over you and you will drown in it. You're fucking dead, kiddo."
-  puts "Navy Seal".yellow
 end
 
 bot.command :tragedy do |event|
+  log.info "Did you ever hear the tragedy of Darth Plagueis The Wise?".red
   event.respond "Did you ever hear the tragedy of Darth Plagueis The Wise? I thought not. It’s not a story the Jedi would tell you. It’s a Sith legend. Darth Plagueis was a Dark Lord of the Sith, so powerful and so wise he could use the Force to influence the midichlorians to create life… He had such a knowledge of the dark side that he could even keep the ones he cared about from dying. The dark side of the Force is a pathway to many abilities some consider to be unnatural. He became so powerful… the only thing he was afraid of was losing his power, which eventually, of course, he did. Unfortunately, he taught his apprentice everything he knew, then his apprentice killed him in his sleep. Ironic. He could save others from death, but not himself."
-  puts "Did you ever hear the tragedy of Darth Plagueis The Wise?".red
 end
 
 bot.command :howtoplaystarcraft do |event|
+  log.info "A scrub got rekt".yellow
   event.respond "git gud scrub"
-  puts "A scrub got rekt".yellow
 end
 
 bot.command :howtogetredditkarma do |event|
+  log.info "A redditor got learnt".purple
   event.respond "repost"
-  puts "A redditor got learnt".purple
 end
 
 bot.command :no do |event|
+  log.info "No.".orange
   event.respond "No."
-  puts "No.".orange
 end
 
 bot.command :yes do |event|
+  log.info "Yes!".green
   event.respond "Yes!"
-  puts "Yes!".green
 end
 
 bot.command :yep do |event|
+  log.info "Yep".light_blue
   event.attach_file(File.open('../data/media/yep.gif'))
-  puts "Yep".light_blue
 end
 
 bot.command :tricksy do |event|
+  log.info "TRICKSY".light_blue
   event.attach_file(File.open('../data/media/gollum.gif'))
-  puts "TRICKSY".light_blue
 end
 
 bot.command :wut do |event|
+  log.info "wut".light_green
   event.attach_file(File.open('../data/media/wut.gif'))
-  puts "wut".light_green
 end
 
 bot.command tastefullyRacistCommands do |event|
+  log.info "Tasteful".light_yellow
   event.attach_file(File.open(tastefullyracist.sample))
-  puts "Tasteful".light_yellow
 end
 
 bot.command :blackpeople do |event|
+  log.info "We all know what you were expecting".red
   event.respond "We all know what you were expecting, and frankly, im surprised at you..."
-  puts "We all know what you were expecting".red
 end
 
 bot.command :happybirthday do |event, name|
+  log.info "Birthday!".green
   event.respond "♪ Happy birthday to you! Happy birthday to you! Happy birthday dear #{name}! Happy birthday to you! ♪"
-  puts "Birthday!".green
 end
 
 bot.command :turtle do |event|
+  log.info "A turtle made it to the water".green
   event.respond "A :turtle: turtle :turtle: made :turtle: it :turtle: to :turtle: the :turtle: water!"
-  puts "A turtle made it to the water".green
 end
 
 bot.command :hackertext do |event, *text|
+  log.info "Im in.".green
   text = text.join(" ")
   leettext = text.gsub(Regexp.union(replacements.keys), replacements)
   event.respond leettext
-  puts "Im in.".green
 end
 
 #Audio Commands =======================================================================================
 
 bot.command :say do |event, *text|
   text = text.join(" ")
-  puts "I said \"#{text}\" ".green
+  log.info "I said \"#{text}\" ".green
   speech = ESpeak::Speech.new("#{text}", voice: "en-uk", :speed   => 120)
   speech.save("../data/media/audio/speech.mp3")
   bot.voice_connect(event.user.voice_channel)
@@ -277,7 +285,7 @@ bot.command :say do |event, *text|
 end
 
 bot.command :countdown do |event, number|
-  puts "I counted down from #{number}".green
+  log.info "I counted down from #{number}".green
   countDownNumber = number.to_i
   countDownArray = [*1..countDownNumber].reverse
   countDownSpeech = ESpeak::Speech.new("#{countDownArray}", voice: "en-uk", :speed   => 120)
@@ -289,7 +297,7 @@ bot.command :countdown do |event, number|
 end
 
 bot.command :countup do |event, number|
-  puts "I counted to #{number}".green
+  log.info "I counted to #{number}".green
   countUpNumber = number.to_i
   countUpArray = [*1..countUpNumber]
   countUpSpeech = ESpeak::Speech.new("#{countUpArray}", voice: "en-uk", :speed   => 120)
@@ -301,7 +309,7 @@ bot.command :countup do |event, number|
 end
 
 bot.command :wow do |event|
-  puts "WOW".yellow
+  log.info "WOW".yellow
   bot.voice_connect(event.user.voice_channel)
   event.voice.play_file('../data/media/audio/wow.mp3')
   bot.voice_destroy(event.user.server)
@@ -309,14 +317,14 @@ end
 
 
 bot.command :hellothere do |event|
-  puts "Hello There!".blue
+  log.info "Hello There!".blue
   bot.voice_connect(event.user.voice_channel)
   event.voice.play_file('../data/media/audio/hellothere.mp3')
   bot.voice_destroy(event.user.server)
 end
 
 bot.command :nice do |event|
-  puts "Nice!".green
+  log.info "Nice!".green
   bot.voice_connect(event.user.voice_channel)
   event.voice.play_file('../data/media/audio/nice.mp3')
   bot.voice_destroy(event.user.server)
@@ -324,7 +332,7 @@ end
 
 
 bot.command :ouch do |event|
-  puts "Ouch!".yellow
+  log.info "Ouch!".yellow
   bot.voice_connect(event.user.voice_channel)
   event.voice.play_file('../data/media/audio/ouch.mp3')
   #Replace these with your own Server ID's
@@ -332,154 +340,154 @@ bot.command :ouch do |event|
 end
 
 bot.command :doit do |event|
-  puts "Dewwit".blue
+  log.info "Dewwit".blue
   bot.voice_connect(event.user.voice_channel)
   event.voice.play_file('../data/media/audio/doit.mp3')
   bot.voice_destroy(event.user.server)
 end
 
 bot.command :oof do |event|
-  puts "oof".green
+  log.info "oof".green
   bot.voice_connect(event.user.voice_channel)
   event.voice.play_file('../data/media/audio/oof.mp3')
   bot.voice_destroy(event.user.server)
 end
 
 bot.command :missionfailed do |event|
-  puts "We'll Get Em Next Time".green
+  log.info "We'll Get Em Next Time".green
   bot.voice_connect(event.user.voice_channel)
   event.voice.play_file('../data/media/audio/missionfailed.mp3')
   bot.voice_destroy(event.user.server)
 end
 
 bot.command :howrude do |event|
-  puts "How Rude".blue
+  log.info "How Rude".blue
   bot.voice_connect(event.user.voice_channel)
   event.voice.play_file('../data/media/audio/howrude.mp3')
   bot.voice_destroy(event.user.server)
 end
 
 bot.command :omaewa do |event|
-  puts "NANI?!?!".red
+  log.info "NANI?!?!".red
   bot.voice_connect(event.user.voice_channel)
   event.voice.play_file('../data/media/audio/omaewa.mp3')
   bot.voice_destroy(event.user.server)
 end
 
 bot.command :goteem do |event|
-  puts "GOTEEM".blue
+  log.info "GOTEEM".blue
   bot.voice_connect(event.user.voice_channel)
   event.voice.play_file('../data/media/audio/goteem.mp3')
   bot.voice_destroy(event.user.server)
 end
 
 bot.command :disappointment do |event|
-  puts "My day is ruined".green
+  log.info "My day is ruined".green
   bot.voice_connect(event.user.voice_channel)
   event.voice.play_file('../data/media/audio/disappointment.mp3')
   bot.voice_destroy(event.user.server)
 end
 
 bot.command :answer do |event|
-  puts "Answer the question!".blue
+  log.info "Answer the question!".blue
   bot.voice_connect(event.user.voice_channel)
   event.voice.play_file('../data/media/audio/answer.mp3')
   bot.voice_destroy(event.user.server)
 end
 
 bot.command :triple do |event|
-  puts "Oh baby a triple!".red
+  log.info "Oh baby a triple!".red
   bot.voice_connect(event.user.voice_channel)
   event.voice.play_file('../data/media/audio/triple.mp3')
   bot.voice_destroy(event.user.server)
 end
 
 bot.command :stupid do |event|
-  puts "Stupid!".yellow
+  log.info "Stupid!".yellow
   bot.voice_connect(event.user.voice_channel)
   event.voice.play_file('../data/media/audio/stupid.mp3')
   bot.voice_destroy(event.user.server)
 end
 
 bot.command :damage do |event|
-  puts "NOW THATS A LOTTA DAMAGE!".blue
+  log.info "NOW THATS A LOTTA DAMAGE!".blue
   bot.voice_connect(event.user.voice_channel)
   event.voice.play_file('../data/media/audio/damage.mp3')
   bot.voice_destroy(event.user.server)
 end
 
 bot.command :onlygame do |event|
-  puts "Why you heff to be mad?".blue
+  log.info "Why you heff to be mad?".blue
   bot.voice_connect(event.user.voice_channel)
   event.voice.play_file('../data/media/audio/onlygame.mp3')
   bot.voice_destroy(event.user.server)
 end
 
 bot.command :trap do |event|
-  puts "Its a trap!".green
+  log.info "Its a trap!".green
   bot.voice_connect(event.user.voice_channel)
   event.voice.play_file('../data/media/audio/trap.mp3')
   bot.voice_destroy(event.user.server)
 end
 
 bot.command :healing do |event|
-  puts "I NEED HEALING".green
+  log.info "I NEED HEALING".green
   bot.voice_connect(event.user.voice_channel)
   event.voice.play_file('../data/media/audio/healing.mp3')
   bot.voice_destroy(event.user.server)
 end
 
 bot.command :spicymeatball do |event|
-  puts "Thats a spicy meatball!".green
+  log.info "Thats a spicy meatball!".green
   bot.voice_connect(event.user.voice_channel)
   event.voice.play_file('../data/media/audio/spicymeatball.mp3')
   bot.voice_destroy(event.user.server)
 end
 
 bot.command :greatsuccess do |event|
-  puts "Iz great success".green
+  log.info "Iz great success".green
   bot.voice_connect(event.user.voice_channel)
   event.voice.play_file('../data/media/audio/greatsuccess.mp3')
   bot.voice_destroy(event.user.server)
 end
 
 bot.command :playedyourself do |event|
-  puts "You played yourself".blue
+  log.info "You played yourself".blue
   bot.voice_connect(event.user.voice_channel)
   event.voice.play_file('../data/media/audio/playedyourself.mp3')
   bot.voice_destroy(event.user.server)
 end
 
 bot.command :headshot do |event|
-  puts "BOOM HEADSHOT".red
+  log.info "BOOM HEADSHOT".red
   bot.voice_connect(event.user.voice_channel)
   event.voice.play_file('../data/media/audio/headshot.mp3')
   bot.voice_destroy(event.user.server)
 end
 
 bot.command :nooo do |event|
-  puts "NOOOOOOO".red
+  log.info "NOOOOOOO".red
   bot.voice_connect(event.user.voice_channel)
   event.voice.play_file('../data/media/audio/nooo.mp3')
   bot.voice_destroy(event.user.server)
 end
 
 bot.command :spaghet do |event|
-  puts "SOMEBODY TOUCHA MY SPAGHET".red
+  log.info "SOMEBODY TOUCHA MY SPAGHET".red
   bot.voice_connect(event.user.voice_channel)
   event.voice.play_file('../data/media/audio/spaghet.mp3')
   bot.voice_destroy(event.user.server)
 end
 
 bot.command :pranked do |event|
-  puts "YOU JUST GOT PRANKED".green
+  log.info "YOU JUST GOT PRANKED".green
   bot.voice_connect(event.user.voice_channel)
   event.voice.play_file(pranked.sample)
   bot.voice_destroy(event.user.server)
 end
 
 bot.command :warrior do |event|
-  puts "DO YOU SEE WHAT YOU GET WHEN YOU MESS WITH THE WARRIOR".red
+  log.info "DO YOU SEE WHAT YOU GET WHEN YOU MESS WITH THE WARRIOR".red
   bot.voice_connect(event.user.voice_channel)
   event.voice.play_file('../data/media/audio/warrior.mp3')
   #Replace these with your own Server ID's
@@ -487,7 +495,7 @@ bot.command :warrior do |event|
 end
 
 bot.command :abouttime do |event|
-  puts "Its about time.".blue
+  log.info "Its about time.".blue
   bot.voice_connect(event.user.voice_channel)
   event.voice.play_file('../data/media/audio/abouttime.mp3')
   #Replace these with your own Server ID's
@@ -497,12 +505,12 @@ end
 # Music Player =====================================================================================
 bot.command :play do |event, link|
   channel = event.user.voice_channel
-  puts "Downloading... #{link}".green
+  log.info "Downloading... #{link}".green
   downloadingMessage = event.send_message("Downloading...")
   YoutubeDL.get "#{link}", extract_audio: true, audio_format: 'mp3',  output: '../data/media/music/song.mp3'
   downloadingMessage.delete
   playingMessage = event.send_message("Playing in #{channel.name}...")
-  puts "Playing... #{link}".green
+  log.info "Playing... #{link}".green
   bot.game = "Music in #{channel.name}"
   bot.voice_connect(event.user.voice_channel)
   event.voice.play_file('../data/media/music/song.mp3')
@@ -513,21 +521,21 @@ bot.command :play do |event, link|
 end
 
 bot.command :pause do |event|
-  puts "Audio paused".blue
+  log.info "Audio paused".blue
   event.voice.pause
   bot.game = "Music paused in #{channel.name}"
   nil
 end
 
 bot.command :continue do |event|
-  puts "Audio continued".blue
+  log.info "Audio continued".blue
   event.voice.continue
   bot.game = "Music in #{channel.name}"
   nil
 end
 
 bot.command :stop do |event|
-  puts "Audio Stopped".red
+  log.info "Audio Stopped".red
   bot.voice_destroy(event.user.server)
   bot.game = "Bad Jokes 24/7"
   nil
@@ -535,6 +543,7 @@ end
 
 # Mini Games =======================================================================================
 bot.message(start_with: '!guessthenumber') do |event|
+  log.info "Guess the number!".green
   magic = rand(1..10)
   event.user.await(:guess) do |guess_event|
     guess = guess_event.message.content.to_i
@@ -549,6 +558,7 @@ bot.message(start_with: '!guessthenumber') do |event|
 end
 
 bot.message(start_with: '!guessthenumberhard') do |event|
+  log.info "Guess the number HARD!".red
   magic = rand(1..10)
   event.user.await(:guess) do |guess_event|
     guess = guess_event.message.content.to_i
@@ -565,6 +575,7 @@ end
 
 # Dev Tools =======================================================================================
 bot.message(content: '!ping') do |event|
+  log.info "Ping!".blue
   # The `respond` method returns a `Message` object, which is stored in a variable `m`. The `edit` method is then called
   # to edit the message with the time difference between when the event was received and after the message was sent.
   m = event.respond('Pong!')
@@ -572,17 +583,17 @@ bot.message(content: '!ping') do |event|
 end
 
 bot.command :source do |event|
+  log.info "Someone is looking at my source".blue
   event.respond "https://github.com/Dielerorn/jokebot"
-  puts "Someone is looking at my source".blue
 end
 
 bot.command :websource do |event|
+  log.info "Someone is looking at my web source".blue
   event.respond "https://github.com/Dielerorn/jokebot-web"
-  puts "Someone is looking at my web source".blue
 end
 
-bot.command(:region, chain_usable: false, description: "Gets the region the server is stationed in.", permission_level: 1) do |event|
-  puts "Getting Region".yellow
+bot.command(:region, chain_usable: false, description: "Gets the region the server is stationed in.") do |event|
+  log.info "Getting Region".yellow
   event.server.region
 end
 
