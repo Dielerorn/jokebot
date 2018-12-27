@@ -4,9 +4,26 @@ require 'dotenv'
 require 'colorize'
 require 'espeak'
 require 'youtube-dl.rb'
+require "mediainfo"
+require 'ruby-progressbar'
 require 'logging'
 
-#Bot and Token Config
+puts "########################".green
+puts "#WELCOME TO THE JOKEBOT#".green
+puts "########################".green
+
+#Load .env enviroment variables
+Dotenv.load('../data/.env')
+
+#Configure logging
+log = Logging.logger(STDOUT)
+log.add_appenders(
+    Logging.appenders.file('../logs/development.log')
+)
+log.level = :debug
+
+#Specify alternate path to MediaInfo
+ENV['MEDIAINFO_PATH'] = "/usr/bin/mediainfo"
 
 #Make commands case insensitive
 prefix_proc = proc do |message|
@@ -20,16 +37,6 @@ prefix_proc = proc do |message|
     "#{first.downcase}#{rest}"
   end
 end
-
-#Configure logging
-log = Logging.logger(STDOUT)
-log.add_appenders(
-    Logging.appenders.file('../logs/development.log')
-)
-log.level = :debug
-
-#Load .env enviroment variables
-Dotenv.load('../data/.env')
 
 bot = Discordrb::Commands::CommandBot.new token: ENV['TOKEN'], client_id: 446820464770154507, prefix: prefix_proc
 
@@ -113,13 +120,14 @@ Type `!new` to see the newest commands
 `!source`
 `!websource`
 `!region`
+`!restart`
 "
 
 new = "
 NEW FILE STRUCTURE AT `!source`
 
 **Music Player**
-Music player is now more verbose
+Music player is now more verbose (Including a progress bar)
 `!pause`
 `!continue`
 
@@ -128,6 +136,8 @@ Music player is now more verbose
 
 **Dev Tools**
 Fixed accuracy of `!region`
+Improved logging
+`!restart`
 "
 
 #Change the 2nd number in parentheses for how many files there are
@@ -508,15 +518,38 @@ end
 # Music Player =====================================================================================
 bot.command :play do |event, link|
   channel = event.user.voice_channel
+  currentlyPlaying = false
+  #Download music
   log.info "Downloading... #{link}".green
   downloadingMessage = event.send_message("Downloading...")
   YoutubeDL.get "#{link}", extract_audio: true, audio_format: 'mp3',  output: '../data/media/music/song.mp3'
   downloadingMessage.delete
-  playingMessage = event.send_message("Playing in #{channel.name}...")
+  #Get audio data
+  media_info = MediaInfo.from('../data/media/music/song.mp3')
+  songLength = media_info.audio.duration / 1000 #Song Length in seconds
+  songLengthMinutes = [songLength / 3600, songLength / 60 % 60, songLength % 60].map { |t| t.to_s.rjust(2,'0') }.join(':') #Convert seconds into hours:minutes:seconds format
+  puts "Song is #{songLength} seconds long".green
+  puts "Song is #{songLengthMinutes} minutes long".green
+  #Progress Bar
+  progressbar = ProgressBar.create(:title => "Playing in #{channel.name}   00:00 ", :starting_at => 0, :total => songLength, :remainder_mark => "-", :progress_mark => "#", :length => 140)
+  playingMessage = event.send_message("#{progressbar} #{songLengthMinutes}")
+  Thread.new do
+    while currentlyPlaying == true do
+      sleep 7
+      7.times { progressbar.increment } #Increment the progress bar by 1 second
+      playingMessage.edit "#{progressbar} #{songLengthMinutes}"
+    end
+  end
+  #End of Progress Bar
+  #Play Music
+  currentlyPlaying = true
   log.info "Playing... #{link}".green
   bot.game = "Music in #{channel.name}"
   bot.voice_connect(event.user.voice_channel)
   event.voice.play_file('../data/media/music/song.mp3')
+  #Delete song file and disconnect
+  sleep 10
+  currentlyPlaying = false
   File.delete("../data/media/music/song.mp3")
   playingMessage.delete
   bot.game = "Bad Jokes 24/7"
@@ -526,6 +559,7 @@ end
 bot.command :pause do |event|
   log.info "Audio paused".blue
   event.voice.pause
+  progressbar.pause
   bot.game = "Music paused in #{channel.name}"
   nil
 end
@@ -540,6 +574,7 @@ end
 bot.command :stop do |event|
   log.info "Audio Stopped".red
   bot.voice_destroy(event.user.server)
+  progressbar.stop
   bot.game = "Bad Jokes 24/7"
   nil
 end
@@ -598,6 +633,12 @@ end
 bot.command(:region, chain_usable: false, description: "Gets the region the server is stationed in.") do |event|
   log.info "Getting Region".yellow
   event.server.region
+end
+
+bot.command :restart do |event|
+  log.info "I was restarted".red
+  event.respond "Restarting..."
+  exec "./run.sh"
 end
 
 # ======================================================
