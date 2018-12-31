@@ -1,6 +1,6 @@
 # A Discord bot that tells really bad jokes
 require 'discordrb'
-require 'dotenv'
+require 'dotenv/load'
 require 'colorize'
 require 'espeak'
 require 'youtube-dl.rb'
@@ -12,8 +12,8 @@ puts "########################".green
 puts "#WELCOME TO THE JOKEBOT#".green
 puts "########################".green
 
-#Load .env enviroment variables
-Dotenv.load('data/.env')
+#Load .env in a new path (Change require 'dotenv/load' to require 'dotenv' when using this)
+#Dotenv.load('data/.env')
 
 #Disable logging cause the gem never has permission to write. Replace all puts with puts if you want to enable it again
 =begin
