@@ -121,6 +121,7 @@ Type `!new` to see the newest commands
 `!websource`
 `!region`
 `!restart`
+`!logs`
 "
 
 new = "
@@ -136,8 +137,11 @@ Music player is now more verbose (Including a progress bar)
 
 **Dev Tools**
 Fixed accuracy of `!region`
-Improved logging
+`!logs`
 `!restart`
+
+**Bugs/Issues**
+`!stop` doesn't remove the progress bar due to restrictions in the way Discord handles DOM elements
 "
 
 #Change the 2nd number in parentheses for how many files there are
@@ -548,7 +552,7 @@ bot.command :play do |event, link|
   bot.voice_connect(event.user.voice_channel)
   event.voice.play_file('../data/media/music/song.mp3')
   #Delete song file and disconnect
-  sleep 10
+  sleep 5
   currentlyPlaying = false
   File.delete("../data/media/music/song.mp3")
   playingMessage.delete
@@ -574,6 +578,7 @@ end
 bot.command :stop do |event|
   log.info "Audio Stopped".red
   bot.voice_destroy(event.user.server)
+  File.delete("../data/media/music/song.mp3")
   progressbar.stop
   bot.game = "Bad Jokes 24/7"
   nil
@@ -639,6 +644,11 @@ bot.command :restart do |event|
   log.info "I was restarted".red
   event.respond "Restarting..."
   exec "./run.sh"
+end
+
+bot.command :logs do |event|
+  log.info "Someone downloaded the log files".blue
+  event.attach_file(File.open('../logs/development.log'))
 end
 
 # ======================================================
