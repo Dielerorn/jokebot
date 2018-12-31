@@ -1,6 +1,6 @@
 # A Discord bot that tells really bad jokes
 require 'discordrb'
-require 'dotenv/load'
+require 'dotenv'
 require 'colorize'
 require 'espeak'
 require 'youtube-dl.rb'
@@ -13,7 +13,7 @@ puts "#WELCOME TO THE JOKEBOT#".green
 puts "########################".green
 
 #Load .env in a new path (Change require 'dotenv/load' to require 'dotenv' when using this)
-#Dotenv.load('data/.env')
+Dotenv.load('../data/.env')
 
 #Disable logging cause the gem never has permission to write. Replace all puts with puts if you want to enable it again
 =begin
@@ -559,6 +559,7 @@ bot.command :play do |event, link|
   currentlyPlaying = false
   File.delete("../data/media/music/song.mp3")
   playingMessage.delete
+  progressbar.stop
   bot.game = "Bad Jokes 24/7"
   bot.voice_destroy(event.user.server)
 end
