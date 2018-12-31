@@ -648,7 +648,11 @@ end
 
 bot.command :logs do |event|
   log.info "Someone downloaded the log files".blue
-  event.attach_file(File.open('../logs/development.log'))
+  if File.exist?('../logs/development.log')
+    event.attach_file(File.open('../logs/development.log'))
+  else
+    event.respond "No log file is available"
+  end
 end
 
 # ======================================================

@@ -1,1 +1,1 @@
-worker:       bin/run.sh
+worker:       ruby bin/run.rb
