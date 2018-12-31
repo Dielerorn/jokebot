@@ -144,7 +144,7 @@ Fixed accuracy of `!region`
 `!restart`
 
 **Bugs/Issues**
-`!stop` doesn't remove the progress bar due to restrictions in the way Discord handles DOM elements
+`!stop` and `!pause` doesn't remove the progress bar due to restrictions in the way Discord handles DOM elements
 "
 
 #Change the 2nd number in parentheses for how many files there are
@@ -583,8 +583,8 @@ bot.command :stop do |event|
   puts "Audio Stopped".red
   bot.voice_destroy(event.user.server)
   File.delete("../data/media/music/song.mp3")
-  progressbar.stop
   bot.game = "Bad Jokes 24/7"
+  progressbar.stop
   nil
 end
 
