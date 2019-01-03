@@ -15,7 +15,7 @@ puts "########################".green
 #Load .env in a new path (Change require 'dotenv/load' to require 'dotenv' when using this)
 Dotenv.load('../data/.env')
 
-#Disable logging cause the gem never has permission to write. Replace all puts with puts if you want to enable it again
+#Disable logging cause the gem never has permission to write. Replace all puts with log.info if you want to enable it again
 =begin
 #Configure logging
 log = Logging.logger(STDOUT)
@@ -128,20 +128,11 @@ Type `!new` to see the newest commands
 "
 
 new = "
-NEW FILE STRUCTURE AT `!source`
-
-**Music Player**
-Music player is now more verbose (Including a progress bar)
-`!pause`
-`!continue`
-
-**Voice Commands**
-`!abouttime`
+The bot will now tell you if you initiate a voice command without being connected to a voice channel
 
 **Dev Tools**
-Fixed accuracy of `!region`
-`!logs`
-`!restart`
+New file structure at `!source`
+Support for webhooks at `!source`
 
 **Bugs/Issues**
 `!stop` and `!pause` doesn't remove the progress bar due to restrictions in the way Discord handles DOM elements
@@ -294,274 +285,398 @@ end
 #Audio Commands =======================================================================================
 
 bot.command :say do |event, *text|
-  text = text.join(" ")
-  puts "I said \"#{text}\" ".green
-  speech = ESpeak::Speech.new("#{text}", voice: "en-uk", :speed   => 120)
-  speech.save("../data/media/audio/speech.mp3")
-  bot.voice_connect(event.user.voice_channel)
-  event.voice.play_file('../data/media/audio/speech.mp3')
-  File.delete("../data/media/audio/speech.mp3")
-  bot.voice_destroy(event.user.server)
+  if event.user.voice_channel == nil
+    event.respond "User must be in a voice channel"
+  else
+    text = text.join(" ")
+    puts "I said \"#{text}\" ".green
+    speech = ESpeak::Speech.new("#{text}", voice: "en-uk", :speed   => 120)
+    speech.save("../data/media/audio/speech.mp3")
+    bot.voice_connect(event.user.voice_channel)
+    event.voice.play_file('../data/media/audio/speech.mp3')
+    File.delete("../data/media/audio/speech.mp3")
+    bot.voice_destroy(event.user.server)
+  end
 end
 
 bot.command :countdown do |event, number|
-  puts "I counted down from #{number}".green
-  countDownNumber = number.to_i
-  countDownArray = [*1..countDownNumber].reverse
-  countDownSpeech = ESpeak::Speech.new("#{countDownArray}", voice: "en-uk", :speed   => 120)
-  countDownSpeech.save("../data/media/audio/countdown.mp3")
-  bot.voice_connect(event.user.voice_channel)
-  event.voice.play_file('../data/media/audio/countdown.mp3')
-  File.delete("../data/media/audio/countdown.mp3")
-  bot.voice_destroy(event.user.server)
+  if event.user.voice_channel == nil
+    event.respond "User must be in a voice channel"
+  else
+    puts "I counted down from #{number}".green
+    countDownNumber = number.to_i
+    countDownArray = [*1..countDownNumber].reverse
+    countDownSpeech = ESpeak::Speech.new("#{countDownArray}", voice: "en-uk", :speed   => 120)
+    countDownSpeech.save("../data/media/audio/countdown.mp3")
+    bot.voice_connect(event.user.voice_channel)
+    event.voice.play_file('../data/media/audio/countdown.mp3')
+    File.delete("../data/media/audio/countdown.mp3")
+    bot.voice_destroy(event.user.server)
+  end
 end
 
 bot.command :countup do |event, number|
-  puts "I counted to #{number}".green
-  countUpNumber = number.to_i
-  countUpArray = [*1..countUpNumber]
-  countUpSpeech = ESpeak::Speech.new("#{countUpArray}", voice: "en-uk", :speed   => 120)
-  countUpSpeech.save("../data/media/audio/countup.mp3")
-  bot.voice_connect(event.user.voice_channel)
-  event.voice.play_file('../data/media/audio/countup.mp3')
-  File.delete("../data/media/audio/countup.mp3")
-  bot.voice_destroy(event.user.server)
+  if event.user.voice_channel == nil
+    event.respond "User must be in a voice channel"
+  else
+    puts "I counted to #{number}".green
+    countUpNumber = number.to_i
+    countUpArray = [*1..countUpNumber]
+    countUpSpeech = ESpeak::Speech.new("#{countUpArray}", voice: "en-uk", :speed   => 120)
+    countUpSpeech.save("../data/media/audio/countup.mp3")
+    bot.voice_connect(event.user.voice_channel)
+    event.voice.play_file('../data/media/audio/countup.mp3')
+    File.delete("../data/media/audio/countup.mp3")
+    bot.voice_destroy(event.user.server)
+  end
 end
 
 bot.command :wow do |event|
-  puts "WOW".yellow
-  bot.voice_connect(event.user.voice_channel)
-  event.voice.play_file('../data/media/audio/wow.mp3')
-  bot.voice_destroy(event.user.server)
+  if event.user.voice_channel == nil
+    event.respond "User must be in a voice channel"
+  else
+    puts "WOW".yellow
+    bot.voice_connect(event.user.voice_channel)
+    event.voice.play_file('../data/media/audio/wow.mp3')
+    bot.voice_destroy(event.user.server)
+  end
 end
 
 
 bot.command :hellothere do |event|
-  puts "Hello There!".blue
-  bot.voice_connect(event.user.voice_channel)
-  event.voice.play_file('../data/media/audio/hellothere.mp3')
-  bot.voice_destroy(event.user.server)
+  if event.user.voice_channel == nil
+    event.respond "User must be in a voice channel"
+  else
+    puts "Hello There!".blue
+    bot.voice_connect(event.user.voice_channel)
+    event.voice.play_file('../data/media/audio/hellothere.mp3')
+    bot.voice_destroy(event.user.server)
+  end
 end
 
 bot.command :nice do |event|
-  puts "Nice!".green
-  bot.voice_connect(event.user.voice_channel)
-  event.voice.play_file('../data/media/audio/nice.mp3')
-  bot.voice_destroy(event.user.server)
+  if event.user.voice_channel == nil
+    event.respond "User must be in a voice channel"
+  else
+    puts "Nice!".green
+    bot.voice_connect(event.user.voice_channel)
+    event.voice.play_file('../data/media/audio/nice.mp3')
+    bot.voice_destroy(event.user.server)
+  end
 end
 
 
 bot.command :ouch do |event|
-  puts "Ouch!".yellow
-  bot.voice_connect(event.user.voice_channel)
-  event.voice.play_file('../data/media/audio/ouch.mp3')
-  #Replace these with your own Server ID's
-  event.voice.destroy
+  if event.user.voice_channel == nil
+    event.respond "User must be in a voice channel"
+  else
+    puts "Ouch!".yellow
+    bot.voice_connect(event.user.voice_channel)
+    event.voice.play_file('../data/media/audio/ouch.mp3')
+    #Replace these with your own Server ID's
+    event.voice.destroy
+  end
 end
 
 bot.command :doit do |event|
-  puts "Dewwit".blue
-  bot.voice_connect(event.user.voice_channel)
-  event.voice.play_file('../data/media/audio/doit.mp3')
-  bot.voice_destroy(event.user.server)
+  if event.user.voice_channel == nil
+    event.respond "User must be in a voice channel"
+  else
+    puts "Dewwit".blue
+    bot.voice_connect(event.user.voice_channel)
+    event.voice.play_file('../data/media/audio/doit.mp3')
+    bot.voice_destroy(event.user.server)
+  end
 end
 
 bot.command :oof do |event|
-  puts "oof".green
-  bot.voice_connect(event.user.voice_channel)
-  event.voice.play_file('../data/media/audio/oof.mp3')
-  bot.voice_destroy(event.user.server)
+  if event.user.voice_channel == nil
+    event.respond "User must be in a voice channel"
+  else
+    puts "oof".green
+    bot.voice_connect(event.user.voice_channel)
+    event.voice.play_file('../data/media/audio/oof.mp3')
+    bot.voice_destroy(event.user.server)
+  end
 end
 
 bot.command :missionfailed do |event|
-  puts "We'll Get Em Next Time".green
-  bot.voice_connect(event.user.voice_channel)
-  event.voice.play_file('../data/media/audio/missionfailed.mp3')
-  bot.voice_destroy(event.user.server)
+  if event.user.voice_channel == nil
+    event.respond "User must be in a voice channel"
+  else
+    puts "We'll Get Em Next Time".green
+    bot.voice_connect(event.user.voice_channel)
+    event.voice.play_file('../data/media/audio/missionfailed.mp3')
+    bot.voice_destroy(event.user.server)
+  end
 end
 
 bot.command :howrude do |event|
-  puts "How Rude".blue
-  bot.voice_connect(event.user.voice_channel)
-  event.voice.play_file('../data/media/audio/howrude.mp3')
-  bot.voice_destroy(event.user.server)
+  if event.user.voice_channel == nil
+    event.respond "User must be in a voice channel"
+  else
+    puts "How Rude".blue
+    bot.voice_connect(event.user.voice_channel)
+    event.voice.play_file('../data/media/audio/howrude.mp3')
+    bot.voice_destroy(event.user.server)
+  end
 end
 
 bot.command :omaewa do |event|
-  puts "NANI?!?!".red
-  bot.voice_connect(event.user.voice_channel)
-  event.voice.play_file('../data/media/audio/omaewa.mp3')
-  bot.voice_destroy(event.user.server)
+  if event.user.voice_channel == nil
+    event.respond "User must be in a voice channel"
+  else
+    puts "NANI?!?!".red
+    bot.voice_connect(event.user.voice_channel)
+    event.voice.play_file('../data/media/audio/omaewa.mp3')
+    bot.voice_destroy(event.user.server)
+  end
 end
 
 bot.command :goteem do |event|
-  puts "GOTEEM".blue
-  bot.voice_connect(event.user.voice_channel)
-  event.voice.play_file('../data/media/audio/goteem.mp3')
-  bot.voice_destroy(event.user.server)
+  if event.user.voice_channel == nil
+    event.respond "User must be in a voice channel"
+  else
+    puts "GOTEEM".blue
+    bot.voice_connect(event.user.voice_channel)
+    event.voice.play_file('../data/media/audio/goteem.mp3')
+    bot.voice_destroy(event.user.server)
+  end
 end
 
 bot.command :disappointment do |event|
-  puts "My day is ruined".green
-  bot.voice_connect(event.user.voice_channel)
-  event.voice.play_file('../data/media/audio/disappointment.mp3')
-  bot.voice_destroy(event.user.server)
+  if event.user.voice_channel == nil
+    event.respond "User must be in a voice channel"
+  else
+    puts "My day is ruined".green
+    bot.voice_connect(event.user.voice_channel)
+    event.voice.play_file('../data/media/audio/disappointment.mp3')
+    bot.voice_destroy(event.user.server)
+  end
 end
 
 bot.command :answer do |event|
-  puts "Answer the question!".blue
-  bot.voice_connect(event.user.voice_channel)
-  event.voice.play_file('../data/media/audio/answer.mp3')
-  bot.voice_destroy(event.user.server)
+  if event.user.voice_channel == nil
+    event.respond "User must be in a voice channel"
+  else
+    puts "Answer the question!".blue
+    bot.voice_connect(event.user.voice_channel)
+    event.voice.play_file('../data/media/audio/answer.mp3')
+    bot.voice_destroy(event.user.server)
+  end
 end
 
 bot.command :triple do |event|
-  puts "Oh baby a triple!".red
-  bot.voice_connect(event.user.voice_channel)
-  event.voice.play_file('../data/media/audio/triple.mp3')
-  bot.voice_destroy(event.user.server)
+  if event.user.voice_channel == nil
+    event.respond "User must be in a voice channel"
+  else
+    puts "Oh baby a triple!".red
+    bot.voice_connect(event.user.voice_channel)
+    event.voice.play_file('../data/media/audio/triple.mp3')
+    bot.voice_destroy(event.user.server)
+  end
 end
 
 bot.command :stupid do |event|
-  puts "Stupid!".yellow
-  bot.voice_connect(event.user.voice_channel)
-  event.voice.play_file('../data/media/audio/stupid.mp3')
-  bot.voice_destroy(event.user.server)
+  if event.user.voice_channel == nil
+    event.respond "User must be in a voice channel"
+  else
+    puts "Stupid!".yellow
+    bot.voice_connect(event.user.voice_channel)
+    event.voice.play_file('../data/media/audio/stupid.mp3')
+    bot.voice_destroy(event.user.server)
+  end
 end
 
 bot.command :damage do |event|
-  puts "NOW THATS A LOTTA DAMAGE!".blue
-  bot.voice_connect(event.user.voice_channel)
-  event.voice.play_file('../data/media/audio/damage.mp3')
-  bot.voice_destroy(event.user.server)
+  if event.user.voice_channel == nil
+    event.respond "User must be in a voice channel"
+  else
+    puts "NOW THATS A LOTTA DAMAGE!".blue
+    bot.voice_connect(event.user.voice_channel)
+    event.voice.play_file('../data/media/audio/damage.mp3')
+    bot.voice_destroy(event.user.server)
+  end
 end
 
 bot.command :onlygame do |event|
-  puts "Why you heff to be mad?".blue
-  bot.voice_connect(event.user.voice_channel)
-  event.voice.play_file('../data/media/audio/onlygame.mp3')
-  bot.voice_destroy(event.user.server)
+  if event.user.voice_channel == nil
+    event.respond "User must be in a voice channel"
+  else
+    puts "Why you heff to be mad?".blue
+    bot.voice_connect(event.user.voice_channel)
+    event.voice.play_file('../data/media/audio/onlygame.mp3')
+    bot.voice_destroy(event.user.server)
+  end
 end
 
 bot.command :trap do |event|
-  puts "Its a trap!".green
-  bot.voice_connect(event.user.voice_channel)
-  event.voice.play_file('../data/media/audio/trap.mp3')
-  bot.voice_destroy(event.user.server)
+  if event.user.voice_channel == nil
+    event.respond "User must be in a voice channel"
+  else
+    puts "Its a trap!".green
+    bot.voice_connect(event.user.voice_channel)
+    event.voice.play_file('../data/media/audio/trap.mp3')
+    bot.voice_destroy(event.user.server)
+  end
 end
 
 bot.command :healing do |event|
-  puts "I NEED HEALING".green
-  bot.voice_connect(event.user.voice_channel)
-  event.voice.play_file('../data/media/audio/healing.mp3')
-  bot.voice_destroy(event.user.server)
+  if event.user.voice_channel == nil
+    event.respond "User must be in a voice channel"
+  else
+    puts "I NEED HEALING".green
+    bot.voice_connect(event.user.voice_channel)
+    event.voice.play_file('../data/media/audio/healing.mp3')
+    bot.voice_destroy(event.user.server)
+  end
 end
 
 bot.command :spicymeatball do |event|
-  puts "Thats a spicy meatball!".green
-  bot.voice_connect(event.user.voice_channel)
-  event.voice.play_file('../data/media/audio/spicymeatball.mp3')
-  bot.voice_destroy(event.user.server)
+  if event.user.voice_channel == nil
+    event.respond "User must be in a voice channel"
+  else
+    puts "Thats a spicy meatball!".green
+    bot.voice_connect(event.user.voice_channel)
+    event.voice.play_file('../data/media/audio/spicymeatball.mp3')
+    bot.voice_destroy(event.user.server)
+  end
 end
 
 bot.command :greatsuccess do |event|
-  puts "Iz great success".green
-  bot.voice_connect(event.user.voice_channel)
-  event.voice.play_file('../data/media/audio/greatsuccess.mp3')
-  bot.voice_destroy(event.user.server)
+  if event.user.voice_channel == nil
+    event.respond "User must be in a voice channel"
+  else
+    puts "Iz great success".green
+    bot.voice_connect(event.user.voice_channel)
+    event.voice.play_file('../data/media/audio/greatsuccess.mp3')
+    bot.voice_destroy(event.user.server)
+  end
 end
 
 bot.command :playedyourself do |event|
-  puts "You played yourself".blue
-  bot.voice_connect(event.user.voice_channel)
-  event.voice.play_file('../data/media/audio/playedyourself.mp3')
-  bot.voice_destroy(event.user.server)
+  if event.user.voice_channel == nil
+    event.respond "User must be in a voice channel"
+  else
+    puts "You played yourself".blue
+    bot.voice_connect(event.user.voice_channel)
+    event.voice.play_file('../data/media/audio/playedyourself.mp3')
+    bot.voice_destroy(event.user.server)
+  end
 end
 
 bot.command :headshot do |event|
-  puts "BOOM HEADSHOT".red
-  bot.voice_connect(event.user.voice_channel)
-  event.voice.play_file('../data/media/audio/headshot.mp3')
-  bot.voice_destroy(event.user.server)
+  if event.user.voice_channel == nil
+    event.respond "User must be in a voice channel"
+  else
+    puts "BOOM HEADSHOT".red
+    bot.voice_connect(event.user.voice_channel)
+    event.voice.play_file('../data/media/audio/headshot.mp3')
+    bot.voice_destroy(event.user.server)
+  end
 end
 
 bot.command :nooo do |event|
-  puts "NOOOOOOO".red
-  bot.voice_connect(event.user.voice_channel)
-  event.voice.play_file('../data/media/audio/nooo.mp3')
-  bot.voice_destroy(event.user.server)
+  if event.user.voice_channel == nil
+    event.respond "User must be in a voice channel"
+  else
+    puts "NOOOOOOO".red
+    bot.voice_connect(event.user.voice_channel)
+    event.voice.play_file('../data/media/audio/nooo.mp3')
+    bot.voice_destroy(event.user.server)
+  end
 end
 
 bot.command :spaghet do |event|
-  puts "SOMEBODY TOUCHA MY SPAGHET".red
-  bot.voice_connect(event.user.voice_channel)
-  event.voice.play_file('../data/media/audio/spaghet.mp3')
-  bot.voice_destroy(event.user.server)
+  if event.user.voice_channel == nil
+    event.respond "User must be in a voice channel"
+  else
+    puts "SOMEBODY TOUCHA MY SPAGHET".red
+    bot.voice_connect(event.user.voice_channel)
+    event.voice.play_file('../data/media/audio/spaghet.mp3')
+    bot.voice_destroy(event.user.server)
+  end
 end
 
 bot.command :pranked do |event|
-  puts "YOU JUST GOT PRANKED".green
-  bot.voice_connect(event.user.voice_channel)
-  event.voice.play_file(pranked.sample)
-  bot.voice_destroy(event.user.server)
+  if event.user.voice_channel == nil
+    event.respond "User must be in a voice channel"
+  else
+    puts "YOU JUST GOT PRANKED".green
+    bot.voice_connect(event.user.voice_channel)
+    event.voice.play_file(pranked.sample)
+    bot.voice_destroy(event.user.server)
+  end
 end
 
 bot.command :warrior do |event|
-  puts "DO YOU SEE WHAT YOU GET WHEN YOU MESS WITH THE WARRIOR".red
-  bot.voice_connect(event.user.voice_channel)
-  event.voice.play_file('../data/media/audio/warrior.mp3')
-  #Replace these with your own Server ID's
-  bot.voice_destroy(event.user.server)
+  if event.user.voice_channel == nil
+    event.respond "User must be in a voice channel"
+  else
+    puts "DO YOU SEE WHAT YOU GET WHEN YOU MESS WITH THE WARRIOR".red
+    bot.voice_connect(event.user.voice_channel)
+    event.voice.play_file('../data/media/audio/warrior.mp3')
+    #Replace these with your own Server ID's
+    bot.voice_destroy(event.user.server)
+  end
 end
 
 bot.command :abouttime do |event|
-  puts "Its about time.".blue
-  bot.voice_connect(event.user.voice_channel)
-  event.voice.play_file('../data/media/audio/abouttime.mp3')
-  #Replace these with your own Server ID's
-  bot.voice_destroy(event.user.server)
+  if event.user.voice_channel == nil
+    event.respond "User must be in a voice channel"
+  else
+    puts "Its about time.".blue
+    bot.voice_connect(event.user.voice_channel)
+    event.voice.play_file('../data/media/audio/abouttime.mp3')
+    #Replace these with your own Server ID's
+    bot.voice_destroy(event.user.server)
+  end
 end
 
 # Music Player =====================================================================================
 bot.command :play do |event, link|
-  channel = event.user.voice_channel
-  currentlyPlaying = false
-  #Download music
-  puts "Downloading... #{link}".green
-  downloadingMessage = event.send_message("Downloading...")
-  YoutubeDL.get "#{link}", extract_audio: true, audio_format: 'mp3',  output: '../data/media/music/song.mp3'
-  downloadingMessage.delete
-  #Get audio data
-  media_info = MediaInfo.from('../data/media/music/song.mp3')
-  songLength = media_info.audio.duration / 1000 #Song Length in seconds
-  songLengthMinutes = [songLength / 3600, songLength / 60 % 60, songLength % 60].map { |t| t.to_s.rjust(2,'0') }.join(':') #Convert seconds into hours:minutes:seconds format
-  puts "Song is #{songLength} seconds long".green
-  puts "Song is #{songLengthMinutes} minutes long".green
-  #Progress Bar
-  progressbar = ProgressBar.create(:title => "Playing in #{channel.name}   00:00 ", :starting_at => 0, :total => songLength, :remainder_mark => "-", :progress_mark => "#", :length => 140)
-  playingMessage = event.send_message("#{progressbar} #{songLengthMinutes}")
-  Thread.new do
-    while currentlyPlaying == true do
-      sleep 7
-      7.times { progressbar.increment } #Increment the progress bar by 1 second
-      playingMessage.edit "#{progressbar} #{songLengthMinutes}"
+  if event.user.voice_channel == nil
+    event.respond "User must be in a voice channel"
+  else
+    channel = event.user.voice_channel
+    currentlyPlaying = false
+    #Download music
+    puts "Downloading... #{link}".green
+    downloadingMessage = event.send_message("Downloading...")
+    YoutubeDL.get "#{link}", extract_audio: true, audio_format: 'mp3',  output: '../data/media/music/song.mp3'
+    downloadingMessage.delete
+    #Get audio data
+    media_info = MediaInfo.from('../data/media/music/song.mp3')
+    songLength = media_info.audio.duration / 1000 #Song Length in seconds
+    songLengthMinutes = [songLength / 3600, songLength / 60 % 60, songLength % 60].map { |t| t.to_s.rjust(2,'0') }.join(':') #Convert seconds into hours:minutes:seconds format
+    puts "Song is #{songLength} seconds long".green
+    puts "Song is #{songLengthMinutes} minutes long".green
+    #Progress Bar
+    progressbar = ProgressBar.create(:title => "Playing in #{channel.name}   00:00 ", :starting_at => 0, :total => songLength, :remainder_mark => "-", :progress_mark => "#", :length => 140)
+    playingMessage = event.send_message("#{progressbar} #{songLengthMinutes}")
+    Thread.new do
+      while currentlyPlaying == true do
+        sleep 7
+        7.times { progressbar.increment } #Increment the progress bar by 1 second
+        playingMessage.edit "#{progressbar} #{songLengthMinutes}"
+      end
     end
+    #End of Progress Bar
+    #Play Music
+    currentlyPlaying = true
+    puts "Playing... #{link}".green
+    bot.game = "Music in #{channel.name}"
+    bot.voice_connect(event.user.voice_channel)
+    event.voice.play_file('../data/media/music/song.mp3')
+    #Delete song file and disconnect
+    sleep 5
+    currentlyPlaying = false
+    File.delete("../data/media/music/song.mp3")
+    playingMessage.delete
+    progressbar.stop
+    bot.game = "Bad Jokes 24/7"
+    bot.voice_destroy(event.user.server)
   end
-  #End of Progress Bar
-  #Play Music
-  currentlyPlaying = true
-  puts "Playing... #{link}".green
-  bot.game = "Music in #{channel.name}"
-  bot.voice_connect(event.user.voice_channel)
-  event.voice.play_file('../data/media/music/song.mp3')
-  #Delete song file and disconnect
-  sleep 5
-  currentlyPlaying = false
-  File.delete("../data/media/music/song.mp3")
-  playingMessage.delete
-  progressbar.stop
-  bot.game = "Bad Jokes 24/7"
-  bot.voice_destroy(event.user.server)
 end
 
 bot.command :pause do |event|
