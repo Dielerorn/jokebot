@@ -94,12 +94,13 @@ Type `!new` to see the newest commands
 `!pranked`
 `!warrior`
 `!abouttime`
+`!hot`
+`!violence`
+`!no`
 
 **Responses**
 `!thanks`
 `!yep`
-`!yes`
-`!no`
 `!lol`
 `!goodbot`
 `!badbot`
@@ -128,14 +129,15 @@ Type `!new` to see the newest commands
 "
 
 new = "
-The bot will now tell you if you initiate a voice command without being connected to a voice channel
+**Voice Commands**
+`!hot`
+`!violence`
+`!no`
 
 **Dev Tools**
+DRY code improvements
 New file structure at `!source`
 Support for webhooks at `!source`
-
-**Bugs/Issues**
-`!stop` and `!pause` doesn't remove the progress bar due to restrictions in the way Discord handles DOM elements
 "
 
 #Change the 2nd number in parentheses for how many files there are
@@ -149,6 +151,8 @@ pranked = (1..9).map { |n| "../data/media/audio/pranked/#{n}.mp3" }
 #Letter replacements for hacker text
 replacements = {
   'A' => '4', 'a' => '4', 'E' => '3', 'e' => '3', 'G' => '6', 'g' => '6', 'L' => '1', 'l' => '1', 'O' => '0', 'o' => '0', 'S' => '5', 's' => '5', 'T' => '7', 't' => '7', 'I' => '!', 'i' => '!'}
+
+voice_channel_error = "User must be in a voice channel"
 
 helpCommands = [:commands, :help]
 
@@ -230,16 +234,6 @@ bot.command :howtogetredditkarma do |event|
   event.respond "repost"
 end
 
-bot.command :no do |event|
-  puts "No.".orange
-  event.respond "No."
-end
-
-bot.command :yes do |event|
-  puts "Yes!".green
-  event.respond "Yes!"
-end
-
 bot.command :yep do |event|
   puts "Yep".light_blue
   event.attach_file(File.open('../data/media/yep.gif'))
@@ -286,7 +280,7 @@ end
 
 bot.command :say do |event, *text|
   if event.user.voice_channel == nil
-    event.respond "User must be in a voice channel"
+    event.respond voice_channel_error
   else
     text = text.join(" ")
     puts "I said \"#{text}\" ".green
@@ -301,7 +295,7 @@ end
 
 bot.command :countdown do |event, number|
   if event.user.voice_channel == nil
-    event.respond "User must be in a voice channel"
+    event.respond voice_channel_error
   else
     puts "I counted down from #{number}".green
     countDownNumber = number.to_i
@@ -317,7 +311,7 @@ end
 
 bot.command :countup do |event, number|
   if event.user.voice_channel == nil
-    event.respond "User must be in a voice channel"
+    event.respond voice_channel_error
   else
     puts "I counted to #{number}".green
     countUpNumber = number.to_i
@@ -333,7 +327,7 @@ end
 
 bot.command :wow do |event|
   if event.user.voice_channel == nil
-    event.respond "User must be in a voice channel"
+    event.respond voice_channel_error
   else
     puts "WOW".yellow
     bot.voice_connect(event.user.voice_channel)
@@ -345,7 +339,7 @@ end
 
 bot.command :hellothere do |event|
   if event.user.voice_channel == nil
-    event.respond "User must be in a voice channel"
+    event.respond voice_channel_error
   else
     puts "Hello There!".blue
     bot.voice_connect(event.user.voice_channel)
@@ -356,7 +350,7 @@ end
 
 bot.command :nice do |event|
   if event.user.voice_channel == nil
-    event.respond "User must be in a voice channel"
+    event.respond voice_channel_error
   else
     puts "Nice!".green
     bot.voice_connect(event.user.voice_channel)
@@ -368,7 +362,7 @@ end
 
 bot.command :ouch do |event|
   if event.user.voice_channel == nil
-    event.respond "User must be in a voice channel"
+    event.respond voice_channel_error
   else
     puts "Ouch!".yellow
     bot.voice_connect(event.user.voice_channel)
@@ -380,7 +374,7 @@ end
 
 bot.command :doit do |event|
   if event.user.voice_channel == nil
-    event.respond "User must be in a voice channel"
+    event.respond voice_channel_error
   else
     puts "Dewwit".blue
     bot.voice_connect(event.user.voice_channel)
@@ -391,7 +385,7 @@ end
 
 bot.command :oof do |event|
   if event.user.voice_channel == nil
-    event.respond "User must be in a voice channel"
+    event.respond voice_channel_error
   else
     puts "oof".green
     bot.voice_connect(event.user.voice_channel)
@@ -402,7 +396,7 @@ end
 
 bot.command :missionfailed do |event|
   if event.user.voice_channel == nil
-    event.respond "User must be in a voice channel"
+    event.respond voice_channel_error
   else
     puts "We'll Get Em Next Time".green
     bot.voice_connect(event.user.voice_channel)
@@ -413,7 +407,7 @@ end
 
 bot.command :howrude do |event|
   if event.user.voice_channel == nil
-    event.respond "User must be in a voice channel"
+    event.respond voice_channel_error
   else
     puts "How Rude".blue
     bot.voice_connect(event.user.voice_channel)
@@ -424,7 +418,7 @@ end
 
 bot.command :omaewa do |event|
   if event.user.voice_channel == nil
-    event.respond "User must be in a voice channel"
+    event.respond voice_channel_error
   else
     puts "NANI?!?!".red
     bot.voice_connect(event.user.voice_channel)
@@ -435,7 +429,7 @@ end
 
 bot.command :goteem do |event|
   if event.user.voice_channel == nil
-    event.respond "User must be in a voice channel"
+    event.respond voice_channel_error
   else
     puts "GOTEEM".blue
     bot.voice_connect(event.user.voice_channel)
@@ -446,7 +440,7 @@ end
 
 bot.command :disappointment do |event|
   if event.user.voice_channel == nil
-    event.respond "User must be in a voice channel"
+    event.respond voice_channel_error
   else
     puts "My day is ruined".green
     bot.voice_connect(event.user.voice_channel)
@@ -457,7 +451,7 @@ end
 
 bot.command :answer do |event|
   if event.user.voice_channel == nil
-    event.respond "User must be in a voice channel"
+    event.respond voice_channel_error
   else
     puts "Answer the question!".blue
     bot.voice_connect(event.user.voice_channel)
@@ -468,7 +462,7 @@ end
 
 bot.command :triple do |event|
   if event.user.voice_channel == nil
-    event.respond "User must be in a voice channel"
+    event.respond voice_channel_error
   else
     puts "Oh baby a triple!".red
     bot.voice_connect(event.user.voice_channel)
@@ -479,7 +473,7 @@ end
 
 bot.command :stupid do |event|
   if event.user.voice_channel == nil
-    event.respond "User must be in a voice channel"
+    event.respond voice_channel_error
   else
     puts "Stupid!".yellow
     bot.voice_connect(event.user.voice_channel)
@@ -490,7 +484,7 @@ end
 
 bot.command :damage do |event|
   if event.user.voice_channel == nil
-    event.respond "User must be in a voice channel"
+    event.respond voice_channel_error
   else
     puts "NOW THATS A LOTTA DAMAGE!".blue
     bot.voice_connect(event.user.voice_channel)
@@ -501,7 +495,7 @@ end
 
 bot.command :onlygame do |event|
   if event.user.voice_channel == nil
-    event.respond "User must be in a voice channel"
+    event.respond voice_channel_error
   else
     puts "Why you heff to be mad?".blue
     bot.voice_connect(event.user.voice_channel)
@@ -512,7 +506,7 @@ end
 
 bot.command :trap do |event|
   if event.user.voice_channel == nil
-    event.respond "User must be in a voice channel"
+    event.respond voice_channel_error
   else
     puts "Its a trap!".green
     bot.voice_connect(event.user.voice_channel)
@@ -523,7 +517,7 @@ end
 
 bot.command :healing do |event|
   if event.user.voice_channel == nil
-    event.respond "User must be in a voice channel"
+    event.respond voice_channel_error
   else
     puts "I NEED HEALING".green
     bot.voice_connect(event.user.voice_channel)
@@ -534,7 +528,7 @@ end
 
 bot.command :spicymeatball do |event|
   if event.user.voice_channel == nil
-    event.respond "User must be in a voice channel"
+    event.respond voice_channel_error
   else
     puts "Thats a spicy meatball!".green
     bot.voice_connect(event.user.voice_channel)
@@ -545,7 +539,7 @@ end
 
 bot.command :greatsuccess do |event|
   if event.user.voice_channel == nil
-    event.respond "User must be in a voice channel"
+    event.respond voice_channel_error
   else
     puts "Iz great success".green
     bot.voice_connect(event.user.voice_channel)
@@ -556,7 +550,7 @@ end
 
 bot.command :playedyourself do |event|
   if event.user.voice_channel == nil
-    event.respond "User must be in a voice channel"
+    event.respond voice_channel_error
   else
     puts "You played yourself".blue
     bot.voice_connect(event.user.voice_channel)
@@ -567,7 +561,7 @@ end
 
 bot.command :headshot do |event|
   if event.user.voice_channel == nil
-    event.respond "User must be in a voice channel"
+    event.respond voice_channel_error
   else
     puts "BOOM HEADSHOT".red
     bot.voice_connect(event.user.voice_channel)
@@ -578,7 +572,7 @@ end
 
 bot.command :nooo do |event|
   if event.user.voice_channel == nil
-    event.respond "User must be in a voice channel"
+    event.respond voice_channel_error
   else
     puts "NOOOOOOO".red
     bot.voice_connect(event.user.voice_channel)
@@ -589,7 +583,7 @@ end
 
 bot.command :spaghet do |event|
   if event.user.voice_channel == nil
-    event.respond "User must be in a voice channel"
+    event.respond voice_channel_error
   else
     puts "SOMEBODY TOUCHA MY SPAGHET".red
     bot.voice_connect(event.user.voice_channel)
@@ -600,7 +594,7 @@ end
 
 bot.command :pranked do |event|
   if event.user.voice_channel == nil
-    event.respond "User must be in a voice channel"
+    event.respond voice_channel_error
   else
     puts "YOU JUST GOT PRANKED".green
     bot.voice_connect(event.user.voice_channel)
@@ -611,7 +605,7 @@ end
 
 bot.command :warrior do |event|
   if event.user.voice_channel == nil
-    event.respond "User must be in a voice channel"
+    event.respond voice_channel_error
   else
     puts "DO YOU SEE WHAT YOU GET WHEN YOU MESS WITH THE WARRIOR".red
     bot.voice_connect(event.user.voice_channel)
@@ -623,7 +617,7 @@ end
 
 bot.command :abouttime do |event|
   if event.user.voice_channel == nil
-    event.respond "User must be in a voice channel"
+    event.respond voice_channel_error
   else
     puts "Its about time.".blue
     bot.voice_connect(event.user.voice_channel)
@@ -633,10 +627,46 @@ bot.command :abouttime do |event|
   end
 end
 
+bot.command :hot do |event|
+  if event.user.voice_channel == nil
+    event.respond voice_channel_error
+  else
+    puts "Ahhhh! Thats hot...thats hot!".blue
+    bot.voice_connect(event.user.voice_channel)
+    event.voice.play_file('../data/media/audio/hot.mp3')
+    #Replace these with your own Server ID's
+    bot.voice_destroy(event.user.server)
+  end
+end
+
+bot.command :violence do |event|
+  if event.user.voice_channel == nil
+    event.respond voice_channel_error
+  else
+    puts "VIOLENCE! SPEED! MOMENTUM".red
+    bot.voice_connect(event.user.voice_channel)
+    event.voice.play_file('../data/media/audio/violence.mp3')
+    #Replace these with your own Server ID's
+    bot.voice_destroy(event.user.server)
+  end
+end
+
+bot.command :no do |event|
+  if event.user.voice_channel == nil
+    event.respond voice_channel_error
+  else
+    puts "NO!".yellow
+    bot.voice_connect(event.user.voice_channel)
+    event.voice.play_file('../data/media/audio/no.mp3')
+    #Replace these with your own Server ID's
+    bot.voice_destroy(event.user.server)
+  end
+end
+
 # Music Player =====================================================================================
 bot.command :play do |event, link|
   if event.user.voice_channel == nil
-    event.respond "User must be in a voice channel"
+    event.respond voice_channel_error
   else
     channel = event.user.voice_channel
     currentlyPlaying = false
