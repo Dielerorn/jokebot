@@ -50,6 +50,8 @@ Type `!new` to see the newest commands
 
 **Commands**
 `!joke`
+`!nickname <Name>`
+`!vote <Topic>`
 `!istalbertbanned`
 `!roll`
 `!happybirthday <Name>`
@@ -129,6 +131,10 @@ Type `!new` to see the newest commands
 "
 
 new = "
+**Commands**
+`!vote <Topic>`
+`!nickname <Name>`
+
 **Voice Commands**
 `!hot`
 `!violence`
@@ -136,9 +142,10 @@ new = "
 
 **Dev Tools**
 DRY code improvements
-New file structure at `!source`
-Support for webhooks at `!source`
+Improved error parsing
 "
+
+botUserID = 446820464770154507
 
 #Change the 2nd number in parentheses for how many files there are
 tastefullyracist = (1..5).map { |n| "../data/media/tastefully-racist/#{n}.gif" }
@@ -151,6 +158,11 @@ pranked = (1..9).map { |n| "../data/media/audio/pranked/#{n}.mp3" }
 #Letter replacements for hacker text
 replacements = {
   'A' => '4', 'a' => '4', 'E' => '3', 'e' => '3', 'G' => '6', 'g' => '6', 'L' => '1', 'l' => '1', 'O' => '0', 'o' => '0', 'S' => '5', 's' => '5', 'T' => '7', 't' => '7', 'I' => '!', 'i' => '!'}
+
+  Emoji = {
+    white_check_mark: "\u{2705}",
+    x: "\u{274C}"
+  }
 
 voice_channel_error = "User must be in a voice channel"
 
@@ -192,6 +204,24 @@ bot.command :roll do |event|
   else
   event.respond "#{rollUser} rolled a #{rollNumber}!"
   end
+end
+
+bot.command :vote do |event, *topic|
+  topic = topic.join(" ")
+  puts "We voted on #{topic}".blue
+  event.message.delete
+  votingMessage = event.send_message("**#{topic}**")
+  votingMessage.react(Emoji[:white_check_mark])
+  votingMessage.react(Emoji[:x])
+end
+
+bot.command :nickname do |event, *name|
+  botUser = event.server.member(bot.profile)
+  name = name.join(" ")
+  botUser.nick=(name)
+  event.respond "My nickname was changed to #{name}"
+  puts "My nickname was changed to #{name}".blue
+  nil
 end
 
 bot.command :thanks do |event|
