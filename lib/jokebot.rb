@@ -6,11 +6,8 @@ require 'espeak'
 require 'youtube-dl.rb'
 require "mediainfo"
 require 'ruby-progressbar'
-#require 'logging'
 
-puts "########################".green
-puts "#WELCOME TO THE JOKEBOT#".green
-puts "########################".green
+puts "WELCOME TO THE JOKEBOT".green
 
 #Load .env in a new path (Change require 'dotenv/load' to require 'dotenv' when using this)
 Dotenv.load('../data/.env')
@@ -19,16 +16,6 @@ Dotenv.load('../data/.env')
 logs_file = File.open("../logs/development.log", "w")
 Discordrb::LOGGER.streams << logs_file
 at_exit { logs_file.close }
-
-#Disable logging cause the gem never has permission to write. Replace all puts with log.info if you want to enable it again
-=begin
-#Configure logging
-log = Logging.logger(STDOUT)
-log.add_appenders(
-    Logging.appenders.file('../logs/development.log')
-)
-log.level = :debug
-=end
 
 #Specify alternate path to MediaInfo
 ENV['MEDIAINFO_PATH'] = "/usr/bin/mediainfo"
@@ -46,7 +33,7 @@ prefix_proc = proc do |message|
   end
 end
 
-bot = Discordrb::Commands::CommandBot.new token: ENV['TOKEN'], client_id: 446820464770154507, log_mode: :debug, prefix: prefix_proc
+bot = Discordrb::Commands::CommandBot.new token: ENV['TOKEN'], client_id: 446820464770154507, log_mode: :normal, prefix: prefix_proc
 
 #Variables ===========================================================================================
 commands = "
@@ -64,7 +51,7 @@ Type `!new` to see the newest commands
 `!turtle`
 
 **Music Player**
-`!play <YouTube Link>`
+`!play <Link>`
 `!pause`
 `!continue`
 `!stop`
@@ -139,18 +126,19 @@ new = "
 **Commands**
 `!vote <Topic>`
 `!nickname <Name>`
+Blank `!nickname` commands will reset the name to it's default
 
 **Voice Commands**
+`!play` works on *most* non-YouTube links now including Spotify, Soundcloud, Vimeo, Twitch, etc.
 `!hot`
 `!violence`
 `!no`
 
 **Dev Tools**
-DRY code improvements
+`!logs`
+Replaced all instances of `puts` with `Discordrb::LOGGER.info("")`
 Improved error parsing
 "
-
-botUserID = 446820464770154507
 
 #Change the 2nd number in parentheses for how many files there are
 tastefullyracist = (1..5).map { |n| "../data/media/tastefully-racist/#{n}.gif" }
@@ -175,22 +163,22 @@ helpCommands = [:commands, :help]
 
 #Commands =======================================================================================
 bot.command helpCommands do |event|
-  puts "Someone needed help".light_red
+  Discordrb::LOGGER.info("Someone needed help")
   event.respond commands
 end
 
 bot.command :new do |event|
-  puts "Showed the new commands".light_red
+  Discordrb::LOGGER.info("Showed the new commands")
   event.respond new
 end
 
 bot.command :joke do |event|
-  puts "Joke sent".green
+  Discordrb::LOGGER.info("Joke sent")
   event.respond File.readlines("../data/jokes.db").sample.strip
 end
 
 bot.command :istalbertbanned do |event|
-  puts "I checked if Talbert was banned".green
+  Discordrb::LOGGER.info("Checked if Talbert was banned from general")
   talbert = event.server.member(361438280757018624)
   general = bot.channel(406973058042298380)
   if talbert.can_send_messages?(general)
@@ -201,9 +189,9 @@ bot.command :istalbertbanned do |event|
 end
 
 bot.command :roll do |event|
-  puts "#{rollUser} rolled a #{rollNumber}!".light_green
   rollNumber = rand(1..100)
   rollUser = event.user.username
+  Discordrb::LOGGER.info("#{rollUser} rolled a #{rollNumber}")
   if rollNumber == 100
     event.respond "#{rollUser} rolled a :100:"
   else
@@ -213,7 +201,7 @@ end
 
 bot.command :vote do |event, *topic|
   topic = topic.join(" ")
-  puts "We voted on #{topic}".blue
+  Discordrb::LOGGER.info("We voted on #{topic}")
   event.message.delete
   votingMessage = event.send_message("**#{topic}**")
   votingMessage.react(Emoji[:white_check_mark])
@@ -223,89 +211,93 @@ end
 bot.command :nickname do |event, *name|
   botUser = event.server.member(bot.profile)
   name = name.join(" ")
-  botUser.nick=(name)
-  event.respond "My nickname was changed to #{name}"
-  puts "My nickname was changed to #{name}".blue
-  nil
+  if name == nil
+    event.respond "My nickname was reset"
+  else
+    botUser.nick=(name)
+    event.respond "My nickname was changed to #{name}"
+    Discordrb::LOGGER.info("Nickname changed to #{name}")
+    nil
+  end
 end
 
 bot.command :thanks do |event|
-  puts "Someone said thanks".blue
+  Discordrb::LOGGER.info("Someone said thanks")
   event.respond "You're welcome!"
 end
 
 bot.command :lol do |event|
-  puts "Someone laughed".red
+  Discordrb::LOGGER.info("Someone laughed")
   event.respond "( ° ͜ ʖ °)"
 end
 
 bot.command :goodbot do |event|
-  puts "Good bot".green
+  Discordrb::LOGGER.info("Good bot")
   event.respond ":smile:"
 end
 
 bot.command :badbot do |event|
-  puts "Bad bot".red
+  Discordrb::LOGGER.info("Bad bot")
   event.respond ":sob:"
 end
 
 bot.command :whatdidyousay do |event|
-  puts "Navy Seal".yellow
+  Discordrb::LOGGER.info("Navy Seal")
   event.respond "What the fuck did you just fucking say about me, you little bitch? I'll have you know I graduated top of my class in the Navy Seals, and I've been involved in numerous secret raids on Al-Quaeda, and I have over 300 confirmed kills. I am trained in gorilla warfare and I'm the top sniper in the entire US armed forces. You are nothing to me but just another target. I will wipe you the fuck out with precision the likes of which has never been seen before on this Earth, mark my fucking words. You think you can get away with saying that shit to me over the Internet? Think again, fucker. As we speak I am contacting my secret network of spies across the USA and your IP is being traced right now so you better prepare for the storm, maggot. The storm that wipes out the pathetic little thing you call your life. You're fucking dead, kid. I can be anywhere, anytime, and I can kill you in over seven hundred ways, and that's just with my bare hands. Not only am I extensively trained in unarmed combat, but I have access to the entire arsenal of the United States Marine Corps and I will use it to its full extent to wipe your miserable ass off the face of the continent, you little shit. If only you could have known what unholy retribution your little \"clever\" comment was about to bring down upon you, maybe you would have held your fucking tongue. But you couldn't, you didn't, and now you're paying the price, you goddamn idiot. I will shit fury all over you and you will drown in it. You're fucking dead, kiddo."
 end
 
 bot.command :tragedy do |event|
-  puts "Did you ever hear the tragedy of Darth Plagueis The Wise?".red
+  Discordrb::LOGGER.info("Tragedy of Dark Plagueis the Wise")
   event.respond "Did you ever hear the tragedy of Darth Plagueis The Wise? I thought not. It’s not a story the Jedi would tell you. It’s a Sith legend. Darth Plagueis was a Dark Lord of the Sith, so powerful and so wise he could use the Force to influence the midichlorians to create life… He had such a knowledge of the dark side that he could even keep the ones he cared about from dying. The dark side of the Force is a pathway to many abilities some consider to be unnatural. He became so powerful… the only thing he was afraid of was losing his power, which eventually, of course, he did. Unfortunately, he taught his apprentice everything he knew, then his apprentice killed him in his sleep. Ironic. He could save others from death, but not himself."
 end
 
 bot.command :howtoplaystarcraft do |event|
-  puts "A scrub got rekt".yellow
+  Discordrb::LOGGER.info("A scrub got rekt")
   event.respond "git gud scrub"
 end
 
 bot.command :howtogetredditkarma do |event|
-  puts "A redditor got learnt".purple
+  Discordrb::LOGGER.info("A redditor got learnt")
   event.respond "repost"
 end
 
 bot.command :yep do |event|
-  puts "Yep".light_blue
+  Discordrb::LOGGER.info("Yep")
   event.attach_file(File.open('../data/media/yep.gif'))
 end
 
 bot.command :tricksy do |event|
-  puts "TRICKSY".light_blue
+  Discordrb::LOGGER.info("TRICKSY")
   event.attach_file(File.open('../data/media/gollum.gif'))
 end
 
 bot.command :wut do |event|
-  puts "wut".light_green
+  Discordrb::LOGGER.info("wut")
   event.attach_file(File.open('../data/media/wut.gif'))
 end
 
 bot.command tastefullyRacistCommands do |event|
-  puts "Tasteful".light_yellow
+  Discordrb::LOGGER.info("Tasteful")
   event.attach_file(File.open(tastefullyracist.sample))
 end
 
 bot.command :blackpeople do |event|
-  puts "We all know what you were expecting".red
+  Discordrb::LOGGER.info("We all know what you were expecting")
   event.respond "We all know what you were expecting, and frankly, im surprised at you..."
 end
 
 bot.command :happybirthday do |event, name|
-  puts "Birthday!".green
+  Discordrb::LOGGER.info("Birthday")
   event.respond "♪ Happy birthday to you! Happy birthday to you! Happy birthday dear #{name}! Happy birthday to you! ♪"
 end
 
 bot.command :turtle do |event|
-  puts "A turtle made it to the water".green
+  Discordrb::LOGGER.info("A turtle made it to the water")
   event.respond "A :turtle: turtle :turtle: made :turtle: it :turtle: to :turtle: the :turtle: water!"
 end
 
 bot.command :hackertext do |event, *text|
-  puts "Im in.".green
+  Discordrb::LOGGER.info("Im in")
   text = text.join(" ")
   leettext = text.gsub(Regexp.union(replacements.keys), replacements)
   event.respond leettext
@@ -318,7 +310,7 @@ bot.command :say do |event, *text|
     event.respond voice_channel_error
   else
     text = text.join(" ")
-    puts "I said \"#{text}\" ".green
+    Discordrb::LOGGER.info("I said \"#{text}\" ")
     speech = ESpeak::Speech.new("#{text}", voice: "en-uk", :speed   => 120)
     speech.save("../data/media/audio/speech.mp3")
     bot.voice_connect(event.user.voice_channel)
@@ -332,7 +324,7 @@ bot.command :countdown do |event, number|
   if event.user.voice_channel == nil
     event.respond voice_channel_error
   else
-    puts "I counted down from #{number}".green
+    Discordrb::LOGGER.info("I counted down from #{number}")
     countDownNumber = number.to_i
     countDownArray = [*1..countDownNumber].reverse
     countDownSpeech = ESpeak::Speech.new("#{countDownArray}", voice: "en-uk", :speed   => 120)
@@ -348,7 +340,7 @@ bot.command :countup do |event, number|
   if event.user.voice_channel == nil
     event.respond voice_channel_error
   else
-    puts "I counted to #{number}".green
+    Discordrb::LOGGER.info("I counted to #{number}")
     countUpNumber = number.to_i
     countUpArray = [*1..countUpNumber]
     countUpSpeech = ESpeak::Speech.new("#{countUpArray}", voice: "en-uk", :speed   => 120)
@@ -364,7 +356,7 @@ bot.command :wow do |event|
   if event.user.voice_channel == nil
     event.respond voice_channel_error
   else
-    puts "WOW".yellow
+    Discordrb::LOGGER.info("WOW")
     bot.voice_connect(event.user.voice_channel)
     event.voice.play_file('../data/media/audio/wow.mp3')
     bot.voice_destroy(event.user.server)
@@ -376,7 +368,7 @@ bot.command :hellothere do |event|
   if event.user.voice_channel == nil
     event.respond voice_channel_error
   else
-    puts "Hello There!".blue
+    Discordrb::LOGGER.info("Hello there!")
     bot.voice_connect(event.user.voice_channel)
     event.voice.play_file('../data/media/audio/hellothere.mp3')
     bot.voice_destroy(event.user.server)
@@ -387,7 +379,7 @@ bot.command :nice do |event|
   if event.user.voice_channel == nil
     event.respond voice_channel_error
   else
-    puts "Nice!".green
+    Discordrb::LOGGER.info("Nice!")
     bot.voice_connect(event.user.voice_channel)
     event.voice.play_file('../data/media/audio/nice.mp3')
     bot.voice_destroy(event.user.server)
@@ -399,7 +391,7 @@ bot.command :ouch do |event|
   if event.user.voice_channel == nil
     event.respond voice_channel_error
   else
-    puts "Ouch!".yellow
+    Discordrb::LOGGER.info("Ouch!")
     bot.voice_connect(event.user.voice_channel)
     event.voice.play_file('../data/media/audio/ouch.mp3')
     #Replace these with your own Server ID's
@@ -411,7 +403,7 @@ bot.command :doit do |event|
   if event.user.voice_channel == nil
     event.respond voice_channel_error
   else
-    puts "Dewwit".blue
+    Discordrb::LOGGER.info("Do it")
     bot.voice_connect(event.user.voice_channel)
     event.voice.play_file('../data/media/audio/doit.mp3')
     bot.voice_destroy(event.user.server)
@@ -422,7 +414,7 @@ bot.command :oof do |event|
   if event.user.voice_channel == nil
     event.respond voice_channel_error
   else
-    puts "oof".green
+    Discordrb::LOGGER.info("oof")
     bot.voice_connect(event.user.voice_channel)
     event.voice.play_file('../data/media/audio/oof.mp3')
     bot.voice_destroy(event.user.server)
@@ -433,7 +425,7 @@ bot.command :missionfailed do |event|
   if event.user.voice_channel == nil
     event.respond voice_channel_error
   else
-    puts "We'll Get Em Next Time".green
+    Discordrb::LOGGER.info("We'll get em next time")
     bot.voice_connect(event.user.voice_channel)
     event.voice.play_file('../data/media/audio/missionfailed.mp3')
     bot.voice_destroy(event.user.server)
@@ -444,7 +436,7 @@ bot.command :howrude do |event|
   if event.user.voice_channel == nil
     event.respond voice_channel_error
   else
-    puts "How Rude".blue
+    Discordrb::LOGGER.info("How rude")
     bot.voice_connect(event.user.voice_channel)
     event.voice.play_file('../data/media/audio/howrude.mp3')
     bot.voice_destroy(event.user.server)
@@ -455,7 +447,7 @@ bot.command :omaewa do |event|
   if event.user.voice_channel == nil
     event.respond voice_channel_error
   else
-    puts "NANI?!?!".red
+    Discordrb::LOGGER.info("NANI?!")
     bot.voice_connect(event.user.voice_channel)
     event.voice.play_file('../data/media/audio/omaewa.mp3')
     bot.voice_destroy(event.user.server)
@@ -466,7 +458,7 @@ bot.command :goteem do |event|
   if event.user.voice_channel == nil
     event.respond voice_channel_error
   else
-    puts "GOTEEM".blue
+    Discordrb::LOGGER.info("GOTEEM")
     bot.voice_connect(event.user.voice_channel)
     event.voice.play_file('../data/media/audio/goteem.mp3')
     bot.voice_destroy(event.user.server)
@@ -477,7 +469,7 @@ bot.command :disappointment do |event|
   if event.user.voice_channel == nil
     event.respond voice_channel_error
   else
-    puts "My day is ruined".green
+    Discordrb::LOGGER.info("My day is ruined")
     bot.voice_connect(event.user.voice_channel)
     event.voice.play_file('../data/media/audio/disappointment.mp3')
     bot.voice_destroy(event.user.server)
@@ -488,7 +480,7 @@ bot.command :answer do |event|
   if event.user.voice_channel == nil
     event.respond voice_channel_error
   else
-    puts "Answer the question!".blue
+    Discordrb::LOGGER.info("Answer the question")
     bot.voice_connect(event.user.voice_channel)
     event.voice.play_file('../data/media/audio/answer.mp3')
     bot.voice_destroy(event.user.server)
@@ -499,7 +491,7 @@ bot.command :triple do |event|
   if event.user.voice_channel == nil
     event.respond voice_channel_error
   else
-    puts "Oh baby a triple!".red
+    Discordrb::LOGGER.info("Oh baby a triple")
     bot.voice_connect(event.user.voice_channel)
     event.voice.play_file('../data/media/audio/triple.mp3')
     bot.voice_destroy(event.user.server)
@@ -510,7 +502,7 @@ bot.command :stupid do |event|
   if event.user.voice_channel == nil
     event.respond voice_channel_error
   else
-    puts "Stupid!".yellow
+    Discordrb::LOGGER.info("Stupid!")
     bot.voice_connect(event.user.voice_channel)
     event.voice.play_file('../data/media/audio/stupid.mp3')
     bot.voice_destroy(event.user.server)
@@ -521,7 +513,7 @@ bot.command :damage do |event|
   if event.user.voice_channel == nil
     event.respond voice_channel_error
   else
-    puts "NOW THATS A LOTTA DAMAGE!".blue
+    Discordrb::LOGGER.info("NOW THATS A LOTTA DAMAGE")
     bot.voice_connect(event.user.voice_channel)
     event.voice.play_file('../data/media/audio/damage.mp3')
     bot.voice_destroy(event.user.server)
@@ -532,7 +524,7 @@ bot.command :onlygame do |event|
   if event.user.voice_channel == nil
     event.respond voice_channel_error
   else
-    puts "Why you heff to be mad?".blue
+    Discordrb::LOGGER.info("Why you heff to be mad?")
     bot.voice_connect(event.user.voice_channel)
     event.voice.play_file('../data/media/audio/onlygame.mp3')
     bot.voice_destroy(event.user.server)
@@ -543,7 +535,7 @@ bot.command :trap do |event|
   if event.user.voice_channel == nil
     event.respond voice_channel_error
   else
-    puts "Its a trap!".green
+    Discordrb::LOGGER.info("Its a trap!")
     bot.voice_connect(event.user.voice_channel)
     event.voice.play_file('../data/media/audio/trap.mp3')
     bot.voice_destroy(event.user.server)
@@ -554,7 +546,7 @@ bot.command :healing do |event|
   if event.user.voice_channel == nil
     event.respond voice_channel_error
   else
-    puts "I NEED HEALING".green
+    Discordrb::LOGGER.info("I need healing!")
     bot.voice_connect(event.user.voice_channel)
     event.voice.play_file('../data/media/audio/healing.mp3')
     bot.voice_destroy(event.user.server)
@@ -565,7 +557,7 @@ bot.command :spicymeatball do |event|
   if event.user.voice_channel == nil
     event.respond voice_channel_error
   else
-    puts "Thats a spicy meatball!".green
+    Discordrb::LOGGER.info("Thats a spicy meatball")
     bot.voice_connect(event.user.voice_channel)
     event.voice.play_file('../data/media/audio/spicymeatball.mp3')
     bot.voice_destroy(event.user.server)
@@ -576,7 +568,7 @@ bot.command :greatsuccess do |event|
   if event.user.voice_channel == nil
     event.respond voice_channel_error
   else
-    puts "Iz great success".green
+    Discordrb::LOGGER.info("Iz great success")
     bot.voice_connect(event.user.voice_channel)
     event.voice.play_file('../data/media/audio/greatsuccess.mp3')
     bot.voice_destroy(event.user.server)
@@ -587,7 +579,7 @@ bot.command :playedyourself do |event|
   if event.user.voice_channel == nil
     event.respond voice_channel_error
   else
-    puts "You played yourself".blue
+    Discordrb::LOGGER.info("You played yourself")
     bot.voice_connect(event.user.voice_channel)
     event.voice.play_file('../data/media/audio/playedyourself.mp3')
     bot.voice_destroy(event.user.server)
@@ -598,7 +590,7 @@ bot.command :headshot do |event|
   if event.user.voice_channel == nil
     event.respond voice_channel_error
   else
-    puts "BOOM HEADSHOT".red
+    Discordrb::LOGGER.info("BOOM HEADSHOT")
     bot.voice_connect(event.user.voice_channel)
     event.voice.play_file('../data/media/audio/headshot.mp3')
     bot.voice_destroy(event.user.server)
@@ -609,7 +601,7 @@ bot.command :nooo do |event|
   if event.user.voice_channel == nil
     event.respond voice_channel_error
   else
-    puts "NOOOOOOO".red
+    Discordrb::LOGGER.info("NOOOOO!")
     bot.voice_connect(event.user.voice_channel)
     event.voice.play_file('../data/media/audio/nooo.mp3')
     bot.voice_destroy(event.user.server)
@@ -620,7 +612,7 @@ bot.command :spaghet do |event|
   if event.user.voice_channel == nil
     event.respond voice_channel_error
   else
-    puts "SOMEBODY TOUCHA MY SPAGHET".red
+    Discordrb::LOGGER.info("SOMEBODY TOUCHA MY SPAGHET")
     bot.voice_connect(event.user.voice_channel)
     event.voice.play_file('../data/media/audio/spaghet.mp3')
     bot.voice_destroy(event.user.server)
@@ -631,7 +623,7 @@ bot.command :pranked do |event|
   if event.user.voice_channel == nil
     event.respond voice_channel_error
   else
-    puts "YOU JUST GOT PRANKED".green
+    Discordrb::LOGGER.info("YOU JUST GOT PRANKED")
     bot.voice_connect(event.user.voice_channel)
     event.voice.play_file(pranked.sample)
     bot.voice_destroy(event.user.server)
@@ -642,7 +634,7 @@ bot.command :warrior do |event|
   if event.user.voice_channel == nil
     event.respond voice_channel_error
   else
-    puts "DO YOU SEE WHAT YOU GET WHEN YOU MESS WITH THE WARRIOR".red
+    Discordrb::LOGGER.info("DO YOU SEE WHAT YOU GET WHEN YOU MESS WITH THE WARRIOR?")
     bot.voice_connect(event.user.voice_channel)
     event.voice.play_file('../data/media/audio/warrior.mp3')
     #Replace these with your own Server ID's
@@ -654,7 +646,7 @@ bot.command :abouttime do |event|
   if event.user.voice_channel == nil
     event.respond voice_channel_error
   else
-    puts "Its about time.".blue
+    Discordrb::LOGGER.info("Its about time.")
     bot.voice_connect(event.user.voice_channel)
     event.voice.play_file('../data/media/audio/abouttime.mp3')
     #Replace these with your own Server ID's
@@ -666,7 +658,7 @@ bot.command :hot do |event|
   if event.user.voice_channel == nil
     event.respond voice_channel_error
   else
-    puts "Ahhhh! Thats hot...thats hot!".blue
+    Discordrb::LOGGER.info("Ahhhh thats hot!")
     bot.voice_connect(event.user.voice_channel)
     event.voice.play_file('../data/media/audio/hot.mp3')
     #Replace these with your own Server ID's
@@ -678,7 +670,7 @@ bot.command :violence do |event|
   if event.user.voice_channel == nil
     event.respond voice_channel_error
   else
-    puts "VIOLENCE! SPEED! MOMENTUM".red
+    Discordrb::LOGGER.info("VIOLENCE SPEED MOMENTUM")
     bot.voice_connect(event.user.voice_channel)
     event.voice.play_file('../data/media/audio/violence.mp3')
     #Replace these with your own Server ID's
@@ -690,7 +682,7 @@ bot.command :no do |event|
   if event.user.voice_channel == nil
     event.respond voice_channel_error
   else
-    puts "NO!".yellow
+    Discordrb::LOGGER.info("NO!")
     bot.voice_connect(event.user.voice_channel)
     event.voice.play_file('../data/media/audio/no.mp3')
     #Replace these with your own Server ID's
@@ -706,7 +698,7 @@ bot.command :play do |event, link|
     channel = event.user.voice_channel
     currentlyPlaying = false
     #Download music
-    puts "Downloading... #{link}".green
+    Discordrb::LOGGER.info("Downloading... #{link}")
     downloadingMessage = event.send_message("Downloading...")
     YoutubeDL.get "#{link}", extract_audio: true, audio_format: 'mp3',  output: '../data/media/music/song.mp3'
     downloadingMessage.delete
@@ -714,8 +706,8 @@ bot.command :play do |event, link|
     media_info = MediaInfo.from('../data/media/music/song.mp3')
     songLength = media_info.audio.duration / 1000 #Song Length in seconds
     songLengthMinutes = [songLength / 3600, songLength / 60 % 60, songLength % 60].map { |t| t.to_s.rjust(2,'0') }.join(':') #Convert seconds into hours:minutes:seconds format
-    puts "Song is #{songLength} seconds long".green
-    puts "Song is #{songLengthMinutes} minutes long".green
+    Discordrb::LOGGER.info("Song is #{songLength} seconds long")
+    Discordrb::LOGGER.info("Song is #{songLengthMinutes} minutes long")
     #Progress Bar
     progressbar = ProgressBar.create(:title => "Playing in #{channel.name}   00:00 ", :starting_at => 0, :total => songLength, :remainder_mark => "-", :progress_mark => "#", :length => 140)
     playingMessage = event.send_message("#{progressbar} #{songLengthMinutes}")
@@ -729,7 +721,7 @@ bot.command :play do |event, link|
     #End of Progress Bar
     #Play Music
     currentlyPlaying = true
-    puts "Playing... #{link}".green
+    Discordrb::LOGGER.info("playing #{link}")
     bot.game = "Music in #{channel.name}"
     bot.voice_connect(event.user.voice_channel)
     event.voice.play_file('../data/media/music/song.mp3')
@@ -745,7 +737,7 @@ bot.command :play do |event, link|
 end
 
 bot.command :pause do |event|
-  puts "Audio paused".blue
+  Discordrb::LOGGER.info("Audio paused")
   event.voice.pause
   progressbar.pause
   bot.game = "Music paused in #{channel.name}"
@@ -753,14 +745,14 @@ bot.command :pause do |event|
 end
 
 bot.command :continue do |event|
-  puts "Audio continued".blue
+  Discordrb::LOGGER.info("Audio continued")
   event.voice.continue
   bot.game = "Music in #{channel.name}"
   nil
 end
 
 bot.command :stop do |event|
-  puts "Audio Stopped".red
+  Discordrb::LOGGER.info("Audio stopped")
   bot.voice_destroy(event.user.server)
   File.delete("../data/media/music/song.mp3")
   bot.game = "Bad Jokes 24/7"
@@ -770,7 +762,7 @@ end
 
 # Mini Games =======================================================================================
 bot.message(start_with: '!guessthenumber') do |event|
-  puts "Guess the number!".green
+  Discordrb::LOGGER.info("Guess the number!")
   magic = rand(1..10)
   event.user.await(:guess) do |guess_event|
     guess = guess_event.message.content.to_i
@@ -785,7 +777,7 @@ bot.message(start_with: '!guessthenumber') do |event|
 end
 
 bot.message(start_with: '!guessthenumberhard') do |event|
-  puts "Guess the number HARD!".red
+  Discordrb::LOGGER.info("Guess the number HARD")
   magic = rand(1..10)
   event.user.await(:guess) do |guess_event|
     guess = guess_event.message.content.to_i
@@ -802,7 +794,7 @@ end
 
 # Dev Tools =======================================================================================
 bot.message(content: '!ping') do |event|
-  puts "Ping!".blue
+  Discordrb::LOGGER.info("Ping!")
   # The `respond` method returns a `Message` object, which is stored in a variable `m`. The `edit` method is then called
   # to edit the message with the time difference between when the event was received and after the message was sent.
   m = event.respond('Pong!')
@@ -810,28 +802,28 @@ bot.message(content: '!ping') do |event|
 end
 
 bot.command :source do |event|
-  puts "Someone is looking at my source".blue
+  Discordrb::LOGGER.info("Someone is looking at my source!")
   event.respond "https://github.com/Dielerorn/jokebot"
 end
 
 bot.command :websource do |event|
-  puts "Someone is looking at my web source".blue
+  Discordrb::LOGGER.info("Someone is looking at my web source!")
   event.respond "https://github.com/Dielerorn/jokebot-web"
 end
 
 bot.command(:region, chain_usable: false, description: "Gets the region the server is stationed in.") do |event|
-  puts "Getting Region".yellow
+  Discordrb::LOGGER.info("Getting Region")
   event.server.region
 end
 
 bot.command :restart do |event|
-  puts "I was restarted".red
+  Discordrb::LOGGER.info("Restarting...")
   event.respond "Restarting..."
   exec "./run.sh"
 end
 
 bot.command :logs do |event|
-  puts "Someone downloaded the log files".blue
+  Discordrb::LOGGER.info("Someone downloaded the log files")
   if File.exist?('../logs/development.log')
     event.attach_file(File.open('../logs/development.log'))
   else

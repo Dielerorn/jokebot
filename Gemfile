@@ -11,6 +11,5 @@ gem 'dotenv'
 gem 'youtube-dl.rb'
 gem 'mediainfo', '~> 1.1', '>= 1.1.2'
 gem 'ruby-progressbar'
-#gem 'logging', '~> 2.2', '>= 2.2.2' #Disable logging cause the gem never has permission to write
 
 # Also locally install libsodium-dev, libopus0, youtube-dl, espeak, lame, and mediainfo
