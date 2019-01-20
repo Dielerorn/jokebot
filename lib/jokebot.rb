@@ -15,6 +15,11 @@ puts "########################".green
 #Load .env in a new path (Change require 'dotenv/load' to require 'dotenv' when using this)
 Dotenv.load('../data/.env')
 
+#Configure Logging without the gem
+logs_file = File.open("../logs/development.log", "w")
+Discordrb::LOGGER.streams << logs_file
+at_exit { logs_file.close }
+
 #Disable logging cause the gem never has permission to write. Replace all puts with log.info if you want to enable it again
 =begin
 #Configure logging
@@ -41,7 +46,7 @@ prefix_proc = proc do |message|
   end
 end
 
-bot = Discordrb::Commands::CommandBot.new token: ENV['TOKEN'], client_id: 446820464770154507, prefix: prefix_proc
+bot = Discordrb::Commands::CommandBot.new token: ENV['TOKEN'], client_id: 446820464770154507, log_mode: :debug, prefix: prefix_proc
 
 #Variables ===========================================================================================
 commands = "
