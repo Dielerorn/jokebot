@@ -202,7 +202,7 @@ end
 bot.command :vote do |event, *topic|
   topic = topic.join(" ")
   Discordrb::LOGGER.info("We voted on #{topic}")
-  event.message.delete
+  event.message.delete #Delete the message that initiated this command for the sake of anonymity
   votingMessage = event.send_message("**#{topic}**")
   votingMessage.react(Emoji[:white_check_mark])
   votingMessage.react(Emoji[:x])
@@ -816,11 +816,22 @@ bot.command(:region, chain_usable: false, description: "Gets the region the serv
   event.server.region
 end
 
+#Restart command
 bot.command :restart do |event|
   Discordrb::LOGGER.info("Restarting...")
   event.respond "Restarting..."
-  exec "./run.sh"
+  bot.stop
+  exec "./run.sh restart #{event.channel.id}"
 end
+
+handler = bot.ready do
+  Discordrb::LOGGER.info("The bot is back up!")
+  if ARGV[0] == "restart"
+    bot.send_message(ARGV[1], "Done!")
+  end
+  bot.remove_handler(handler)
+end
+#End of restart command
 
 bot.command :logs do |event|
   Discordrb::LOGGER.info("Someone downloaded the log files")
@@ -833,6 +844,7 @@ end
 
 # ======================================================
 
+#When the bot is configured, and ready to start, run this code
 bot.ready do
   bot.game = "Bad Jokes 24/7"
 end
