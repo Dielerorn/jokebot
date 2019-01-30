@@ -600,7 +600,7 @@ bot.command :play do |event, link|
     #Download music
     Discordrb::LOGGER.info("Downloading... #{link}")
     downloadingMessage = event.send_message("Downloading...")
-    YoutubeDL.get "#{link}", extract_audio: true, audio_format: 'mp3',  output: '../data/media/music/song.mp3'
+    YoutubeDL.get "#{link}", playlist: false, extract_audio: true, audio_format: 'mp3',  output: '../data/media/music/song.mp3'
     downloadingMessage.delete
     #Get audio data
     mediaInfo = MediaInfo.from('../data/media/music/song.mp3')
