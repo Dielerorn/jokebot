@@ -43,6 +43,7 @@ GEM
     unf (0.1.4)
       unf_ext
     unf_ext (0.0.7.5)
+    usagewatch (0.0.7)
     websocket (1.2.8)
     websocket-client-simple (0.3.0)
       event_emitter
@@ -60,6 +61,7 @@ DEPENDENCIES
   espeak-ruby (~> 1.0, >= 1.0.4)
   mediainfo (~> 1.1, >= 1.1.2)
   ruby-progressbar
+  usagewatch (~> 0.0.7)
   youtube-dl.rb
 
 BUNDLED WITH

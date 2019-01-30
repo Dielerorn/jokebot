@@ -11,5 +11,6 @@ gem 'dotenv'
 gem 'youtube-dl.rb'
 gem 'mediainfo', '~> 1.1', '>= 1.1.2'
 gem 'ruby-progressbar'
+gem 'usagewatch', '~> 0.0.7'
 
 # Also locally install libsodium-dev, libopus0, youtube-dl, espeak, lame, and mediainfo

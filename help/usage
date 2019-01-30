@@ -1,0 +1,17 @@
+**Usage**
+`!usage` monitors the usage of system resources namely:
+Gigabytes Disk Used
+Disk Used
+CPU Used
+TCP Connections Used
+UDP Connections Used
+Active Memory Used
+Average System Load Of The Past Minute
+Mbit/s Current Bandwidth Received
+Mbit/s Current Bandwidth Transmitted
+Current Disk Reads Completed
+Current Disk Writes Completed
+Top Ten Processes By CPU Consumption
+Top Ten Processes By Memory Consumption
+
+This command is good for when the bot is slow and you want to find out why
