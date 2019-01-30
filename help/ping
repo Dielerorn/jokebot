@@ -1,0 +1,2 @@
+**Ping**
+`!ping` will tell you the response time between the Bot and the Discord API. Useful for when the bot is slow to respond

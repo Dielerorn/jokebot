@@ -1,0 +1,4 @@
+**Pranked**
+`!pranked` will play one a random audio file from the pool of audio files located at data/media/audio/pranked/
+
+**You must be connected to a voice channel for this command to work!**

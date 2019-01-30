@@ -1,0 +1,3 @@
+**Guess the Number**
+`!guessthenumber` will start a mini-game in which you need to guess the random number between 1 and 10
+The game will end when you guess the correct number

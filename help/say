@@ -1,0 +1,7 @@
+**Say**
+`!say` will make the bot say whatever you want through the voice channel
+This command takes the `text` parameter which will be the text you want it to say. Special characters and spaces are allowed
+
+**You must be connected to a voice channel for this command to work!**
+
+e.g. `!say Hello, I am the JokeBot`

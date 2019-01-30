@@ -1,0 +1,5 @@
+**Happy Birthday**
+`!happybirthday` will *sing* happy birthday to the specified person
+This command takes a `name` parameter
+
+e.g. `!happybirthday Conner`

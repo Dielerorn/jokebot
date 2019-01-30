@@ -13,9 +13,9 @@ puts "WELCOME TO THE JOKEBOT".green
 Dotenv.load('../data/.env')
 
 #Configure Logging without the gem
-logs_file = File.open("../logs/development.log", "w")
+start_time = Time.now.strftime("%F %R") # 2019-01-30 15:04
+logs_file = File.open("../logs/#{start_time}-development.log", "w") # 2019-01-30 15:04-development.log
 Discordrb::LOGGER.streams << logs_file
-at_exit { logs_file.close }
 
 #Specify alternate path to MediaInfo
 ENV['MEDIAINFO_PATH'] = "/usr/bin/mediainfo"
@@ -36,109 +36,6 @@ end
 bot = Discordrb::Commands::CommandBot.new token: ENV['TOKEN'], client_id: 446820464770154507, log_mode: :normal, prefix: prefix_proc
 
 #Variables ===========================================================================================
-commands = "
-Type `!commands` or `!help` for a list of the commands
-Type `!new` to see the newest commands
-
-**Commands**
-`!joke`
-`!nickname <Name>`
-`!vote <Topic>`
-`!istalbertbanned`
-`!roll`
-`!happybirthday <Name>`
-`!hackertext <Text>`
-`!turtle`
-
-**Music Player**
-`!play <Link>`
-`!pause`
-`!continue`
-`!stop`
-
-**Voice Commands**
-*Must be in a voice channel to use!*
-`!say <Text>`
-`!countUp <Number>`
-`!countDown <Number>`
-`!wow`
-`!hellothere`
-`!nice`
-`!nooo`
-`!ouch`
-`!doit`
-`!missionfailed`
-`!howrude`
-`!oof`
-`!omaewa`
-`!goteem`
-`!disappointment`
-`!answer`
-`!triple`
-`!stupid`
-`!damage`
-`!onlygame`
-`!trap`
-`!healing`
-`!spicymeatball`
-`!greatsuccess`
-`!playedyourself`
-`!headshot`
-`!spaghet`
-`!pranked`
-`!warrior`
-`!abouttime`
-`!hot`
-`!violence`
-`!no`
-
-**Responses**
-`!thanks`
-`!yep`
-`!lol`
-`!goodbot`
-`!badbot`
-`!wut`
-`!tricksy`
-`!tastefullyracist` or `!tr`
-`!whatdidyousay`
-
-**Mini Games**
-`!guessthenumber`
-`!guessthenumberhard` (No hints)
-
-**Misc**
-`!howtoplaystarcraft`
-`!howtogetredditkarma`
-`!tragedy`
-`!blackpeople`
-
-**Dev Tools**
-`!ping`
-`!source`
-`!websource`
-`!region`
-`!restart`
-`!logs`
-"
-
-new = "
-**Commands**
-`!vote <Topic>`
-`!nickname <Name>`
-Blank `!nickname` commands will reset the name to it's default
-
-**Voice Commands**
-`!play` works on *most* non-YouTube links now including Spotify, Soundcloud, Vimeo, Twitch, etc.
-`!hot`
-`!violence`
-`!no`
-
-**Dev Tools**
-`!logs`
-Replaced all instances of `puts` with `Discordrb::LOGGER.info("")`
-Improved error parsing
-"
 
 #Change the 2nd number in parentheses for how many files there are
 tastefullyracist = (1..5).map { |n| "../data/media/tastefully-racist/#{n}.gif" }
@@ -159,17 +56,21 @@ replacements = {
 
 voice_channel_error = "User must be in a voice channel"
 
-helpCommands = [:commands, :help]
-
 #Commands =======================================================================================
-bot.command helpCommands do |event|
+bot.command :commands do |event|
   Discordrb::LOGGER.info("Someone needed help")
-  event.respond commands
+  event.respond File.read('../help/commands')
+end
+
+bot.command :help do |event, command|
+  command = command.downcase
+  Discordrb::LOGGER.info("Someone needed help with the #{command} command")
+  event.respond File.read("../help/#{command}")
 end
 
 bot.command :new do |event|
   Discordrb::LOGGER.info("Showed the new commands")
-  event.respond new
+  event.respond File.read('../help/new')
 end
 
 bot.command :joke do |event|
@@ -180,7 +81,7 @@ end
 bot.command :istalbertbanned do |event|
   Discordrb::LOGGER.info("Checked if Talbert was banned from general")
   talbert = event.server.member(361438280757018624)
-  general = bot.channel(406973058042298380)
+  general = bot.channel(406973058042298380) #General channel on the Colorado Casuals server
   if talbert.can_send_messages?(general)
     event.respond "Talbert is not banned from General...yet"
   else
@@ -219,6 +120,13 @@ bot.command :nickname do |event, *name|
     Discordrb::LOGGER.info("Nickname changed to #{name}")
     nil
   end
+end
+
+bot.command :hackertext do |event, *text|
+  Discordrb::LOGGER.info("Im in")
+  text = text.join(" ")
+  leettext = text.gsub(Regexp.union(replacements.keys), replacements)
+  event.respond leettext
 end
 
 bot.command :thanks do |event|
@@ -289,18 +197,6 @@ end
 bot.command :happybirthday do |event, name|
   Discordrb::LOGGER.info("Birthday")
   event.respond "♪ Happy birthday to you! Happy birthday to you! Happy birthday dear #{name}! Happy birthday to you! ♪"
-end
-
-bot.command :turtle do |event|
-  Discordrb::LOGGER.info("A turtle made it to the water")
-  event.respond "A :turtle: turtle :turtle: made :turtle: it :turtle: to :turtle: the :turtle: water!"
-end
-
-bot.command :hackertext do |event, *text|
-  Discordrb::LOGGER.info("Im in")
-  text = text.join(" ")
-  leettext = text.gsub(Regexp.union(replacements.keys), replacements)
-  event.respond leettext
 end
 
 #Audio Commands =======================================================================================
@@ -703,8 +599,8 @@ bot.command :play do |event, link|
     YoutubeDL.get "#{link}", extract_audio: true, audio_format: 'mp3',  output: '../data/media/music/song.mp3'
     downloadingMessage.delete
     #Get audio data
-    media_info = MediaInfo.from('../data/media/music/song.mp3')
-    songLength = media_info.audio.duration / 1000 #Song Length in seconds
+    mediaInfo = MediaInfo.from('../data/media/music/song.mp3')
+    songLength = mediaInfo.audio.duration / 1000 #Song Length in seconds
     songLengthMinutes = [songLength / 3600, songLength / 60 % 60, songLength % 60].map { |t| t.to_s.rjust(2,'0') }.join(':') #Convert seconds into hours:minutes:seconds format
     Discordrb::LOGGER.info("Song is #{songLength} seconds long")
     Discordrb::LOGGER.info("Song is #{songLengthMinutes} minutes long")
@@ -713,8 +609,8 @@ bot.command :play do |event, link|
     playingMessage = event.send_message("#{progressbar} #{songLengthMinutes}")
     Thread.new do
       while currentlyPlaying == true do
-        sleep 7
-        7.times { progressbar.increment } #Increment the progress bar by 1 second
+        sleep 7 #Sleep to prevent rate limiting on the Discord API
+        7.times { progressbar.increment } #Increment the progress bar (7 times because it sleeps for 7 seconds)
         playingMessage.edit "#{progressbar} #{songLengthMinutes}"
       end
     end
@@ -834,12 +730,23 @@ end
 #End of restart command
 
 bot.command :logs do |event|
+  log_files = Dir["../logs/*"].reverse #Reverse the array so that the latest log files are listed first
+  log_number = 0
   Discordrb::LOGGER.info("Someone downloaded the log files")
-  if File.exist?('../logs/development.log')
-    event.attach_file(File.open('../logs/development.log'))
-  else
-    event.respond "No log file is available"
-  end
+    event.respond "**Which log would you like to see?**"
+    log_files.each {
+      |log|
+      event.respond "`#{log_number}: #{log}`"
+      log_number += 1
+      break if log_number == 4 #Only show 4 log files so that we dont get into trouble with the rate limiter
+    }
+    event.user.await(:log_choice) do |log_choice_event|
+      choice = log_choice_event.message.content.to_i
+      Discordrb::LOGGER.info("Log number #{choice} was chosen")
+      event.respond "**Sending Log File #{choice}...**"
+      log_choice_event.channel.send_file(File.open(log_files[choice]))
+    end
+    nil
 end
 
 # ======================================================

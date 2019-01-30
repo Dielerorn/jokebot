@@ -1,0 +1,7 @@
+**Play**
+`!play` will play the audio from *almost any* link you specify
+This command takes a `link` parameter which is the link to the YouTube video, Soundcloud song, Twitch VoD, etc that you wish to play
+
+**You must be connected to a voice channel for this command to work!**
+
+e.g. `!play https://www.youtube.com/watch?v=VVggXZPCuYw`

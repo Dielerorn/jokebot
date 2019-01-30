@@ -1,0 +1,3 @@
+**Restart**
+`!restart` will restart the bot by using `exec "./run.sh restart #{event.channel.id}"`. The `event.channel.id` is used for the "Done!" message.
+This command will disconnect all connections and put the bot temporarily offline. It will also break any ongoing processes

@@ -1,0 +1,6 @@
+**Vote**
+`!vote` allows users to vote on topics by using Discords reaction system.
+This command takes a `topic` parameter, which supports all special characters and spaces.
+The message that invokes this command will be removed (If the permissions are available) for the sake of anonymity
+
+e.g. `!vote Is this the best bot ever created?`

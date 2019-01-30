@@ -1,0 +1,4 @@
+**Joke**
+`!joke` will send a random joke from the pool of jokes
+
+Jokes are stored at data/jokes.db at `!source`

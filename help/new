@@ -1,0 +1,7 @@
+Type `!help <command>` for help on a specific command
+
+**Voice Commands**
+`!play` works on *most* non-YouTube links now including Spotify, Soundcloud, Vimeo, Twitch, etc.
+
+**Dev Tools**
+`!logs` is WAYY more verbose

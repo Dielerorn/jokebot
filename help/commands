@@ -1,0 +1,83 @@
+Type `!commands` for a list of the commands
+Type `!help <command>` for help on a specific command
+Type `!new` to see the newest commands
+
+**Commands**
+`!joke`
+`!nickname <Name>`
+`!vote <Topic>`
+`!istalbertbanned`
+`!roll`
+`!happybirthday <Name>`
+`!hackertext <Text>`
+
+**Music Player**
+`!play <Link>`
+`!pause`
+`!continue`
+`!stop`
+
+**Voice Commands**
+*Must be in a voice channel to use!*
+`!say <Text>`
+`!countUp <Number>`
+`!countDown <Number>`
+`!wow`
+`!hellothere`
+`!nice`
+`!nooo`
+`!ouch`
+`!doit`
+`!missionfailed`
+`!howrude`
+`!oof`
+`!omaewa`
+`!goteem`
+`!disappointment`
+`!answer`
+`!triple`
+`!stupid`
+`!damage`
+`!onlygame`
+`!trap`
+`!healing`
+`!spicymeatball`
+`!greatsuccess`
+`!playedyourself`
+`!headshot`
+`!spaghet`
+`!pranked`
+`!warrior`
+`!abouttime`
+`!hot`
+`!violence`
+`!no`
+
+**Responses**
+`!thanks`
+`!yep`
+`!lol`
+`!goodbot`
+`!badbot`
+`!wut`
+`!tricksy`
+`!tastefullyracist` or `!tr`
+`!whatdidyousay`
+
+**Mini Games**
+`!guessthenumber`
+`!guessthenumberhard`
+
+**Misc**
+`!howtoplaystarcraft`
+`!howtogetredditkarma`
+`!tragedy`
+`!blackpeople`
+
+**Dev Tools**
+`!ping`
+`!source`
+`!websource`
+`!region`
+`!restart`
+`!logs`

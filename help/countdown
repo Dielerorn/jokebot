@@ -1,0 +1,7 @@
+**Count Down**
+`!countup` will cause the bot to count down from the specified number
+This command takes a `number` parameter which is the number the bot will count down from
+
+**You must be connected to a voice channel for this command to work!**
+
+e.g. `!countdown 50` => "50,49,48...0"

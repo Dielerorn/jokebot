@@ -1,4 +1,4 @@
-# JokeBot <h2>A Discord bot that tells bad jokes. Written in Ruby</h2>
+# JokeBot <h2>A Discord bot that tells bad jokes for the Colorado Casuals server</h2>
 <img src="https://i.imgur.com/WuY4gva.png" width="200" height="200">
 
 <h3>Usage</h3>

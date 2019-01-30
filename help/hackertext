@@ -1,0 +1,5 @@
+**Hacker Text**
+`!hackertext` turns you into a 1337 h@ck3r by replacing certain letters with symbols
+This command takes a `text` parameter which supports special characters, and spaces.
+
+e.g. `!hackertext Im in. I've disabled the mainframe and stolen all the IP addresses.` => `!m !n. !'v3 d!54b13d 7h3 m4!nfr4m3 4nd 57013n 411 7h3 !P 4ddr35535.`

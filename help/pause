@@ -1,0 +1,4 @@
+**Pause**
+`!pause` will pause any audio playing in a voice channel until you resume with the `!continue` command
+
+**You must be connected to a voice channel for this command to work!**

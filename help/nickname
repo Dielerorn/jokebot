@@ -1,0 +1,6 @@
+**Nickname**
+`!nickname` changes the nickname of the bot
+The command takes a `name` parameter which supports all special characters, as well as spaces. Blank `name` parameters will reset the nickname to it's default "JokeBot"
+
+e.g. `!nickname Lvl 100 Mob Boss`
+e.g. `!nickname` resets the bots name to its default

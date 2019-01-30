@@ -1,0 +1,7 @@
+**Count Up**
+`!countup` will cause the bot to count up to the specified number
+This command takes a `number` parameter which is the number the bot will count up to
+
+**You must be connected to a voice channel for this command to work!**
+
+e.g. `!countup 50` => "1,2,3..50"

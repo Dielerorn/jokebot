@@ -1,0 +1,4 @@
+**Stop**
+`!stop` will immediately stop playing any audio in the voice channel, and disconnect the bot from the voice voice channel
+
+**You must be connected to a voice channel for this command to work!**

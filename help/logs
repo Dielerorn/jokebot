@@ -1,0 +1,2 @@
+**Logs**
+`!logs` will return a list of the 4 most recent log files, and allow you to download them from an attachment. Log files are stored at logs/
