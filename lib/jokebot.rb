@@ -592,6 +592,7 @@ end
 
 # Music Player =====================================================================================
 bot.command :play do |event, link|
+  song_path = '../data/media/music/song.mp3'
   if event.user.voice_channel == nil
     event.respond voice_channel_error
   else
@@ -600,10 +601,10 @@ bot.command :play do |event, link|
     #Download music
     Discordrb::LOGGER.info("Downloading... #{link}")
     downloadingMessage = event.send_message("Downloading...")
-    YoutubeDL.get "#{link}", playlist: false, extract_audio: true, audio_format: 'mp3',  output: '../data/media/music/song.mp3'
+    YoutubeDL.get "#{link}", playlist: false, extract_audio: true, audio_format: 'mp3',  output: song_path
     downloadingMessage.delete
     #Get audio data
-    mediaInfo = MediaInfo.from('../data/media/music/song.mp3')
+    mediaInfo = MediaInfo.from(song_path)
     songLength = mediaInfo.audio.duration / 1000 #Song Length in seconds
     songLengthMinutes = [songLength / 3600, songLength / 60 % 60, songLength % 60].map { |t| t.to_s.rjust(2,'0') }.join(':') #Convert seconds into hours:minutes:seconds format
     Discordrb::LOGGER.info("Song is #{songLength} seconds long")
@@ -624,7 +625,7 @@ bot.command :play do |event, link|
     Discordrb::LOGGER.info("playing #{link}")
     bot.game = "Music in #{channel.name}"
     bot.voice_connect(event.user.voice_channel)
-    event.voice.play_file('../data/media/music/song.mp3')
+    event.voice.play_file(song_path)
     #Delete song file and disconnect
     sleep 5
     currentlyPlaying = false
