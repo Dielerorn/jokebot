@@ -1,14 +1,15 @@
 # A Discord bot that tells really bad jokes
 require 'discordrb'
 require 'dotenv'
-require 'colorize'
 require 'espeak'
 require 'youtube-dl.rb'
 require "mediainfo"
 require 'ruby-progressbar'
 require 'usagewatch'
+require 'mini_magick'
+require 'open-uri'
 
-puts "WELCOME TO THE JOKEBOT".green
+puts "WELCOME TO THE JOKEBOT"
 
 #Load .env in a new path (Change require 'dotenv/load' to require 'dotenv' when using this)
 Dotenv.load('../data/.env')
@@ -131,6 +132,34 @@ bot.command :hackertext do |event, *text|
   text = text.join(" ")
   leettext = text.gsub(Regexp.union(replacements.keys), replacements)
   event.respond leettext
+end
+
+bot.command :deepfry do |event|
+  Discordrb::LOGGER.info("I deep fried the most recent image")
+  #Find the recent image by checking the channel history and filtering it
+  recent_messages = event.channel.history(15)
+  image_message = recent_messages.find { |m| m.attachments.any?(&:image?) }
+  attachment = image_message.attachments.find(&:image?)
+  #Download the image
+  download = open(attachment.url)
+  IO.copy_stream(download, '../data/media/temp/deepfry.jpg')
+  #Deepfry the image
+  image = MiniMagick::Image.new("../data/media/temp/deepfry.jpg")
+  image.combine_options do |b|
+    b.quality "14"
+    b.distort("shepards", "#{rand(1..200)},#{rand(1..200)} #{rand(1..200)},#{rand(1..200)} #{rand(1..200)},#{rand(1..200)} #{rand(1..200)},#{rand(1..200)}")
+    b.contrast
+    b.contrast
+    b.contrast
+    b.contrast
+    b.contrast
+    b.colorize "15,0,0"
+    b.brightness_contrast "-12"
+    b.sharpen "80"
+  end
+  #Send the final version and delete the file
+  event.attach_file(File.open('../data/media/temp/deepfry.jpg'))
+  File.delete("../data/media/temp/deepfry.jpg")
 end
 
 bot.command :thanks do |event|

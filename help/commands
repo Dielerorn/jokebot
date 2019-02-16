@@ -6,6 +6,7 @@ Type `!new` to see the newest commands
 `!joke`
 `!nickname <Name>`
 `!vote <Topic>`
+`!deepfry`
 `!istalbertbanned`
 `!roll`
 `!happybirthday <Name>`
@@ -76,6 +77,7 @@ Type `!new` to see the newest commands
 
 **Dev Tools**
 `!ping`
+`!usage`
 `!source`
 `!websource`
 `!region`
