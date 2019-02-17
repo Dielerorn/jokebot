@@ -222,11 +222,6 @@ bot.command tastefullyRacistCommands do |event|
   event.attach_file(File.open(tastefullyracist.sample))
 end
 
-bot.command :blackpeople do |event|
-  Discordrb::LOGGER.info("We all know what you were expecting")
-  event.respond "We all know what you were expecting, and frankly, im surprised at you..."
-end
-
 bot.command :happybirthday do |event, name|
   Discordrb::LOGGER.info("Birthday")
   event.respond "♪ Happy birthday to you! Happy birthday to you! Happy birthday dear #{name}! Happy birthday to you! ♪"
@@ -682,12 +677,16 @@ bot.command :continue do |event|
 end
 
 bot.command :stop do |event|
-  Discordrb::LOGGER.info("Audio stopped")
-  bot.voice_destroy(event.user.server)
-  File.delete("../data/media/music/song.mp3")
-  bot.game = "Bad Jokes 24/7"
-  progressbar.stop
-  nil
+  if event.user.id == 221416570142851082
+    event.respond "Corbin cant do that"
+  else
+    Discordrb::LOGGER.info("Audio stopped")
+    bot.voice_destroy(event.user.server)
+    File.delete("../data/media/music/song.mp3")
+    bot.game = "Bad Jokes 24/7"
+    progressbar.stop
+    nil
+  end
 end
 
 # Mini Games =======================================================================================
