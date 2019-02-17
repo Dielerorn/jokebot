@@ -682,12 +682,16 @@ bot.command :continue do |event|
 end
 
 bot.command :stop do |event|
-  Discordrb::LOGGER.info("Audio stopped")
-  bot.voice_destroy(event.user.server)
-  File.delete("../data/media/music/song.mp3")
-  bot.game = "Bad Jokes 24/7"
-  progressbar.stop
-  nil
+  if event.user.id == 221416570142851082
+    event.respond "Corbin cant do that anymore"
+  else
+    Discordrb::LOGGER.info("Audio stopped")
+    bot.voice_destroy(event.user.server)
+    File.delete("../data/media/music/song.mp3")
+    bot.game = "Bad Jokes 24/7"
+    progressbar.stop
+    nil
+  end
 end
 
 # Mini Games =======================================================================================
