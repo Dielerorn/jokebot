@@ -51,7 +51,7 @@ tastefullyRacistCommands = [:tastefullyracist, :tr]
 pranked = (1..9).map { |n| "../data/media/audio/pranked/#{n}.mp3" }
 
 #Change the 2nd number in parentheses for how many files there are
-emojis = (1..15).map { |n| "../data/media/emojis/#{n}.png" }
+emojis = (1..19).map { |n| "../data/media/emojis/#{n}.png" }
 
 #Letter replacements for hacker text
 replacements = {
@@ -648,6 +648,18 @@ bot.command :lies do |event|
     Discordrb::LOGGER.info("LIES! DECEPTION!")
     bot.voice_connect(event.user.voice_channel)
     event.voice.play_file('../data/media/audio/lies.mp3')
+    #Replace these with your own Server ID's
+    bot.voice_destroy(event.user.server)
+  end
+end
+
+bot.command :takeiteasy do |event|
+  if event.user.voice_channel == nil
+    event.respond voice_channel_error
+  else
+    Discordrb::LOGGER.info("Whoah just take it easy man")
+    bot.voice_connect(event.user.voice_channel)
+    event.voice.play_file('../data/media/audio/takeiteasy.mp3')
     #Replace these with your own Server ID's
     bot.voice_destroy(event.user.server)
   end
