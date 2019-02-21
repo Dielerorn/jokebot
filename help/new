@@ -1,11 +1,7 @@
 Type `!help <command>` for help on a specific command
 **Commands**
-`!deepfry` will deepfry the latest picture to be sent in the channel
-
-**Voice Commands**
-`!play` works on *most* non-YouTube links now including Spotify, Soundcloud, Vimeo, Twitch, etc.
+Huge improvements to the `!deepfry` command
 
 **Dev Tools**
 `!logs` is WAYY more verbose
 `!usage`
-`!uptime`
