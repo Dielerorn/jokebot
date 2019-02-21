@@ -1,6 +1,9 @@
-Type `!help <command>` for help on a specific command
 **Commands**
 Huge improvements to the `!deepfry` command
+
+**Voice Commands**
+`!bully`
+`!lies`
 
 **Dev Tools**
 `!logs` is WAYY more verbose

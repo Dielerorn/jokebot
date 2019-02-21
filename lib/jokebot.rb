@@ -629,6 +629,30 @@ bot.command :no do |event|
   end
 end
 
+bot.command :bully do |event|
+  if event.user.voice_channel == nil
+    event.respond voice_channel_error
+  else
+    Discordrb::LOGGER.info("Y U BOOLY ME!")
+    bot.voice_connect(event.user.voice_channel)
+    event.voice.play_file('../data/media/audio/bully.mp3')
+    #Replace these with your own Server ID's
+    bot.voice_destroy(event.user.server)
+  end
+end
+
+bot.command :lies do |event|
+  if event.user.voice_channel == nil
+    event.respond voice_channel_error
+  else
+    Discordrb::LOGGER.info("LIES! DECEPTION!")
+    bot.voice_connect(event.user.voice_channel)
+    event.voice.play_file('../data/media/audio/lies.mp3')
+    #Replace these with your own Server ID's
+    bot.voice_destroy(event.user.server)
+  end
+end
+
 # Music Player =====================================================================================
 bot.command :play do |event, link|
   song_path = '../data/media/music/song.mp3'
