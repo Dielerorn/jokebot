@@ -11,10 +11,15 @@ module Bot::DiscordCommands
         channel = event.user.voice_channel
         currentlyPlaying = false
         #Download music
-        Discordrb::LOGGER.info("Downloading... #{link}")
-        downloadingMessage = event.send_message("Downloading...")
-        YoutubeDL.get "#{link}", playlist: false, extract_audio: true, audio_format: 'mp3',  output: song_path
-        downloadingMessage.delete
+        begin
+          Discordrb::LOGGER.info("Downloading... #{link}")
+          downloadingMessage = event.send_message("Downloading...")
+          YoutubeDL.get "#{link}", playlist: false, extract_audio: true, audio_format: 'mp3', format: :bestaudio,  output: song_path
+          downloadingMessage.delete
+        rescue
+          downloadingMessage.delete
+          event.respond "There was an error downloading the song"
+        end
         #Get audio data
         mediaInfo = MediaInfo.from(song_path)
         songLength = mediaInfo.audio.duration / 1000 #Song Length in seconds

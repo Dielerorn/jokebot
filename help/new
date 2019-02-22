@@ -9,3 +9,5 @@ Huge improvements to the `!deepfry` command
 **Dev Tools**
 `!logs` is WAYY more verbose
 `!usage`
+
+Modularized structure overhaul at `!source`
