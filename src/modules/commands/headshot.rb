@@ -1,0 +1,17 @@
+module Bot::DiscordCommands
+  # Document your command
+  # in some YARD comments here!
+  module Headshot
+    extend Discordrb::Commands::CommandContainer
+    command :headshot do |event|
+      if event.user.voice_channel == nil
+        event.respond $voice_channel_error
+      else
+        Discordrb::LOGGER.info("BOOM HEADSHOT")
+        event.bot.voice_connect(event.user.voice_channel)
+        event.voice.play_file('data/media/audio/headshot.mp3')
+        event.bot.voice_destroy(event.user.server)
+      end
+    end
+  end
+end
