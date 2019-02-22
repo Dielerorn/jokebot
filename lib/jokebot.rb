@@ -51,12 +51,13 @@ tastefullyRacistCommands = [:tastefullyracist, :tr]
 pranked = (1..9).map { |n| "../data/media/audio/pranked/#{n}.mp3" }
 
 #Change the 2nd number in parentheses for how many files there are
-emojis = (1..19).map { |n| "../data/media/emojis/#{n}.png" }
+emojis = (1..19).map { |n| "../data/media/emojis/#{n}.png" } #This is for the Deepfry command
 
 #Letter replacements for hacker text
 replacements = {
   'A' => '4', 'a' => '4', 'E' => '3', 'e' => '3', 'G' => '6', 'g' => '6', 'L' => '1', 'l' => '1', 'O' => '0', 'o' => '0', 'S' => '5', 's' => '5', 'T' => '7', 't' => '7', 'I' => '!', 'i' => '!'}
 
+#This is for the vote command
   Emoji = {
     white_check_mark: "\u{2705}",
     x: "\u{274C}"
