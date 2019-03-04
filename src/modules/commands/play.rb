@@ -8,6 +8,7 @@ module Bot::DiscordCommands
       if event.user.voice_channel == nil
         event.respond $voice_channel_error
       else
+        event.bot.voice_destroy(event.user.server) #Disconnect to prevent lag with any current audio playing, and also to smooth the download
         channel = event.user.voice_channel
         currentlyPlaying = false
         #Download music
