@@ -25,7 +25,7 @@ module Bot::DiscordCommands
         chosen_emoji_scaled.write "data/media/temp/emoji.png"
         result = image.composite(MiniMagick::Image.new("data/media/temp/emoji.png")) do |c|
           c.compose "Over"
-          c.geometry "+#{image.dimensions[0] / rand(1..8)}+#{image.dimensions[1] / rand(1..8)}"
+          c.geometry "+#{rand(1..image_width)}+#{rand(1..image_height)}"
         end
         result.write "data/media/temp/deepfry.jpg"
       end
