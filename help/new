@@ -7,7 +7,6 @@
 `!takeiteasy`
 
 **Dev Tools**
-`!logs` is WAYY more verbose
-`!usage`
+`!eval`
 
 Modularized structure overhaul at `!source`

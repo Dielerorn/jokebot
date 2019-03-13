@@ -23,7 +23,7 @@ module Bot::DiscordCommands
         end
         #Get audio data
         mediaInfo = MediaInfo.from(song_path)
-        songLength = mediaInfo.audio.duration / 1000 #Song Length in seconds
+        songLength = mediaInfo.audio.duration.to_i / 1000 #Song Length in seconds
         songLengthMinutes = [songLength / 3600, songLength / 60 % 60, songLength % 60].map { |t| t.to_s.rjust(2,'0') }.join(':') #Convert seconds into hours:minutes:seconds format
         Discordrb::LOGGER.info("Song is #{songLength} seconds long")
         Discordrb::LOGGER.info("Song is #{songLengthMinutes} minutes long")

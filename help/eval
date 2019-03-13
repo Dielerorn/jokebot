@@ -1,0 +1,4 @@
+**Eval**
+`!eval` allows you to run realtime ruby code through the bot
+
+The command accepts a `code` parameter which can be standalone or within a code block
