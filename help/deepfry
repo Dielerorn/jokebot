@@ -1,2 +1,2 @@
 **Deepfry**
-`!deepfry` will deepfry the latest picture to be sent in the channel (Only searches the last 15 messages sent)
+`!deepfry` will deepfry the latest picture to be sent in the channel (Only searches the last 50 messages sent)

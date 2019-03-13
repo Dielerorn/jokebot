@@ -8,9 +8,14 @@ module Bot::DiscordCommands
     command :deepfry do |event|
       Discordrb::LOGGER.info("I deep fried the most recent image")
       #Find the recent image by checking the channel history and filtering it
-      recent_messages = event.channel.history(15) #Only search the last 15 messages in the channel
-      image_message = recent_messages.find { |m| m.attachments.any?(&:image?) }
+      begin
+      recent_messages = event.channel.history(50) #Only search the last 50 messages in the channel
+      image_message = recent_messages.find { |m| !m.from_bot? && m.attachments.any?(&:image?) }
       attachment = image_message.attachments.find(&:image?)
+      rescue
+        Discordrb::LOGGER.error("No images found")
+        event.respond "No images found"
+      end
       #Download the image
       download = open(attachment.url)
       IO.copy_stream(download, 'data/media/temp/deepfry.jpg')
