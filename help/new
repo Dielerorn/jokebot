@@ -1,3 +1,7 @@
+You can now delete messages sent by the bot by reacting with :x:
+
+The bot is now a true YEETER
+
 **Commands**
 `!mememaker` and `!deepfry` no longer search messages sent by the bot
 
@@ -8,5 +12,6 @@
 
 **Dev Tools**
 `!eval`
+`!print`
 
 Modularized structure overhaul at `!source`

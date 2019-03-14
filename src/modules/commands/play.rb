@@ -29,12 +29,12 @@ module Bot::DiscordCommands
         Discordrb::LOGGER.info("Song is #{songLengthMinutes} minutes long")
         #Progress Bar
         progressbar = ProgressBar.create(:title => "Playing in #{channel.name}   00:00 ", :starting_at => 0, :total => songLength, :remainder_mark => "-", :progress_mark => "#", :length => 140)
-        playingMessage = event.send_message("#{progressbar} #{songLengthMinutes}")
+        playingMessage = event.send_message(":loud_sound: #{progressbar} #{songLengthMinutes}")
         Thread.new do
           while currentlyPlaying == true do
             sleep 7 #Sleep to prevent rate limiting on the Discord API
             7.times { progressbar.increment } #Increment the progress bar (7 times because it sleeps for 7 seconds)
-            playingMessage.edit "#{progressbar} #{songLengthMinutes}"
+            playingMessage.edit ":loud_sound: #{progressbar} #{songLengthMinutes}"
           end
         end
         #End of Progress Bar

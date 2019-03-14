@@ -1,0 +1,6 @@
+**Print**
+`!print` allows you to print the source code of a command or event
+
+The command accepts two arguments. The first argument will be either `events` or `commands`. The second argument is the name of the event or command (e.g. `joke`)
+
+A full example of the `!print` command looks like this: `!print commands joke` / `!print events yeet`

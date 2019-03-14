@@ -1,5 +1,4 @@
 module Bot::DiscordEvents
-  # This event is processed each time a new user joins the server
   module NewUser
     extend Discordrb::EventContainer
     member_join do |event|

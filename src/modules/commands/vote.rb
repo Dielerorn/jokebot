@@ -6,7 +6,7 @@ module Bot::DiscordCommands
     #This is for the vote command
       Emoji = {
         white_check_mark: "\u{2705}",
-        x: "\u{274C}"
+        x: "\u{1F6AB}"
       }
     command :vote do |event, *topic|
       topic = topic.join(" ")
