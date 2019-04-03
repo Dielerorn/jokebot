@@ -10,7 +10,11 @@ module Bot::DiscordCommands
         Discordrb::LOGGER.info("NOW THATS A LOTTA DAMAGE")
         event.bot.voice_connect(event.user.voice_channel)
         event.voice.play_file('data/media/audio/damage.mp3')
-        event.bot.voice_destroy(event.user.server)
+        if $voice_connected == true
+          nil
+        else
+          event.bot.voice_destroy(event.user.server)
+        end
       end
     end
   end

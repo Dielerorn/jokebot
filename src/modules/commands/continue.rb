@@ -1,9 +1,9 @@
 module Bot::DiscordCommands
   # Document your command
   # in some YARD comments here!
-  module Continue
+  module Resume
     extend Discordrb::Commands::CommandContainer
-    command :continue do |event|
+    command :resume do |event|
       Discordrb::LOGGER.info("Audio continued")
       event.voice.continue
       event.bot.game = "Music in #{channel.name}"

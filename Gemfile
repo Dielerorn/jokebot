@@ -12,5 +12,6 @@ gem 'mediainfo', '~> 1.1', '>= 1.1.2'
 gem 'ruby-progressbar'
 gem 'usagewatch', '~> 0.0.7'
 gem 'mini_magick', '~> 4.9', '>= 4.9.2'
+gem 'colorize', '~> 0.8.1'
 
 # Also locally install libsodium-dev, libopus0, ImageMagick, youtube-dl, espeak, lame, and mediainfo

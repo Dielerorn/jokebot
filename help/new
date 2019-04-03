@@ -1,18 +1,17 @@
-You can now delete messages sent by the bot by reacting with :x:
-
-The bot is now a true YEETER
+I dare you to @ the bot
 
 **Commands**
 `!mememaker` and `!deepfry` no longer search messages sent by the bot
 
+**Music Player**
+`!connect`
+`!disconnect`
+`!continue` is now `!resume` because it makes more sense/easier to type
+
 **Voice Commands**
-`!bully`
-`!lies`
-`!takeiteasy`
-`!whattheduck`
+`!connect`
+`!disconnect`
 
 **Dev Tools**
 `!eval`
 `!print`
-
-Modularized structure overhaul at `!source`

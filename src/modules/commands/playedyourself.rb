@@ -10,7 +10,11 @@ module Bot::DiscordCommands
         Discordrb::LOGGER.info("You played yourself")
         event.bot.voice_connect(event.user.voice_channel)
         event.voice.play_file('data/media/audio/playedyourself.mp3')
-        event.bot.voice_destroy(event.user.server)
+        if $voice_connected == true
+          nil
+        else
+          event.bot.voice_destroy(event.user.server)
+        end
       end
     end
   end

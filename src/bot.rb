@@ -9,8 +9,9 @@ require 'usagewatch'
 require 'mini_magick'
 require 'open-uri'
 require 'ostruct'
+require 'colorize'
 
-puts "WELCOME TO THE JOKEBOT"
+puts "WELCOME TO THE JOKEBOT".black.on_white.blink
 
 # The main bot module.
 module Bot
@@ -21,7 +22,7 @@ module Bot
   Dotenv.load('data/.env')
 
   #Configure Logging without the gem
-  start_time = Time.now.strftime("%F %R") # 2019-01-30 15:04
+  start_time = Time.now.strftime("%F %R") # 2019-01-30 15:04./attr_reader :attr_names
   logs_file = File.open("logs/#{start_time}-development.log", "w") # 2019-01-30 15:04-development.log
   Discordrb::LOGGER.streams << logs_file
 
@@ -42,6 +43,7 @@ module Bot
   end
 
   $voice_channel_error = "User must be in a voice channel"
+  $voice_connected = false
 
   # Create the bot.
   # The bot is created as a constant, so that you

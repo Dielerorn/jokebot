@@ -10,7 +10,11 @@ module Bot::DiscordCommands
         Discordrb::LOGGER.info("Ouch!")
         event.bot.voice_connect(event.user.voice_channel)
         event.voice.play_file('data/media/audio/ouch.mp3')
-        event.event.voice.destroy
+        if $voice_connected == true
+          nil
+        else
+          event.bot.voice_destroy(event.user.server)
+        end
       end
     end
   end

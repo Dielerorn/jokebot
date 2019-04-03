@@ -16,7 +16,7 @@ Type `!new` to see the newest commands
 **Music Player**
 `!play <Link>`
 `!pause`
-`!continue`
+`!resume`
 `!stop`
 
 **Voice Commands**
