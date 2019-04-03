@@ -8,6 +8,7 @@ require 'ruby-progressbar'
 require 'usagewatch'
 require 'mini_magick'
 require 'open-uri'
+require 'uri'
 require 'ostruct'
 require 'colorize'
 

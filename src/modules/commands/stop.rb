@@ -6,6 +6,13 @@ module Bot::DiscordCommands
     command :stop do |event|
       if event.user.id == 221416570142851082
         event.respond "Corbin cant do that"
+      elsif $voice_connected == true
+        Discordrb::LOGGER.info("Audio stopped")
+        event.voice.stop_playing
+        File.delete("data/media/music/song.mp3")
+        event.bot.game = "Bad Jokes 24/7"
+        progressbar.stop
+        nil
       else
         Discordrb::LOGGER.info("Audio stopped")
         event.bot.voice_destroy(event.user.server)

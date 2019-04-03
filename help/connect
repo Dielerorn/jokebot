@@ -1,0 +1,5 @@
+**Connect**
+`!connect` will connect the bot to your voice channel and prevent the connection from being destroyed at the end of voice commands.
+Use the `!disconnect` command to disconnect from the voice channel
+
+**You must be connected to a voice channel for this command to work!**

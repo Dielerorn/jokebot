@@ -2,6 +2,7 @@ I dare you to @ the bot
 
 **Commands**
 `!mememaker` and `!deepfry` no longer search messages sent by the bot
+`!joke` will now read the joke aloud when the bot is in a voice channel
 
 **Music Player**
 `!connect`
@@ -9,6 +10,7 @@ I dare you to @ the bot
 `!continue` is now `!resume` because it makes more sense/easier to type
 
 **Voice Commands**
+Turned up the sound on the `!warrior` command
 `!connect`
 `!disconnect`
 

@@ -18,9 +18,13 @@ Type `!new` to see the newest commands
 `!pause`
 `!resume`
 `!stop`
+`!connect`
+`!disconnect`
 
 **Voice Commands**
 *Must be in a voice channel to use!*
+`!connect`
+`!disconnect`
 `!say <Text>`
 `!countUp <Number>`
 `!countDown <Number>`

@@ -1,4 +1,5 @@
 **Joke**
 `!joke` will send a random joke from the pool of jokes
+If the bot is in a voice channel via the `!connect` command, it will also say the joke aloud
 
 Jokes are stored at data/jokes.db at `!source`
