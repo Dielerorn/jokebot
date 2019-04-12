@@ -4,12 +4,14 @@ Type `!new` to see the newest commands
 
 **Commands**
 `!joke`
+`!stats`
 `!nickname <Name>`
 `!vote <Topic>`
 `!deepfry`
 `!mememaker`
 `!istalbertbanned`
 `!roll`
+`!coinflip`
 `!happybirthday <Name>`
 `!hackertext <Text>`
 
@@ -82,6 +84,9 @@ Type `!new` to see the newest commands
 `!howtoplaystarcraft`
 `!howtogetredditkarma`
 `!tragedy`
+
+**Settings**
+`!convo on/off`
 
 **Dev Tools**
 `!ping`

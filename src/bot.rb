@@ -1,5 +1,6 @@
 # Gems
 require 'discordrb'
+require "yaml/store"
 require 'dotenv'
 require 'espeak'
 require 'youtube-dl.rb'
@@ -11,6 +12,7 @@ require 'open-uri'
 require 'uri'
 require 'ostruct'
 require 'colorize'
+require 'api-ai-ruby'
 
 puts "WELCOME TO THE JOKEBOT".black.on_white.blink
 
@@ -45,6 +47,8 @@ module Bot
 
   $voice_channel_error = "User must be in a voice channel"
   $voice_connected = false
+
+  $convo = false #Whether or not the bot should participate in conversations using DialogFlow. Defaults to false atm until it's better
 
   # Create the bot.
   # The bot is created as a constant, so that you

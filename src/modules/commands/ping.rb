@@ -9,6 +9,12 @@ module Bot::DiscordCommands
       # to edit the message with the time difference between when the event was received and after the message was sent.
       m = event.respond('Pong!')
       m.edit "Pong! Time taken: #{Time.now - event.timestamp} seconds."
+      #Log Stats
+      store = YAML::Store.new("data/stats.yml")
+      store.transaction do
+        store[:times_pinged] += 1
+        nil
+      end
     end
   end
 end

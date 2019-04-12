@@ -8,8 +8,14 @@ module Bot::DiscordCommands
       if event.user.voice_channel == nil
         event.respond $voice_channel_error
       else
+        #Log Stats
+        store = YAML::Store.new("data/stats.yml")
+        store.transaction do
+          store[:songs_played] += 1
+          nil
+        end
         channel = event.user.voice_channel
-        currentlyPlaying = false
+        $currently_playing = false
         #Download music
         begin
           Discordrb::LOGGER.info("Downloading... #{link}")
@@ -30,7 +36,7 @@ module Bot::DiscordCommands
         progressbar = ProgressBar.create(:title => "Playing in #{channel.name}   00:00 ", :starting_at => 0, :total => songLength, :remainder_mark => "-", :progress_mark => "#", :length => 140)
         playingMessage = event.send_message(":loud_sound: #{progressbar} #{songLengthMinutes}")
         Thread.new do
-          while currentlyPlaying == true do
+          while $currently_playing == true do
             sleep 7 #Sleep to prevent rate limiting on the Discord API
             7.times { progressbar.increment } #Increment the progress bar (7 times because it sleeps for 7 seconds)
             playingMessage.edit ":loud_sound: #{progressbar} #{songLengthMinutes}"
@@ -38,14 +44,14 @@ module Bot::DiscordCommands
         end
         #End of Progress Bar
         #Play Music
-        currentlyPlaying = true
+        $currently_playing = true
         Discordrb::LOGGER.info("playing #{link}")
         event.bot.game = "Music in #{channel.name}"
         event.bot.voice_connect(event.user.voice_channel)
         event.voice.play_file(song_path)
         #Delete song file and disconnect
         sleep 5
-        currentlyPlaying = false
+        $currently_playing = false
         File.delete(song_path)
         playingMessage.delete
         progressbar.stop

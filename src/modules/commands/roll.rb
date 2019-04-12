@@ -9,6 +9,12 @@ module Bot::DiscordCommands
       Discordrb::LOGGER.info("#{rollUser} rolled a #{rollNumber}")
       if rollNumber == 100
         event.respond "#{rollUser} rolled a :100:"
+        #Log Stats
+        store = YAML::Store.new("data/stats.yml")
+        store.transaction do
+          store[:times_100_rolled] += 1
+          nil
+        end
       else
       event.respond "#{rollUser} rolled a #{rollNumber}!"
       end

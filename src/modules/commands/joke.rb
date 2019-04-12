@@ -6,6 +6,12 @@ module Bot::DiscordCommands
     command :joke do |event|
       Discordrb::LOGGER.info("Joke sent")
       joke = File.readlines("data/jokes.db").sample.strip
+      #Log Stats
+      store = YAML::Store.new("data/stats.yml")
+      store.transaction do
+        store[:jokes_said] += 1
+        nil
+      end
       if event.user.voice_channel == nil || $voice_connected == false
         event.respond joke
       else
