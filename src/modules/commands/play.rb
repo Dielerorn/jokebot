@@ -4,7 +4,7 @@ module Bot::DiscordCommands
   module Play
     extend Discordrb::Commands::CommandContainer
     command :play do |event, link|
-      song_path = 'data/media/music/song.mp3'
+      song_path = 'song.mp3'
       if event.user.voice_channel == nil
         event.respond $voice_channel_error
       else
@@ -46,13 +46,13 @@ module Bot::DiscordCommands
         #Play Music
         $currently_playing = true
         Discordrb::LOGGER.info("playing #{link}")
-        #event.bot.game = "Music in #{channel.name}"
-        #event.bot.voice_connect(event.user.voice_channel)
-        #event.voice.play_file(song_path)
+        event.bot.game = "Music in #{channel.name}"
+        event.bot.voice_connect(event.user.voice_channel)
+        event.voice.play_file(song_path)
         #Delete song file and disconnect
         sleep 5
         $currently_playing = false
-        #File.delete(song_path)
+        File.delete(song_path)
         #playingMessage.delete
         #progressbar.stop
         event.bot.game = "Bad Jokes 24/7"
