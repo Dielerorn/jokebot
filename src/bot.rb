@@ -12,7 +12,7 @@ require 'open-uri'
 require 'uri'
 require 'ostruct'
 require 'colorize'
-require 'api-ai-ruby'
+#require 'api-ai-ruby'
 
 puts "WELCOME TO THE JOKEBOT".black.on_white.blink
 
