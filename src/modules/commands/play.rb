@@ -52,7 +52,7 @@ module Bot::DiscordCommands
         #Delete song file and disconnect
         sleep 5
         $currently_playing = false
-        File.delete(song_path)
+        #File.delete(song_path)
         #playingMessage.delete
         #progressbar.stop
         event.bot.game = "Bad Jokes 24/7"
