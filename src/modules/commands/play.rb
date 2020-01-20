@@ -46,9 +46,9 @@ module Bot::DiscordCommands
         #Play Music
         $currently_playing = true
         Discordrb::LOGGER.info("playing #{link}")
-        event.bot.game = "Music in #{channel.name}"
-        event.bot.voice_connect(event.user.voice_channel)
-        event.voice.play_file(song_path)
+        #event.bot.game = "Music in #{channel.name}"
+        #event.bot.voice_connect(event.user.voice_channel)
+        #event.voice.play_file(song_path)
         #Delete song file and disconnect
         sleep 5
         $currently_playing = false
