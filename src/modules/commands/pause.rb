@@ -6,7 +6,7 @@ module Bot::DiscordCommands
     command :pause do |event|
       Discordrb::LOGGER.info("Audio paused")
       event.voice.pause
-      progressbar.pause
+      #progressbar.pause
       event.bot.game = "Music paused in #{channel.name}"
       nil
     end
