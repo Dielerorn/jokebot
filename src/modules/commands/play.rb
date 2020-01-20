@@ -26,6 +26,7 @@ module Bot::DiscordCommands
           downloadingMessage.delete
           event.respond "There was an error downloading the song"
         end
+        =begin
         #Get audio data
         mediaInfo = MediaInfo.from(song_path)
         songLength = mediaInfo.audio.duration.to_i / 1000 #Song Length in seconds
@@ -43,6 +44,7 @@ module Bot::DiscordCommands
           end
         end
         #End of Progress Bar
+        =end
         #Play Music
         $currently_playing = true
         Discordrb::LOGGER.info("playing #{link}")
@@ -53,8 +55,8 @@ module Bot::DiscordCommands
         sleep 5
         $currently_playing = false
         File.delete(song_path)
-        playingMessage.delete
-        progressbar.stop
+        #playingMessage.delete
+        #progressbar.stop
         event.bot.game = "Bad Jokes 24/7"
         if $voice_connected == true
           nil
