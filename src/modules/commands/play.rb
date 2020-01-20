@@ -4,7 +4,7 @@ module Bot::DiscordCommands
   module Play
     extend Discordrb::Commands::CommandContainer
     command :play do |event, link|
-      song_path = 'song.mp3'
+      song_path = 'data/media/music/song.mp3'
       if event.user.voice_channel == nil
         event.respond $voice_channel_error
       else
