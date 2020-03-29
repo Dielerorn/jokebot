@@ -11,7 +11,7 @@ gem 'youtube-dl.rb'
 gem 'mediainfo', '~> 1.1', '>= 1.1.2'
 gem 'ruby-progressbar'
 gem 'usagewatch', '~> 0.0.7'
-gem 'mini_magick', '~> 4.9', '>= 4.9.2'
+gem 'mini_magick', '~> 4.9'
 gem 'colorize', '~> 0.8.1'
 #gem 'api-ai-ruby', '~> 2.1'
 
