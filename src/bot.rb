@@ -32,6 +32,8 @@ module Bot
   #Specify alternate path to MediaInfo
   ENV['MEDIAINFO_PATH'] = "/usr/bin/mediainfo"
 
+  VideoInfo.provider_api_keys = { youtube: ENV['YOUTUBE_API_KEY']}
+
   #Make commands case insensitive
   prefix_proc = proc do |message|
     # Extract the first word and the rest of the message,

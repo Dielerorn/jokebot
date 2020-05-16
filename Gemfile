@@ -13,6 +13,7 @@ gem 'ruby-progressbar'
 gem 'usagewatch', '~> 0.0.7'
 gem 'mini_magick', '~> 4.9'
 gem 'colorize', '~> 0.8.1'
+gem 'video_info', '~> 2.8'
 #gem 'api-ai-ruby', '~> 2.1'
 
 # Also locally install libsodium-dev, libopus0, ImageMagick, youtube-dl, espeak, lame, and mediainfo
