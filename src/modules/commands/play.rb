@@ -8,7 +8,7 @@ module Bot::DiscordCommands
         video = Yt::Video.new id: "#{id}"
         title = video.title
         puts "THIS IS THE SONG TITLE: #{title}"
-        song_path = "data/media/music/#{title}.ogg"
+        song_path = "data/media/music/#{title}.mp3"
         if event.user.voice_channel == nil
           event.respond $voice_channel_error
         else
@@ -20,7 +20,7 @@ module Bot::DiscordCommands
           end
           channel = event.user.voice_channel
           $currently_playing = false
-          #Check if file exsists already
+          #Play if file exsists already, otherwise download it
           if File.exists?(song_path)
             #Play Music
             $currently_playing = true
@@ -33,11 +33,10 @@ module Bot::DiscordCommands
             begin
               Discordrb::LOGGER.info("Downloading... #{link}")
               downloadingMessage = event.send_message("Downloading...")
-              command = %(youtube-dl -o "#{song_path.gsub(/\.ogg$/, '.%(ext)s')}" --extract-audio --audio-format vorbis #{link})
+              command = %(youtube-dl -o "#{song_path.gsub(/\.mp3$/, '.%(ext)s')}" --extract-audio --audio-format mp3 #{link})
               puts command
               system(command)
               downloadingMessage.delete
-
               #Play Music
               $currently_playing = true
               Discordrb::LOGGER.info("playing #{link}")
