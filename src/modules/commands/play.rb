@@ -9,6 +9,7 @@ module Bot::DiscordCommands
         song_path = title.to_s
         song_path += ".ogg"
         song_path = "data/media/music/#{song_path}"
+        link = link += "VIDEO_ORIGIN"
         if event.user.voice_channel == nil
           event.respond $voice_channel_error
         else
