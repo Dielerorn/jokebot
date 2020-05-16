@@ -4,7 +4,7 @@ module Bot::DiscordCommands
   module Avatar
     extend Discordrb::Commands::CommandContainer
     command :avatar do |event, url|
-      if valid_url?(url)
+      if url =~ URI::regexp
         Discordrb::LOGGER.info("Avatar changed to #{url}")
         event.bot.profile.avatar = open(url)
         event.respond "Avatar set!"
