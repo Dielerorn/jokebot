@@ -4,10 +4,11 @@ module Bot::DiscordCommands
     module Play
       extend Discordrb::Commands::CommandContainer
       command :play do |event, link|
-        title = VideoInfo.new("#{link}").title
+        id = YoutubeID.from("#{link}")
+        video = Yt::Video.new id: "#{id}"
+        title = video.title
         puts "THIS IS THE SONG TITLE: #{title}"
         song_path = "data/media/music/#{title}.ogg"
-        puts "SONG PATH: #{song_path}"
         if event.user.voice_channel == nil
           event.respond $voice_channel_error
         else
@@ -36,16 +37,17 @@ module Bot::DiscordCommands
               puts command
               system(command)
               downloadingMessage.delete
+
+              #Play Music
+              $currently_playing = true
+              Discordrb::LOGGER.info("playing #{link}")
+              event.bot.game = "Music in #{channel.name}"
+              event.bot.voice_connect(event.user.voice_channel)
+              event.voice.play_file(song_path)
             rescue
               downloadingMessage.delete
               event.respond "There was an error downloading the song"
             end
-            #Play Music
-            $currently_playing = true
-            Discordrb::LOGGER.info("playing #{link}")
-            event.bot.game = "Music in #{channel.name}"
-            event.bot.voice_connect(event.user.voice_channel)
-            event.voice.play_file(song_path)
           #playingMessage.delete
           #progressbar.stop
           event.bot.game = "Bad Jokes 24/7"

@@ -12,7 +12,8 @@ require 'open-uri'
 require 'uri'
 require 'ostruct'
 require 'colorize'
-require 'video_info'
+require 'yt'
+require 'youtube_id'
 
 #require 'api-ai-ruby'
 
@@ -34,7 +35,9 @@ module Bot
   #Specify alternate path to MediaInfo
   ENV['MEDIAINFO_PATH'] = "/usr/bin/mediainfo"
 
-  VideoInfo.provider_api_keys = { youtube: ENV['YOUTUBE_API_KEY']}
+  Yt.configure do |config|
+  config.api_key = ENV['YOUTUBE_API_KEY']
+  end
 
   #Make commands case insensitive
   prefix_proc = proc do |message|
