@@ -1,3 +1,4 @@
+require 'colorize'
 module Bot::DiscordCommands
     # Document your command
     # in some YARD comments here!
@@ -7,7 +8,6 @@ module Bot::DiscordCommands
         id = YoutubeID.from("#{link}")
         video = Yt::Video.new id: "#{id}"
         title = video.title
-        puts "THIS IS THE SONG TITLE: #{title}"
         song_path = "data/media/music/#{title}.m4a"
         if event.user.voice_channel == nil
           event.respond $voice_channel_error
