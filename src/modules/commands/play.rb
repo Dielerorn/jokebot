@@ -7,8 +7,7 @@ module Bot::DiscordCommands
         video = VideoInfo.new("#{link}")
         title = video.title
         puts "THIS IS THE SONG TITLE: #{title}"
-        song_path += "#{title}.ogg"
-        song_path = "data/media/music/#{song_path}"
+        song_path = "data/media/music/#{title}.ogg"
         puts "SONG PATH: #{song_path}"
         if event.user.voice_channel == nil
           event.respond $voice_channel_error
