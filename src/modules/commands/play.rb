@@ -6,7 +6,7 @@ module Bot::DiscordCommands
       command :play do |event, link|
         video = VideoInfo.new("#{link}")
         title = video.title
-        puts "#{title.black.on_white.blink}"
+        puts "THIS IS THE SONG TITLE: #{title}"
         song_path += "#{title}.ogg"
         song_path = "data/media/music/#{song_path}"
         puts "SONG PATH: #{song_path}"
