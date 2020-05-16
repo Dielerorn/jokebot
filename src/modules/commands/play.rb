@@ -5,7 +5,7 @@ module Bot::DiscordCommands
       extend Discordrb::Commands::CommandContainer
       command :play do |event, link|
         video = VideoInfo.new("#{link}")
-        title = video.title
+        title = "TEST TITLE FOR THE SAKE OF DEVELOPMENT"
         puts "THIS IS THE SONG TITLE: #{title}"
         song_path = "data/media/music/#{title}.ogg"
         puts "SONG PATH: #{song_path}"
