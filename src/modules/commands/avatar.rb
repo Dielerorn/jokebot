@@ -9,8 +9,8 @@ module Bot::DiscordCommands
         event.bot.profile.avatar = open(url)
         event.respond "Avatar set!"
       elsif url == nil
-        event.bot.profile.avatar = open('https://i.imgur.com/WuY4gva.png')
         event.respond "Avatar reset to default"
+        event.bot.profile.avatar = open('https://i.imgur.com/WuY4gva.png')
       else
         event.respond "Not a valid URL"
       end
