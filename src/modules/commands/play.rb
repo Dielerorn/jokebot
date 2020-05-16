@@ -8,7 +8,7 @@ module Bot::DiscordCommands
         video = Yt::Video.new id: "#{id}"
         title = video.title
         puts "THIS IS THE SONG TITLE: #{title}"
-        song_path = "data/media/music/#{title}.mp3"
+        song_path = "data/media/music/#{title}.m4a"
         if event.user.voice_channel == nil
           event.respond $voice_channel_error
         else
@@ -33,7 +33,7 @@ module Bot::DiscordCommands
             begin
               Discordrb::LOGGER.info("Downloading... #{link}")
               downloadingMessage = event.send_message("Downloading...")
-              command = %(youtube-dl -o "#{song_path.gsub(/\.mp3$/, '.%(ext)s')}" --extract-audio --audio-format mp3 #{link})
+              command = %(youtube-dl -o "#{song_path.gsub(/\.m4a$/, '.%(ext)s')}" -f 140 #{link})
               puts command
               system(command)
               downloadingMessage.delete
