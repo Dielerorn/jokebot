@@ -1,12 +1,9 @@
-**Commands**
-`!stats`
-`!coinflip`
-
 **Settings**
-`!convo on/off`- Enables or disables the bot from participating in the conversation
+`!avatar`
 
 **Music Player**
 `!continue` is now `!resume` because it makes more sense/easier to type
+`Overall improved back-end functionality to the music player`
 
 **Voice Commands**
 `!tasty`
@@ -14,3 +11,4 @@
 `!barnacles`
 `!hateithere`
 `!thot`
+`!fuck`
