@@ -33,7 +33,7 @@ module Bot::DiscordCommands
             begin
               Discordrb::LOGGER.info("Downloading... #{link}")
               downloadingMessage = event.send_message("Downloading...")
-              command = %(youtube-dl -o #{song_path} --extract-audio --audio-format vorbis #{link})
+              command = %(youtube-dl -o "#{song_path.gsub(/\.ogg$/, '.%(ext)s')}" --extract-audio --audio-format vorbis #{link})
               puts command
               system(command)
               downloadingMessage.delete
