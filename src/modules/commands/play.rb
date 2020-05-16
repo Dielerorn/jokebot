@@ -4,8 +4,7 @@ module Bot::DiscordCommands
     module Play
       extend Discordrb::Commands::CommandContainer
       command :play do |event, link|
-        video = VideoInfo.new("#{link}")
-        title = "TEST TITLE FOR THE SAKE OF DEVELOPMENT"
+        title = VideoInfo.new("#{link}").title
         puts "THIS IS THE SONG TITLE: #{title}"
         song_path = "data/media/music/#{title}.ogg"
         puts "SONG PATH: #{song_path}"
@@ -33,7 +32,7 @@ module Bot::DiscordCommands
             begin
               Discordrb::LOGGER.info("Downloading... #{link}")
               downloadingMessage = event.send_message("Downloading...")
-              command = %(youtube-dl -o "#{song_path.gsub(/\.ogg$/, '.%(ext)s')}" --extract-audio --audio-format vorbis #{link})
+              command = %(youtube-dl -o #{song_path} --extract-audio --audio-format vorbis #{link})
               puts command
               system(command)
               downloadingMessage.delete
@@ -41,6 +40,12 @@ module Bot::DiscordCommands
               downloadingMessage.delete
               event.respond "There was an error downloading the song"
             end
+            #Play Music
+            $currently_playing = true
+            Discordrb::LOGGER.info("playing #{link}")
+            event.bot.game = "Music in #{channel.name}"
+            event.bot.voice_connect(event.user.voice_channel)
+            event.voice.play_file(song_path)
           #playingMessage.delete
           #progressbar.stop
           event.bot.game = "Bad Jokes 24/7"
