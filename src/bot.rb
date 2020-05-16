@@ -16,6 +16,8 @@ require 'colorize'
 
 puts "WELCOME TO THE JOKEBOT".black.on_white.blink
 
+VideoInfo.provider_api_keys = { youtube: ENV['YOUTUBE_API_KEY']}
+
 # The main bot module.
 module Bot
   # Load non-Discordrb modules
@@ -31,8 +33,6 @@ module Bot
 
   #Specify alternate path to MediaInfo
   ENV['MEDIAINFO_PATH'] = "/usr/bin/mediainfo"
-
-  VideoInfo.provider_api_keys = { youtube: ENV['YOUTUBE_API_KEY']}
 
   #Make commands case insensitive
   prefix_proc = proc do |message|
