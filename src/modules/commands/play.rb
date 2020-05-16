@@ -6,9 +6,10 @@ module Bot::DiscordCommands
       command :play do |event, link|
         video = VideoInfo.new("#{link}")
         title = video.title
-        puts "#{title}".black.on_red.blink
         song_path = title.to_s
-        song_path = "data/media/music/#{song_path}.ogg"
+        song_path += ".ogg"
+        song_path = "data/media/music/#{song_path}"
+        puts "SONG PATH: #{song_path}"
         if event.user.voice_channel == nil
           event.respond $voice_channel_error
         else
@@ -21,7 +22,7 @@ module Bot::DiscordCommands
           channel = event.user.voice_channel
           $currently_playing = false
           #Check if file exsists already
-          if File.exists?(song_path += "AUDIO_EXTRACT")
+          if File.exists?(song_path)
             #Play Music
             $currently_playing = true
             Discordrb::LOGGER.info("playing #{link}")
@@ -33,7 +34,7 @@ module Bot::DiscordCommands
             begin
               Discordrb::LOGGER.info("Downloading... #{link}")
               downloadingMessage = event.send_message("Downloading...")
-              command = %(youtube-dl -o #{song_path += "_AUDIO_EXTRACT"} --extract-audio --audio-format vorbis #{link})
+              command = %(youtube-dl -o "#{song_path.gsub(/\.ogg$/, '.%(ext)s')}" --extract-audio --audio-format vorbis #{link})
               puts command
               system(command)
               downloadingMessage.delete
