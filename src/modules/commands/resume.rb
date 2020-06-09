@@ -6,7 +6,7 @@ module Bot::DiscordCommands
     command :resume do |event|
       Discordrb::LOGGER.info("Audio continued")
       event.voice.continue
-      event.bot.game = "Music in #{channel.name}"
+      #event.bot.game = "Music in #{channel.name}"
       nil
     end
   end

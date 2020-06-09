@@ -49,7 +49,7 @@ module Bot::DiscordCommands
             end
           #playingMessage.delete
           #progressbar.stop
-          #event.bot.game = "Bad Jokes 24/7"
+          #event.bot.game = "Bad Jokes 24/7"s
           if $voice_connected == true
             nil
           else

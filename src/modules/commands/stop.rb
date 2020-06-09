@@ -10,14 +10,14 @@ module Bot::DiscordCommands
         Discordrb::LOGGER.info("Audio stopped")
         event.voice.stop_playing
         File.delete("data/media/music/song.mp3")
-        event.bot.game = "Bad Jokes 24/7"
+        #event.bot.game = "Bad Jokes 24/7"
         $currently_playing = false
         nil
       else
         Discordrb::LOGGER.info("Audio stopped")
         event.bot.voice_destroy(event.user.server)
         File.delete("data/media/music/song.mp3")
-        event.bot.game = "Bad Jokes 24/7"
+        #event.bot.game = "Bad Jokes 24/7"
         $currently_playing = false
         nil
       end
