@@ -2,7 +2,12 @@ module Bot::DiscordEvents
   module Ready
     extend Discordrb::EventContainer
     ready do |event|
-      event.bot.game = "Bad Jokes 24/7"
+      loop do
+        event.bot.game = "The bot is here"
+        sleep 3
+        event.bot.game = "And we are thankful"
+        sleep 3
+      end
     end
   end
 end

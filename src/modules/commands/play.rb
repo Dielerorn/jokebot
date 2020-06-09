@@ -25,7 +25,7 @@ module Bot::DiscordCommands
             #Play Music
             $currently_playing = true
             Discordrb::LOGGER.info("playing #{link}")
-            event.bot.game = "Music in #{channel.name}"
+            #event.bot.game = "Music in #{channel.name}"
             event.bot.voice_connect(event.user.voice_channel)
             event.voice.play_file(song_path)
           else
@@ -40,7 +40,7 @@ module Bot::DiscordCommands
               #Play Music
               $currently_playing = true
               Discordrb::LOGGER.info("playing #{link}")
-              event.bot.game = "Music in #{channel.name}"
+              #event.bot.game = "Music in #{channel.name}"
               event.bot.voice_connect(event.user.voice_channel)
               event.voice.play_file(song_path)
             rescue
@@ -49,7 +49,7 @@ module Bot::DiscordCommands
             end
           #playingMessage.delete
           #progressbar.stop
-          event.bot.game = "Bad Jokes 24/7"
+          #event.bot.game = "Bad Jokes 24/7"
           if $voice_connected == true
             nil
           else
